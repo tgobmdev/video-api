@@ -38,8 +38,8 @@
     </dependency>
 
     <dependency>
-      <artifactId>ojdbc8</artifactId>
-      <groupId>com.oracle.database.jdbc</groupId>
+      <artifactId>postgresql</artifactId>
+      <groupId>org.postgresql</groupId>
       <scope>runtime</scope>
     </dependency>
     <dependency>
