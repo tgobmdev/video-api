@@ -8,6 +8,6 @@ class ChallengeAluraflixApiApplicationTests {
 
   @Test
   void contextLoads() {
+    ChallengeAluraflixApiApplication.main(new String[0]);
   }
-
 }

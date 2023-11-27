@@ -7,4 +7,5 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+    show-sql: false
     database-platform: ${DATABASE_PLATFORM:org.hibernate.dialect.PostgreSQLDialect}
