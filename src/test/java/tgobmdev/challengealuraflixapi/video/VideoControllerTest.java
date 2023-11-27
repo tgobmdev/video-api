@@ -11,7 +11,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import tgobmdev.challengealuraflixapi.controller.VideoController;
+import tgobmdev.challengealuraflixapi.core.dto.VideoResponse;
 import tgobmdev.challengealuraflixapi.mockdata.VideoMockData;
+import tgobmdev.challengealuraflixapi.service.VideoService;
 
 @ExtendWith(MockitoExtension.class)
 public class VideoControllerTest {
@@ -26,8 +29,8 @@ public class VideoControllerTest {
   void testGetVideos() {
     List<VideoResponse> mockVideoResponses = List.of(VideoMockData.getSampleVideoResponse());
 
-    when(videoService.getVideos()).thenReturn(mockVideoResponses);
-    ResponseEntity<List<VideoResponse>> responseEntity = videoController.getVideos();
+    when(videoService.findAllVideos()).thenReturn(mockVideoResponses);
+    ResponseEntity<List<VideoResponse>> responseEntity = videoController.findAllVideos();
 
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     assertEquals(mockVideoResponses, responseEntity.getBody());

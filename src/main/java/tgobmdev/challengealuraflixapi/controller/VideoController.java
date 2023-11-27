@@ -1,10 +1,12 @@
-package tgobmdev.challengealuraflixapi.video;
+package tgobmdev.challengealuraflixapi.controller;
 
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import tgobmdev.challengealuraflixapi.core.dto.VideoResponse;
+import tgobmdev.challengealuraflixapi.service.VideoService;
 
 @RestController
 @RequestMapping(value = "videos")
@@ -17,7 +19,7 @@ public class VideoController {
   }
 
   @GetMapping
-  public ResponseEntity<List<VideoResponse>> getVideos() {
-    return ResponseEntity.ok(videoService.getVideos());
+  public ResponseEntity<List<VideoResponse>> findAllVideos() {
+    return ResponseEntity.ok(videoService.findAllVideos());
   }
 }

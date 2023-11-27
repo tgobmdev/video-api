@@ -11,6 +11,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import tgobmdev.challengealuraflixapi.core.dto.VideoResponse;
+import tgobmdev.challengealuraflixapi.core.entity.VideoEntity;
+import tgobmdev.challengealuraflixapi.core.mapper.VideoMapper;
 import tgobmdev.challengealuraflixapi.mockdata.VideoMockData;
 
 @ExtendWith(MockitoExtension.class)

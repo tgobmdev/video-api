@@ -9,7 +9,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import tgobmdev.challengealuraflixapi.core.dto.VideoResponse;
+import tgobmdev.challengealuraflixapi.core.entity.VideoEntity;
+import tgobmdev.challengealuraflixapi.core.mapper.VideoMapper;
+import tgobmdev.challengealuraflixapi.core.repository.VideoRepository;
 import tgobmdev.challengealuraflixapi.mockdata.VideoMockData;
+import tgobmdev.challengealuraflixapi.service.VideoService;
 
 @ExtendWith(MockitoExtension.class)
 public class VideoServiceTest {
@@ -35,7 +40,7 @@ public class VideoServiceTest {
     when(videoRepository.findAll()).thenReturn(mockVideoEntities);
     when(videoMapper.mapToVideoResponses(mockVideoEntities)).thenReturn(mockVideoResponses);
 
-    List<VideoResponse> result = videoService.getVideos();
+    List<VideoResponse> result = videoService.findAllVideos();
 
     assertEquals(mockVideoResponses, result);
   }
