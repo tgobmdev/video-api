@@ -1,4 +1,4 @@
-package tgobmdev.challengealuraflixapi.video;
+package tgobmdev.challengealuraflixapi.core.dto;
 
 import java.util.UUID;
 
