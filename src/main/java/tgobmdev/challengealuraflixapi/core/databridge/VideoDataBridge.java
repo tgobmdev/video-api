@@ -2,9 +2,9 @@ package tgobmdev.challengealuraflixapi.core.databridge;
 
 import java.util.List;
 import org.springframework.stereotype.Component;
-import tgobmdev.challengealuraflixapi.core.dto.VideoResponse;
 import tgobmdev.challengealuraflixapi.core.mapper.VideoMapper;
 import tgobmdev.challengealuraflixapi.core.repository.VideoRepository;
+import tgobmdev.challengealuraflixapi.dto.VideoResponse;
 
 @Component
 public class VideoDataBridge {

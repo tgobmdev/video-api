@@ -1,11 +1,11 @@
-package tgobmdev.challengealuraflixapi.controller;
+package tgobmdev.challengealuraflixapi.http;
 
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tgobmdev.challengealuraflixapi.core.dto.VideoResponse;
+import tgobmdev.challengealuraflixapi.dto.VideoResponse;
 import tgobmdev.challengealuraflixapi.service.VideoService;
 
 @RestController

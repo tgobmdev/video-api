@@ -10,8 +10,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tgobmdev.challengealuraflixapi.core.databridge.VideoDataBridge;
-import tgobmdev.challengealuraflixapi.core.dto.VideoResponse;
 import tgobmdev.challengealuraflixapi.core.entity.VideoEntity;
+import tgobmdev.challengealuraflixapi.dto.VideoResponse;
 import tgobmdev.challengealuraflixapi.mockdata.VideoMockData;
 
 @ExtendWith(MockitoExtension.class)
