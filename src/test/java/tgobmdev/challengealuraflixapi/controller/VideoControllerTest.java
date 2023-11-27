@@ -1,4 +1,4 @@
-package tgobmdev.challengealuraflixapi.video;
+package tgobmdev.challengealuraflixapi.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -11,7 +11,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import tgobmdev.challengealuraflixapi.controller.VideoController;
 import tgobmdev.challengealuraflixapi.core.dto.VideoResponse;
 import tgobmdev.challengealuraflixapi.mockdata.VideoMockData;
 import tgobmdev.challengealuraflixapi.service.VideoService;
@@ -26,7 +25,7 @@ public class VideoControllerTest {
   private VideoController videoController;
 
   @Test
-  void testGetVideos() {
+  void testFindAllVideos() {
     List<VideoResponse> mockVideoResponses = List.of(VideoMockData.getSampleVideoResponse());
 
     when(videoService.findAllVideos()).thenReturn(mockVideoResponses);
