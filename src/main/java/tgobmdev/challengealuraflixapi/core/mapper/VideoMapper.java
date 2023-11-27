@@ -1,8 +1,10 @@
-package tgobmdev.challengealuraflixapi.video;
+package tgobmdev.challengealuraflixapi.core.mapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
+import tgobmdev.challengealuraflixapi.core.dto.VideoResponse;
+import tgobmdev.challengealuraflixapi.core.entity.VideoEntity;
 
 @Component
 public class VideoMapper {
