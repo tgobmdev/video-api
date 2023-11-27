@@ -1,6 +1,8 @@
 package tgobmdev.challengealuraflixapi.core.databridge;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.springframework.stereotype.Component;
 import tgobmdev.challengealuraflixapi.core.mapper.VideoMapper;
 import tgobmdev.challengealuraflixapi.core.repository.VideoRepository;
@@ -19,5 +21,9 @@ public class VideoDataBridge {
 
   public List<VideoResponse> findAllVideos() {
     return videoMapper.mapToVideoResponses(videoRepository.findAll());
+  }
+
+  public Optional<VideoResponse> findVideoById(UUID uuid) {
+    return videoRepository.findById(uuid).map(videoMapper::mapToVideoResponse);
   }
 }
