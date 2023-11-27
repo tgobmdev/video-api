@@ -1,4 +1,4 @@
-package tgobmdev.challengealuraflixapi.core.dto;
+package tgobmdev.challengealuraflixapi.dto;
 
 import java.util.UUID;
 

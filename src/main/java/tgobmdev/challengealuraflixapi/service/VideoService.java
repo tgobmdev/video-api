@@ -3,7 +3,7 @@ package tgobmdev.challengealuraflixapi.service;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import tgobmdev.challengealuraflixapi.core.databridge.VideoDataBridge;
-import tgobmdev.challengealuraflixapi.core.dto.VideoResponse;
+import tgobmdev.challengealuraflixapi.dto.VideoResponse;
 
 @Service
 public class VideoService {

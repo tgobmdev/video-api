@@ -3,8 +3,8 @@ package tgobmdev.challengealuraflixapi.mockdata;
 import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import tgobmdev.challengealuraflixapi.core.dto.VideoResponse;
 import tgobmdev.challengealuraflixapi.core.entity.VideoEntity;
+import tgobmdev.challengealuraflixapi.dto.VideoResponse;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class VideoMockData {
