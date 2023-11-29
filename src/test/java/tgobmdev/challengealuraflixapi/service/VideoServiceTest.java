@@ -1,5 +1,6 @@
 package tgobmdev.challengealuraflixapi.service;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -13,7 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import tgobmdev.challengealuraflixapi.core.databridge.VideoDataBridge;
+import tgobmdev.challengealuraflixapi.core.component.VideoComponent;
 import tgobmdev.challengealuraflixapi.core.entity.VideoEntity;
 import tgobmdev.challengealuraflixapi.dto.VideoResponse;
 import tgobmdev.challengealuraflixapi.error.exception.ApiException;
@@ -23,7 +24,7 @@ import tgobmdev.challengealuraflixapi.mockdata.VideoMockData;
 public class VideoServiceTest {
 
   @Mock
-  private VideoDataBridge videoDataBridge;
+  private VideoComponent videoComponent;
 
   @InjectMocks
   private VideoService videoService;
@@ -35,8 +36,8 @@ public class VideoServiceTest {
         new VideoResponse(mockVideoEntity.getId(), mockVideoEntity.getTitle(),
             mockVideoEntity.getDescription(), mockVideoEntity.getUrl()));
 
-    when(videoDataBridge.findAllVideos()).thenReturn(mockVideoResponses);
-    List<VideoResponse> result = videoService.findAllVideos();
+    when(videoComponent.findAllActiveVideos()).thenReturn(mockVideoResponses);
+    List<VideoResponse> result = videoService.findAllActiveVideos();
 
     assertEquals(mockVideoResponses, result);
   }
@@ -45,16 +46,31 @@ public class VideoServiceTest {
   void testFindVideoById() {
     VideoResponse mockVideoResponse = VideoMockData.getSampleVideoResponse();
 
-    when(videoDataBridge.findVideoById(any())).thenReturn(Optional.of(mockVideoResponse));
-    VideoResponse result = videoService.findVideoById(UUID.randomUUID());
+    when(videoComponent.findActiveVideoById(any())).thenReturn(Optional.of(mockVideoResponse));
+    VideoResponse result = videoService.findActiveVideoById(UUID.randomUUID());
 
     assertEquals(mockVideoResponse, result);
   }
 
   @Test
   void testFindVideoByIdNotFound() {
-    when(videoDataBridge.findVideoById(any())).thenReturn(Optional.empty());
+    when(videoComponent.findActiveVideoById(any())).thenReturn(Optional.empty());
 
-    assertThrows(ApiException.class, () -> videoService.findVideoById(any()));
+    assertThrows(ApiException.class, () -> videoService.findActiveVideoById(any()));
+  }
+
+  @Test
+  public void testDeleteVideo() {
+    when(videoComponent.deleteVideo(any())).thenReturn(
+        Optional.of(VideoMockData.getVideoDeleteResponse()));
+
+    assertDoesNotThrow(() -> videoService.deleteVideo(any()));
+  }
+
+  @Test
+  public void testDeleteVideoNotFound() {
+    when(videoComponent.deleteVideo(any())).thenReturn(Optional.empty());
+
+    assertThrows(ApiException.class, () -> videoService.deleteVideo(any()));
   }
 }

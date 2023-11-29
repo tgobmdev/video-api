@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import tgobmdev.challengealuraflixapi.core.entity.VideoEntity;
 import tgobmdev.challengealuraflixapi.core.mapper.VideoMapper;
 import tgobmdev.challengealuraflixapi.core.repository.manager.VideoRepositoryManager;
+import tgobmdev.challengealuraflixapi.dto.VideoDeleteResponse;
 import tgobmdev.challengealuraflixapi.dto.VideoResponse;
 
 @Component
@@ -34,15 +35,15 @@ public class VideoComponent {
     videoEntity.setDeletedAt(LocalDateTime.now());
   }
 
-  public Optional<VideoResponse> deleteVideo(UUID id) {
+  public Optional<VideoDeleteResponse> deleteVideo(UUID id) {
     Optional<VideoEntity> optionalVideoEntity = videoRepositoryManager.findActiveVideoById(id);
-    Optional<VideoResponse> optionalVideoResponse = Optional.empty();
+    Optional<VideoDeleteResponse> optionalVideoResponse = Optional.empty();
 
     if (optionalVideoEntity.isPresent()) {
       VideoEntity videoEntity = optionalVideoEntity.get();
       softDeleteVideo(videoEntity);
       videoRepositoryManager.saveVideo(videoEntity);
-      optionalVideoResponse = Optional.of(videoMapper.mapToVideoResponse(videoEntity));
+      optionalVideoResponse = Optional.of(videoMapper.mapToVideoDeleteResponse(videoEntity));
     }
     return optionalVideoResponse;
   }

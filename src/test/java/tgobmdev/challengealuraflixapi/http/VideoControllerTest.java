@@ -33,29 +33,35 @@ public class VideoControllerTest {
   void testFindAllVideos() {
     List<VideoResponse> mockVideoResponses = List.of(VideoMockData.getSampleVideoResponse());
 
-    when(videoService.findAllVideos()).thenReturn(mockVideoResponses);
-    ResponseEntity<List<VideoResponse>> responseEntity = videoController.findAllVideos();
+    when(videoService.findAllActiveVideos()).thenReturn(mockVideoResponses);
+    ResponseEntity<List<VideoResponse>> responseEntity = videoController.findAllActiveVideos();
 
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     assertEquals(mockVideoResponses, responseEntity.getBody());
   }
 
   @Test
-  void testFindVideoById() {
+  void testFindActiveVideoById() {
     VideoResponse mockVideoResponse = VideoMockData.getSampleVideoResponse();
 
-    when(videoService.findVideoById(any())).thenReturn(mockVideoResponse);
-    ResponseEntity<VideoResponse> result = videoController.findVideoById(UUID.randomUUID());
+    when(videoService.findActiveVideoById(any())).thenReturn(mockVideoResponse);
+    ResponseEntity<VideoResponse> result = videoController.findActiveVideoById(UUID.randomUUID());
 
     assertEquals(HttpStatus.OK, result.getStatusCode());
     assertEquals(mockVideoResponse, result.getBody());
   }
 
   @Test
-  void testFindVideoByIdNotFound() {
-    when(videoService.findVideoById(any())).thenThrow(
+  void testFindActiveVideoByIdNotFound() {
+    when(videoService.findActiveVideoById(any())).thenThrow(
         ApiExceptionMockData.getApiExceptionNotFound());
 
-    assertThrows(ApiException.class, () -> videoController.findVideoById(any()));
+    assertThrows(ApiException.class, () -> videoController.findActiveVideoById(any()));
+  }
+
+  @Test
+  public void testDeleteVideo() {
+    ResponseEntity<Void> result = videoController.deleteVideo(UUID.randomUUID());
+    assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
   }
 }
