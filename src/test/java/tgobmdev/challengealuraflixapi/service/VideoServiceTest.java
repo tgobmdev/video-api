@@ -30,7 +30,7 @@ public class VideoServiceTest {
   private VideoService videoService;
 
   @Test
-  public void testFindAllVideos() {
+  public void testFindAllActiveVideos() {
     VideoEntity mockVideoEntity = VideoMockData.getSampleVideoEntity();
     List<VideoResponse> mockVideoResponses = List.of(
         new VideoResponse(mockVideoEntity.getId(), mockVideoEntity.getTitle(),
@@ -43,7 +43,7 @@ public class VideoServiceTest {
   }
 
   @Test
-  void testFindVideoById() {
+  void testFindActiveVideoById() {
     VideoResponse mockVideoResponse = VideoMockData.getSampleVideoResponse();
 
     when(videoComponent.findActiveVideoById(any())).thenReturn(Optional.of(mockVideoResponse));
@@ -53,7 +53,7 @@ public class VideoServiceTest {
   }
 
   @Test
-  void testFindVideoByIdNotFound() {
+  void testFindActiveVideoByIdNotFound() {
     when(videoComponent.findActiveVideoById(any())).thenReturn(Optional.empty());
 
     assertThrows(ApiException.class, () -> videoService.findActiveVideoById(any()));

@@ -30,7 +30,7 @@ public class VideoControllerTest {
   private VideoController videoController;
 
   @Test
-  void testFindAllVideos() {
+  void testFindAllActiveVideos() {
     List<VideoResponse> mockVideoResponses = List.of(VideoMockData.getSampleVideoResponse());
 
     when(videoService.findAllActiveVideos()).thenReturn(mockVideoResponses);

@@ -34,7 +34,7 @@ public class VideoComponentTest {
   private VideoComponent videoComponent;
 
   @Test
-  public void testFindAllVideos() {
+  public void testFindAllActiveVideos() {
     VideoEntity mockVideoEntity = VideoMockData.getSampleVideoEntity();
 
     List<VideoEntity> mockVideoEntities = List.of(mockVideoEntity);
@@ -51,7 +51,7 @@ public class VideoComponentTest {
   }
 
   @Test
-  void testFindVideoById() {
+  void testFindActiveVideoById() {
     VideoEntity mockVideoEntity = VideoMockData.getSampleVideoEntity();
     when(videoRepositoryManager.findActiveVideoById(any())).thenReturn(
         Optional.of(mockVideoEntity));
