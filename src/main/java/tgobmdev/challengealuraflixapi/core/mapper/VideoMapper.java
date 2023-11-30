@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import tgobmdev.challengealuraflixapi.core.entity.VideoEntity;
+import tgobmdev.challengealuraflixapi.dto.VideoDeleteResponse;
 import tgobmdev.challengealuraflixapi.dto.VideoResponse;
 
 @Component
@@ -12,6 +13,12 @@ public class VideoMapper {
   public VideoResponse mapToVideoResponse(VideoEntity videoEntity) {
     return new VideoResponse(videoEntity.getId(), videoEntity.getTitle(),
         videoEntity.getDescription(), videoEntity.getUrl());
+  }
+
+  public VideoDeleteResponse mapToVideoDeleteResponse(VideoEntity videoEntity) {
+    return new VideoDeleteResponse(videoEntity.getId(), videoEntity.getTitle(),
+        videoEntity.getDescription(), videoEntity.getUrl(), videoEntity.getDeletedAt(),
+        videoEntity.getDeleted());
   }
 
   public List<VideoResponse> mapToVideoResponses(List<VideoEntity> videoEntities) {

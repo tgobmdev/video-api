@@ -1,0 +1,5 @@
+ALTER TABLE video ADD COLUMN deleted_at TIMESTAMP;
+
+ALTER TABLE video ADD COLUMN deleted BOOLEAN;
+
+ALTER TABLE video ALTER COLUMN deleted SET DEFAULT false;

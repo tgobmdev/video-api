@@ -3,6 +3,7 @@ package tgobmdev.challengealuraflixapi.http;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,12 +22,18 @@ public class VideoController {
   }
 
   @GetMapping
-  public ResponseEntity<List<VideoResponse>> findAllVideos() {
-    return ResponseEntity.ok(videoService.findAllVideos());
+  public ResponseEntity<List<VideoResponse>> findAllActiveVideos() {
+    return ResponseEntity.ok(videoService.findAllActiveVideos());
   }
 
   @GetMapping(value = "/{id}")
-  public ResponseEntity<VideoResponse> findVideoById(@PathVariable UUID id) {
-    return ResponseEntity.ok(videoService.findVideoById(id));
+  public ResponseEntity<VideoResponse> findActiveVideoById(@PathVariable UUID id) {
+    return ResponseEntity.ok(videoService.findActiveVideoById(id));
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> deleteVideo(@PathVariable UUID id) {
+    videoService.deleteVideo(id);
+    return ResponseEntity.noContent().build();
   }
 }
