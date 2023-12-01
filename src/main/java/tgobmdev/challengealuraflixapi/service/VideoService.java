@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 import tgobmdev.challengealuraflixapi.core.component.VideoComponent;
+import tgobmdev.challengealuraflixapi.dto.VideoCreateRequest;
 import tgobmdev.challengealuraflixapi.dto.VideoResponse;
 import tgobmdev.challengealuraflixapi.error.exception.ApiException;
 
@@ -29,5 +30,9 @@ public class VideoService {
 
   public void deleteVideo(UUID id) {
     videoComponent.deleteVideo(id).orElseThrow(() -> new ApiException(404, VIDEO_NOT_FOUND));
+  }
+
+  public VideoResponse createVideo(VideoCreateRequest videoCreateRequest) {
+    return videoComponent.createVideo(videoCreateRequest);
   }
 }

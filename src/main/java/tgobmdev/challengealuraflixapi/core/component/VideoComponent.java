@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import tgobmdev.challengealuraflixapi.core.entity.VideoEntity;
 import tgobmdev.challengealuraflixapi.core.mapper.VideoMapper;
 import tgobmdev.challengealuraflixapi.core.repository.manager.VideoRepositoryManager;
+import tgobmdev.challengealuraflixapi.dto.VideoCreateRequest;
 import tgobmdev.challengealuraflixapi.dto.VideoDeleteResponse;
 import tgobmdev.challengealuraflixapi.dto.VideoResponse;
 
@@ -20,6 +21,12 @@ public class VideoComponent {
   public VideoComponent(VideoRepositoryManager videoRepositoryManager, VideoMapper videoMapper) {
     this.videoRepositoryManager = videoRepositoryManager;
     this.videoMapper = videoMapper;
+  }
+
+  public VideoResponse createVideo(VideoCreateRequest videoCreateRequest) {
+    VideoEntity videoEntity = videoMapper.mapToEntity(videoCreateRequest);
+    videoRepositoryManager.saveVideo(videoEntity);
+    return videoMapper.mapToVideoResponse(videoEntity);
   }
 
   public List<VideoResponse> findAllActiveVideos() {
