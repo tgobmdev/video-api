@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import tgobmdev.videoapi.dto.VideoResponse;
+import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.error.exception.ApiException;
 import tgobmdev.videoapi.mockdata.ApiExceptionMockData;
 import tgobmdev.videoapi.mockdata.VideoMockData;

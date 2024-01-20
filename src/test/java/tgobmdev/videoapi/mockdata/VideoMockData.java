@@ -5,8 +5,8 @@ import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import tgobmdev.videoapi.core.entity.VideoEntity;
-import tgobmdev.videoapi.dto.VideoDeleteResponse;
-import tgobmdev.videoapi.dto.VideoResponse;
+import tgobmdev.videoapi.dto.response.VideoDeleteResponse;
+import tgobmdev.videoapi.dto.response.VideoResponse;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class VideoMockData {

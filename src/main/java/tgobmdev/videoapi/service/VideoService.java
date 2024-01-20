@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 import tgobmdev.videoapi.core.component.VideoComponent;
-import tgobmdev.videoapi.dto.VideoCreateRequest;
-import tgobmdev.videoapi.dto.VideoResponse;
+import tgobmdev.videoapi.dto.request.VideoCreateRequest;
+import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.error.exception.ApiException;
 
 @Service

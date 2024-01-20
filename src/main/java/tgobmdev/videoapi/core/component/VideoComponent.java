@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 import tgobmdev.videoapi.core.entity.VideoEntity;
 import tgobmdev.videoapi.core.mapper.VideoMapper;
 import tgobmdev.videoapi.core.repository.manager.VideoRepositoryManager;
-import tgobmdev.videoapi.dto.VideoCreateRequest;
-import tgobmdev.videoapi.dto.VideoDeleteResponse;
-import tgobmdev.videoapi.dto.VideoResponse;
+import tgobmdev.videoapi.dto.request.VideoCreateRequest;
+import tgobmdev.videoapi.dto.response.VideoDeleteResponse;
+import tgobmdev.videoapi.dto.response.VideoResponse;
 
 @Component
 public class VideoComponent {

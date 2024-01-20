@@ -16,7 +16,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tgobmdev.videoapi.core.component.VideoComponent;
 import tgobmdev.videoapi.core.entity.VideoEntity;
-import tgobmdev.videoapi.dto.VideoResponse;
+import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.error.exception.ApiException;
 import tgobmdev.videoapi.mockdata.VideoMockData;
 

@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tgobmdev.videoapi.dto.VideoCreateRequest;
-import tgobmdev.videoapi.dto.VideoResponse;
+import tgobmdev.videoapi.dto.request.VideoCreateRequest;
+import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.service.VideoService;
 
 @RestController

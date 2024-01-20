@@ -17,8 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import tgobmdev.videoapi.core.entity.VideoEntity;
 import tgobmdev.videoapi.core.mapper.VideoMapper;
 import tgobmdev.videoapi.core.repository.manager.VideoRepositoryManager;
-import tgobmdev.videoapi.dto.VideoDeleteResponse;
-import tgobmdev.videoapi.dto.VideoResponse;
+import tgobmdev.videoapi.dto.response.VideoDeleteResponse;
+import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.mockdata.VideoMockData;
 
 @ExtendWith(MockitoExtension.class)
