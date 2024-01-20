@@ -23,7 +23,9 @@ public class VideoMapper {
   }
 
   public List<VideoResponse> mapToVideoResponses(List<VideoEntity> videoEntities) {
-    return videoEntities.stream().map(this::mapToVideoResponse).collect(Collectors.toList());
+    return videoEntities.stream() //
+        .map(this::mapToVideoResponse) //
+        .collect(Collectors.toList());
   }
 
   public VideoEntity mapToEntity(VideoCreateRequest videoCreateRequest) {

@@ -34,7 +34,8 @@ public class VideoComponent {
   }
 
   public Optional<VideoResponse> findActiveVideoById(UUID id) {
-    return videoRepositoryManager.findActiveVideoById(id).map(videoMapper::mapToVideoResponse);
+    return videoRepositoryManager.findActiveVideoById(id) //
+        .map(videoMapper::mapToVideoResponse);
   }
 
   private void softDeleteVideo(VideoEntity videoEntity) {

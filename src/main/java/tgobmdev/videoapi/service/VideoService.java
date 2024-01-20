@@ -23,12 +23,12 @@ public class VideoService {
   }
 
   public VideoResponse findActiveVideoById(UUID id) {
-    return videoComponent.findActiveVideoById(id)
+    return videoComponent.findActiveVideoById(id) //
         .orElseThrow(() -> ApiException.of(404, ErrorEnum.VIDEO_NOT_FOUND));
   }
 
   public void deleteVideo(UUID id) {
-    videoComponent.deleteVideo(id)
+    videoComponent.deleteVideo(id) //
         .orElseThrow(() -> ApiException.of(404, ErrorEnum.VIDEO_NOT_FOUND));
   }
 
