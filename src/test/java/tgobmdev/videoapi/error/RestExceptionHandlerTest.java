@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import tgobmdev.videoapi.error.handle.RestExceptionHandler;
 import tgobmdev.videoapi.error.model.ApiErrorResponse;
 import tgobmdev.videoapi.mockdata.ApiExceptionMockData;
 
@@ -25,6 +26,6 @@ public class RestExceptionHandlerTest {
 
     assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
     assertNotNull(result.getBody());
-    assertEquals(404, result.getBody().code());
+    assertEquals(404, result.getBody().getStatus());
   }
 }

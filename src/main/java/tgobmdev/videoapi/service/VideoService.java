@@ -6,12 +6,11 @@ import org.springframework.stereotype.Service;
 import tgobmdev.videoapi.core.component.VideoComponent;
 import tgobmdev.videoapi.dto.request.VideoCreateRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
+import tgobmdev.videoapi.error.enumeration.ErrorEnum;
 import tgobmdev.videoapi.error.exception.ApiException;
 
 @Service
 public class VideoService {
-
-  public static final String VIDEO_NOT_FOUND = "Video Not Found";
 
   private final VideoComponent videoComponent;
 
@@ -24,12 +23,13 @@ public class VideoService {
   }
 
   public VideoResponse findActiveVideoById(UUID id) {
-    return videoComponent.findActiveVideoById(id) //
-        .orElseThrow(() -> new ApiException(404, VIDEO_NOT_FOUND));
+    return videoComponent.findActiveVideoById(id)
+        .orElseThrow(() -> ApiException.of(404, ErrorEnum.VIDEO_NOT_FOUND));
   }
 
   public void deleteVideo(UUID id) {
-    videoComponent.deleteVideo(id).orElseThrow(() -> new ApiException(404, VIDEO_NOT_FOUND));
+    videoComponent.deleteVideo(id)
+        .orElseThrow(() -> ApiException.of(404, ErrorEnum.VIDEO_NOT_FOUND));
   }
 
   public VideoResponse createVideo(VideoCreateRequest videoCreateRequest) {
