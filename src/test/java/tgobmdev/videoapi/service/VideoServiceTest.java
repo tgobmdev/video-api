@@ -15,13 +15,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tgobmdev.videoapi.core.component.VideoComponent;
-import tgobmdev.videoapi.core.entity.VideoEntity;
 import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.error.exception.ApiException;
 import tgobmdev.videoapi.mockdata.VideoMockData;
 
 @ExtendWith(MockitoExtension.class)
-public class VideoServiceTest {
+class VideoServiceTest {
 
   @Mock
   private VideoComponent videoComponent;
@@ -30,44 +29,41 @@ public class VideoServiceTest {
   private VideoService videoService;
 
   @Test
-  public void testFindAllActiveVideos() {
-    VideoEntity mockVideoEntity = VideoMockData.getSampleVideoEntity();
-    List<VideoResponse> mockVideoResponses = List.of(
-        new VideoResponse(mockVideoEntity.getId(), mockVideoEntity.getTitle(),
-            mockVideoEntity.getDescription(), mockVideoEntity.getUrl()));
-
+  void givenExistingVideos_whenFindAllActiveVideos_thenReturnListOfVideoResponses() {
+    List<VideoResponse> mockVideoResponses = List.of(VideoMockData.getSampleVideoResponse());
     when(videoComponent.findAllActiveVideos()).thenReturn(mockVideoResponses);
+
     List<VideoResponse> result = videoService.findAllActiveVideos();
 
     assertEquals(mockVideoResponses, result);
   }
 
   @Test
-  void testFindActiveVideoById() {
+  void givenExistingVideoId_whenFindActiveVideoById_thenReturnVideoResponse() {
     VideoResponse mockVideoResponse = VideoMockData.getSampleVideoResponse();
-
     when(videoComponent.findActiveVideoById(any())).thenReturn(Optional.of(mockVideoResponse));
+
     VideoResponse result = videoService.findActiveVideoById(UUID.randomUUID());
 
     assertEquals(mockVideoResponse, result);
   }
 
   @Test
-  void testFindActiveVideoByIdNotFound() {
+  void givenNonExistingVideoId_whenFindActiveVideoById_thenThrowApiException() {
     when(videoComponent.findActiveVideoById(any())).thenReturn(Optional.empty());
 
-    assertThrows(ApiException.class, () -> videoService.findActiveVideoById(any()));
+    assertThrows(ApiException.class, () -> videoService.findActiveVideoById(UUID.randomUUID()));
   }
 
   @Test
-  void testCreateVideo() {
+  void givenVideoCreateRequest_whenCreateVideo_thenNoExceptionShouldBeThrown() {
     when(videoComponent.createVideo(any())).thenReturn(VideoMockData.getSampleVideoResponse());
 
     assertDoesNotThrow(() -> videoService.createVideo(any()));
   }
 
   @Test
-  public void testDeleteVideo() {
+  void givenExistingVideoId_whenDeleteVideo_thenNoExceptionShouldBeThrown() {
     when(videoComponent.deleteVideo(any())).thenReturn(
         Optional.of(VideoMockData.getVideoDeleteResponse()));
 
@@ -75,7 +71,7 @@ public class VideoServiceTest {
   }
 
   @Test
-  public void testDeleteVideoNotFound() {
+  void givenNonExistingVideoId_whenDeleteVideo_thenThrowApiException() {
     when(videoComponent.deleteVideo(any())).thenReturn(Optional.empty());
 
     assertThrows(ApiException.class, () -> videoService.deleteVideo(any()));
