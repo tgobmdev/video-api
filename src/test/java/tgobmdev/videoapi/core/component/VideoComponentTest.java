@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import tgobmdev.videoapi.core.entity.VideoEntity;
 import tgobmdev.videoapi.core.mapper.VideoMapper;
 import tgobmdev.videoapi.core.repository.manager.VideoRepositoryManager;
+import tgobmdev.videoapi.dto.request.VideoCreateRequest;
 import tgobmdev.videoapi.dto.response.VideoDeleteResponse;
 import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.mockdata.VideoMockData;
@@ -61,6 +63,25 @@ public class VideoComponentTest {
 
     Optional<VideoResponse> result = videoComponent.findActiveVideoById(UUID.randomUUID());
     assertEquals(Optional.of(mockVideoResponse), result);
+  }
+
+  @Test
+  void testCreateVideo() {
+    VideoCreateRequest mockVideoCreateRequest = VideoMockData.getVideoCreateRequest();
+    VideoEntity mockVideoEntity = VideoMockData.getSampleVideoEntity();
+    VideoResponse mockVideoResponse = VideoMockData.getSampleVideoResponse();
+
+    when(videoMapper.mapToEntity(VideoMockData.getVideoCreateRequest())).thenReturn(
+        mockVideoEntity);
+    when(videoMapper.mapToVideoResponse(mockVideoEntity)).thenReturn(mockVideoResponse);
+
+    VideoResponse result = videoComponent.createVideo(mockVideoCreateRequest);
+
+    verify(videoMapper).mapToEntity(mockVideoCreateRequest);
+    verify(videoRepositoryManager).saveVideo(mockVideoEntity);
+    verify(videoMapper).mapToVideoResponse(mockVideoEntity);
+
+    assertEquals(mockVideoResponse.hashCode(), result.hashCode());
   }
 
   @Test

@@ -27,12 +27,12 @@ public class VideoService {
         .orElseThrow(() -> ApiException.of(404, ErrorEnum.VIDEO_NOT_FOUND));
   }
 
+  public VideoResponse createVideo(VideoCreateRequest videoCreateRequest) {
+    return videoComponent.createVideo(videoCreateRequest);
+  }
+
   public void deleteVideo(UUID id) {
     videoComponent.deleteVideo(id) //
         .orElseThrow(() -> ApiException.of(404, ErrorEnum.VIDEO_NOT_FOUND));
-  }
-
-  public VideoResponse createVideo(VideoCreateRequest videoCreateRequest) {
-    return videoComponent.createVideo(videoCreateRequest);
   }
 }
