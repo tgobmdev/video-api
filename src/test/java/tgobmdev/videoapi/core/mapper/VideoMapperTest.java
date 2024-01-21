@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,10 +15,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import tgobmdev.videoapi.core.entity.VideoEntity;
 import tgobmdev.videoapi.dto.response.VideoDeleteResponse;
 import tgobmdev.videoapi.dto.response.VideoResponse;
-import tgobmdev.videoapi.mockdata.VideoMockData;
 
 @ExtendWith(MockitoExtension.class)
-public class VideoMapperTest {
+class VideoMapperTest {
 
   @Mock
   private VideoEntity videoEntity;
@@ -25,13 +25,16 @@ public class VideoMapperTest {
   @InjectMocks
   private VideoMapper videoMapper;
 
-  @Test
-  void testMapToVideoResponse() {
+  @BeforeEach
+  void setUp() {
     when(videoEntity.getId()).thenReturn(UUID.randomUUID());
     when(videoEntity.getTitle()).thenReturn("Test Video");
     when(videoEntity.getDescription()).thenReturn("Test Description");
     when(videoEntity.getUrl()).thenReturn("https://example.com/test-video");
+  }
 
+  @Test
+  void mapToVideoResponse_ShouldMapVideoEntityToVideoResponse() {
     VideoResponse videoResponse = videoMapper.mapToVideoResponse(videoEntity);
 
     assertEquals(videoEntity.getId(), videoResponse.id());
@@ -40,11 +43,7 @@ public class VideoMapperTest {
   }
 
   @Test
-  void testMapToVideoDeleteResponse() {
-    when(videoEntity.getId()).thenReturn(UUID.randomUUID());
-    when(videoEntity.getTitle()).thenReturn("Test Video");
-    when(videoEntity.getDescription()).thenReturn("Test Description");
-    when(videoEntity.getUrl()).thenReturn("https://example.com/test-video");
+  void mapToVideoDeleteResponse_ShouldMapVideoEntityToVideoDeleteResponse() {
     when(videoEntity.getDeletedAt()).thenReturn(LocalDateTime.now());
     when(videoEntity.getDeleted()).thenReturn(Boolean.TRUE);
 
@@ -56,9 +55,12 @@ public class VideoMapperTest {
   }
 
   @Test
-  void testMapToVideoResponses() {
-    List<VideoResponse> videoResponses = videoMapper.mapToVideoResponses(
-        List.of(VideoMockData.getSampleVideoEntity()));
-    assertEquals(1, videoResponses.size());
+  void mapToVideoResponses_ShouldMapListOfVideoEntityToVideoResponses() {
+    List<VideoResponse> videoResponses = videoMapper.mapToVideoResponses(List.of(videoEntity));
+
+    VideoResponse videoResponse = videoResponses.getFirst();
+    assertEquals(videoEntity.getId(), videoResponse.id());
+    assertEquals(videoEntity.getTitle(), videoResponse.title());
+    assertEquals(videoEntity.getDescription(), videoResponse.description());
   }
 }
