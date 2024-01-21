@@ -9,23 +9,26 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import tgobmdev.videoapi.error.exception.ApiException;
 import tgobmdev.videoapi.error.handle.RestExceptionHandler;
 import tgobmdev.videoapi.error.model.ApiErrorResponse;
 import tgobmdev.videoapi.mockdata.ApiExceptionMockData;
 
 @ExtendWith(MockitoExtension.class)
-public class RestExceptionHandlerTest {
+class RestExceptionHandlerTest {
 
   @InjectMocks
   private RestExceptionHandler restExceptionHandler;
 
   @Test
-  void testHandleApiException() {
-    ResponseEntity<ApiErrorResponse> result = restExceptionHandler.handleApiException(
-        ApiExceptionMockData.getApiExceptionNotFound());
+  void givenApiExceptionNotFound_whenHandleApiException_thenReturnNotFoundResponse() {
+    ApiException mockApiException = ApiExceptionMockData.getApiExceptionNotFound();
 
-    assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
+    ResponseEntity<ApiErrorResponse> result = restExceptionHandler //
+        .handleApiException(mockApiException);
+
     assertNotNull(result.getBody());
-    assertEquals(404, result.getBody().getStatus());
+    assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
+    assertEquals(mockApiException.getStatus(), result.getBody().getStatus());
   }
 }
