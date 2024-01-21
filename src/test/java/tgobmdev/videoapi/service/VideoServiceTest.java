@@ -64,16 +64,6 @@ class VideoServiceTest {
 
   @Test
   void givenExistingVideoId_whenDeleteVideo_thenNoExceptionShouldBeThrown() {
-    when(videoComponent.deleteVideo(any())).thenReturn(
-        Optional.of(VideoMockData.getVideoDeleteResponse()));
-
     assertDoesNotThrow(() -> videoService.deleteVideo(any()));
-  }
-
-  @Test
-  void givenNonExistingVideoId_whenDeleteVideo_thenThrowApiException() {
-    when(videoComponent.deleteVideo(any())).thenReturn(Optional.empty());
-
-    assertThrows(ApiException.class, () -> videoService.deleteVideo(any()));
   }
 }

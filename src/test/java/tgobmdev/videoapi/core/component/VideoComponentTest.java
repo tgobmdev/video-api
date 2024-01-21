@@ -2,8 +2,8 @@ package tgobmdev.videoapi.core.component;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -17,17 +17,17 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tgobmdev.videoapi.core.entity.VideoEntity;
 import tgobmdev.videoapi.core.mapper.VideoMapper;
-import tgobmdev.videoapi.core.repository.manager.VideoRepositoryManager;
-import tgobmdev.videoapi.dto.request.VideoCreateRequest;
-import tgobmdev.videoapi.dto.response.VideoDeleteResponse;
+import tgobmdev.videoapi.core.repository.VideoRepository;
+import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
+import tgobmdev.videoapi.error.exception.ApiException;
 import tgobmdev.videoapi.mockdata.VideoMockData;
 
 @ExtendWith(MockitoExtension.class)
 class VideoComponentTest {
 
   @Mock
-  private VideoRepositoryManager videoRepositoryManager;
+  private VideoRepository videoRepository;
 
   @Mock
   private VideoMapper videoMapper;
@@ -40,7 +40,7 @@ class VideoComponentTest {
     List<VideoEntity> mockVideoEntities = List.of(VideoMockData.getSampleVideoEntity());
     List<VideoResponse> mockVideoResponses = List.of(VideoMockData.getSampleVideoResponse());
 
-    when(videoRepositoryManager.findAllActiveVideos()) //
+    when(videoRepository.findAllByDeletedAtIsNull()) //
         .thenReturn(mockVideoEntities);
     when(videoMapper.mapToVideoResponses(mockVideoEntities)) //
         .thenReturn(mockVideoResponses);
@@ -55,7 +55,7 @@ class VideoComponentTest {
     UUID videoId = UUID.randomUUID();
     VideoResponse mockVideoResponse = VideoMockData.getSampleVideoResponse();
 
-    when(videoRepositoryManager.findActiveVideoById(videoId)) //
+    when(videoRepository.findByIdAndDeletedAtIsNull(videoId)) //
         .thenReturn(Optional.of(mockVideoEntity));
     when(videoMapper.mapToVideoResponse(mockVideoEntity)) //
         .thenReturn(mockVideoResponse);
@@ -69,7 +69,7 @@ class VideoComponentTest {
   void givenVideoIdDoesNotExist_whenFindActiveVideoById_thenReturnsEmptyOptional() {
     UUID nonExistentVideoId = UUID.randomUUID();
 
-    when(videoRepositoryManager.findActiveVideoById(nonExistentVideoId)) //
+    when(videoRepository.findByIdAndDeletedAtIsNull(nonExistentVideoId)) //
         .thenReturn(Optional.empty());
 
     Optional<VideoResponse> result = videoComponent.findActiveVideoById(nonExistentVideoId);
@@ -79,19 +79,19 @@ class VideoComponentTest {
 
   @Test
   void givenVideoCreateRequest_whenCreateVideo_thenReturnsCreatedVideo() {
-    VideoCreateRequest mockVideoCreateRequest = VideoMockData.getVideoCreateRequest();
+    VideoRequest mockVideoRequest = VideoMockData.getVideoCreateRequest();
     VideoEntity mockVideoEntity = VideoMockData.getSampleVideoEntity();
     VideoResponse mockVideoResponse = VideoMockData.getSampleVideoResponse();
 
-    when(videoMapper.mapToEntity(mockVideoCreateRequest)) //
+    when(videoMapper.mapToEntity(mockVideoRequest)) //
         .thenReturn(mockVideoEntity);
     when(videoMapper.mapToVideoResponse(mockVideoEntity)) //
         .thenReturn(mockVideoResponse);
 
-    VideoResponse result = videoComponent.createVideo(mockVideoCreateRequest);
+    VideoResponse result = videoComponent.createVideo(mockVideoRequest);
 
-    verify(videoMapper).mapToEntity(mockVideoCreateRequest);
-    verify(videoRepositoryManager).saveVideo(mockVideoEntity);
+    verify(videoMapper).mapToEntity(mockVideoRequest);
+    verify(videoRepository).save(mockVideoEntity);
     verify(videoMapper).mapToVideoResponse(mockVideoEntity);
     assertEquals(mockVideoResponse.hashCode(), result.hashCode());
   }
@@ -100,22 +100,17 @@ class VideoComponentTest {
   void givenVideoIdExists_whenDeleteVideo_thenDoesNotThrowException() {
     VideoEntity mockVideoEntity = VideoMockData.getSampleVideoEntity();
 
-    when(videoRepositoryManager.findActiveVideoById(any())) //
+    when(videoRepository.findByIdAndDeletedAtIsNull(any())) //
         .thenReturn(Optional.of(mockVideoEntity));
-    doReturn(VideoMockData.getVideoDeleteResponse()) //
-        .when(videoMapper) //
-        .mapToVideoDeleteResponse(mockVideoEntity);
 
     assertDoesNotThrow(() -> videoComponent.deleteVideo(UUID.randomUUID()));
   }
 
   @Test
   void givenVideoIdDoesNotExist_whenDeleteVideo_thenReturnsEmptyOptional() {
-    when(videoRepositoryManager.findActiveVideoById(any())) //
+    when(videoRepository.findByIdAndDeletedAtIsNull(any())) //
         .thenReturn(Optional.empty());
 
-    Optional<VideoDeleteResponse> result = videoComponent.deleteVideo(UUID.randomUUID());
-
-    assertEquals(Optional.empty(), result);
+    assertThrows(ApiException.class, () -> videoComponent.deleteVideo(UUID.randomUUID()));
   }
 }
