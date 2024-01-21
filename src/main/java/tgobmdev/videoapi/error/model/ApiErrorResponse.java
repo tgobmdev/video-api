@@ -1,17 +1,18 @@
 package tgobmdev.videoapi.error.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import java.io.Serial;
-import java.io.Serializable;
+import java.time.LocalDateTime;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.extern.jackson.Jacksonized;
 
-@JsonInclude(Include.NON_NULL)
-public record ApiErrorResponse(int code, String field, String message) implements Serializable {
+@Getter
+@Builder
+@Jacksonized
+public final class ApiErrorResponse {
 
-  @Serial
-  private static final long serialVersionUID = -2123971128507189391L;
-
-  public ApiErrorResponse(int code, String message) {
-    this(code, null, message);
-  }
+  private final int status;
+  private final int codeMessage;
+  private final String message;
+  @Builder.Default
+  private final LocalDateTime time = LocalDateTime.now();
 }
