@@ -31,10 +31,10 @@ class VideoControllerTest {
   private VideoController videoController;
 
   @Test
-  void testFindAllActiveVideos() {
+  void givenActiveVideosExist_whenFindAllActiveVideos_thenReturnsListOfVideos() {
     List<VideoResponse> mockVideoResponses = List.of(VideoMockData.getSampleVideoResponse());
-
     when(videoService.findAllActiveVideos()).thenReturn(mockVideoResponses);
+
     ResponseEntity<List<VideoResponse>> responseEntity = videoController.findAllActiveVideos();
 
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -42,29 +42,32 @@ class VideoControllerTest {
   }
 
   @Test
-  void testFindActiveVideoById() {
+  void givenVideoIdExists_whenFindActiveVideoById_thenReturnsVideo() {
     VideoResponse mockVideoResponse = VideoMockData.getSampleVideoResponse();
+    UUID videoId = UUID.randomUUID();
+    when(videoService.findActiveVideoById(videoId)).thenReturn(mockVideoResponse);
 
-    when(videoService.findActiveVideoById(any())).thenReturn(mockVideoResponse);
-    ResponseEntity<VideoResponse> result = videoController.findActiveVideoById(UUID.randomUUID());
+    ResponseEntity<VideoResponse> result = videoController.findActiveVideoById(videoId);
 
     assertEquals(HttpStatus.OK, result.getStatusCode());
     assertEquals(mockVideoResponse, result.getBody());
   }
 
   @Test
-  void testFindActiveVideoByIdNotFound() {
-    when(videoService.findActiveVideoById(any())).thenThrow(
+  void givenVideoIdDoesNotExist_whenFindActiveVideoById_thenThrowsApiExceptionNotFound() {
+    UUID nonExistentVideoId = UUID.randomUUID();
+
+    when(videoService.findActiveVideoById(nonExistentVideoId)).thenThrow(
         ApiExceptionMockData.getApiExceptionNotFound());
 
-    assertThrows(ApiException.class, () -> videoController.findActiveVideoById(any()));
+    assertThrows(ApiException.class, () -> videoController.findActiveVideoById(nonExistentVideoId));
   }
 
   @Test
-  void testCreateVideo() {
+  void givenVideoCreateRequest_whenCreateVideo_thenReturnsCreatedStatus() {
     VideoResponse mockVideoResponse = VideoMockData.getSampleVideoResponse();
-
     when(videoService.createVideo(any())).thenReturn(mockVideoResponse);
+
     ResponseEntity<VideoResponse> result = videoController.createVideo(
         VideoMockData.getVideoCreateRequest(), UriComponentsBuilder.newInstance());
 
@@ -72,8 +75,9 @@ class VideoControllerTest {
   }
 
   @Test
-  public void testDeleteVideo() {
+  void givenVideoIdExists_whenDeleteVideo_thenReturnsNoContentStatus() {
     ResponseEntity<Void> result = videoController.deleteVideo(UUID.randomUUID());
+
     assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
   }
 }

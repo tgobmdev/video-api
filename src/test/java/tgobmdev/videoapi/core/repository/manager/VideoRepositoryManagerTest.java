@@ -1,7 +1,7 @@
 package tgobmdev.videoapi.core.repository.manager;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,7 +21,7 @@ import tgobmdev.videoapi.core.repository.VideoRepository;
 import tgobmdev.videoapi.mockdata.VideoMockData;
 
 @ExtendWith(MockitoExtension.class)
-public class VideoRepositoryManagerTest {
+class VideoRepositoryManagerTest {
 
   @Mock
   private VideoRepository videoRepository;
@@ -28,36 +29,39 @@ public class VideoRepositoryManagerTest {
   @InjectMocks
   private VideoRepositoryManager videoRepositoryManager;
 
-  @Test
-  void testSaveVideo() {
-    VideoEntity mockVideoEntity = VideoMockData.getSampleVideoEntity();
+  private VideoEntity mockVideoEntity;
 
-    when(videoRepository.save(Mockito.any())).thenReturn(mockVideoEntity);
-    videoRepositoryManager.saveVideo(mockVideoEntity);
-
-    assertEquals("Description", mockVideoEntity.getDescription());
-    assertEquals("http://example.com/1", mockVideoEntity.getUrl());
+  @BeforeEach
+  void setUp() {
+    mockVideoEntity = VideoMockData.getSampleVideoEntity();
   }
 
   @Test
-  void testFindActiveVideoById() {
-    Optional<VideoEntity> mockVideoEntity = Optional.of(VideoMockData.getSampleVideoEntity());
+  void givenVideoEntity_whenSaveVideo_thenNoExceptions() {
+    when(videoRepository.save(Mockito.any())).thenReturn(mockVideoEntity);
 
-    when(videoRepository.findByIdAndDeletedAtIsNull(Mockito.any())).thenReturn(mockVideoEntity);
+    assertDoesNotThrow(() -> videoRepositoryManager.saveVideo(mockVideoEntity));
+  }
+
+  @Test
+  void givenExistingVideoEntity_whenFindActiveVideoById_thenReturnOptionalEntity() {
+    Optional<VideoEntity> expectedEntity = Optional.of(mockVideoEntity);
+    when(videoRepository.findByIdAndDeletedAtIsNull(Mockito.any())).thenReturn(expectedEntity);
+
     Optional<VideoEntity> result = videoRepositoryManager.findActiveVideoById(UUID.randomUUID());
 
     assertTrue(result.isPresent());
-    assertSame(mockVideoEntity, result);
+    assertEquals(expectedEntity, result);
   }
 
   @Test
-  void testFindAllActiveVideos() {
-    List<VideoEntity> mockVideoEntities = new ArrayList<>();
+  void givenNoDeletedVideos_whenFindAllActiveVideos_thenReturnEmptyList() {
+    List<VideoEntity> expectedEntities = new ArrayList<>();
+    when(videoRepository.findAllByDeletedAtIsNull()).thenReturn(expectedEntities);
 
-    when(videoRepository.findAllByDeletedAtIsNull()).thenReturn(mockVideoEntities);
     List<VideoEntity> result = videoRepositoryManager.findAllActiveVideos();
 
     assertTrue(result.isEmpty());
-    assertSame(mockVideoEntities, result);
+    assertEquals(expectedEntities, result);
   }
 }

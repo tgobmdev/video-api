@@ -1,5 +1,7 @@
 package tgobmdev.videoapi;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -7,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class VideoApiApplicationTests {
 
   @Test
-  void contextLoads() {
-    VideoApiApplication.main(new String[0]);
+  void givenApplicationContext_whenMainMethodExecuted_thenNoExceptionShouldBeThrown() {
+    assertDoesNotThrow(() -> VideoApiApplication.main(new String[0]));
   }
 }
