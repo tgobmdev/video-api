@@ -41,18 +41,15 @@ public class VideoComponent {
   private void softDeleteVideo(VideoEntity videoEntity) {
     videoEntity.setDeleted(true);
     videoEntity.setDeletedAt(LocalDateTime.now());
+    videoRepositoryManager.saveVideo(videoEntity);
   }
 
   public Optional<VideoDeleteResponse> deleteVideo(UUID id) {
-    Optional<VideoEntity> optionalVideoEntity = videoRepositoryManager.findActiveVideoById(id);
-    Optional<VideoDeleteResponse> optionalVideoResponse = Optional.empty();
-
-    if (optionalVideoEntity.isPresent()) {
-      VideoEntity videoEntity = optionalVideoEntity.get();
-      softDeleteVideo(videoEntity);
-      videoRepositoryManager.saveVideo(videoEntity);
-      optionalVideoResponse = Optional.of(videoMapper.mapToVideoDeleteResponse(videoEntity));
-    }
-    return optionalVideoResponse;
+    return videoRepositoryManager.findActiveVideoById(id) //
+        .map(videoEntity -> {
+          softDeleteVideo(videoEntity);
+          return videoEntity;
+        }) //
+        .map(videoMapper::mapToVideoDeleteResponse);
   }
 }
