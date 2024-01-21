@@ -81,7 +81,7 @@ class VideoControllerTest {
     when(request.getRequestURI()).thenReturn("/videos");
 
     ResponseEntity<VideoResponse> result = videoController.createVideo(
-        VideoMockData.getVideoCreateRequest());
+        VideoMockData.getSampleVideoRequest());
 
     assertEquals(HttpStatus.CREATED, result.getStatusCode());
   }
@@ -91,5 +91,31 @@ class VideoControllerTest {
     ResponseEntity<Void> result = videoController.deleteVideo(UUID.randomUUID());
 
     assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
+  }
+
+  @Test
+  void givenVideoIdExists_whenEditVideo_thenReturnsOkStatus() {
+    UUID existingVideoId = UUID.randomUUID();
+    VideoResponse mockVideoResponse = VideoMockData.getSampleVideoResponse();
+
+    when(videoService.editVideo(existingVideoId, VideoMockData.getSampleVideoRequest())) //
+        .thenReturn(mockVideoResponse);
+
+    ResponseEntity<VideoResponse> result = videoController.editVideo(existingVideoId,
+        VideoMockData.getSampleVideoRequest());
+
+    assertEquals(HttpStatus.OK, result.getStatusCode());
+    assertEquals(mockVideoResponse, result.getBody());
+  }
+
+  @Test
+  void givenVideoIdDoesNotExist_whenEditVideo_thenThrowsApiExceptionNotFound() {
+    UUID nonExistentVideoId = UUID.randomUUID();
+
+    when(videoService.editVideo(nonExistentVideoId, VideoMockData.getSampleVideoRequest())) //
+        .thenThrow(ApiExceptionMockData.getApiExceptionNotFound());
+
+    assertThrows(ApiException.class,
+        () -> videoController.editVideo(nonExistentVideoId, VideoMockData.getSampleVideoRequest()));
   }
 }

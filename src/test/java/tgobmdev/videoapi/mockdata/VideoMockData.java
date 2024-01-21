@@ -10,7 +10,7 @@ import tgobmdev.videoapi.dto.response.VideoResponse;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class VideoMockData {
 
-  public static VideoRequest getVideoCreateRequest() {
+  public static VideoRequest getSampleVideoRequest() {
     return new VideoRequest("Video", "Description", "http://example.com/1");
   }
 

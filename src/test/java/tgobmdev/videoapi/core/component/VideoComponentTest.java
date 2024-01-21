@@ -79,7 +79,7 @@ class VideoComponentTest {
 
   @Test
   void givenVideoCreateRequest_whenCreateVideo_thenReturnsCreatedVideo() {
-    VideoRequest mockVideoRequest = VideoMockData.getVideoCreateRequest();
+    VideoRequest mockVideoRequest = VideoMockData.getSampleVideoRequest();
     VideoEntity mockVideoEntity = VideoMockData.getSampleVideoEntity();
     VideoResponse mockVideoResponse = VideoMockData.getSampleVideoResponse();
 
