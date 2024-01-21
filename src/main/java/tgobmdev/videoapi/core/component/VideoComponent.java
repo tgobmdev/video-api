@@ -47,6 +47,22 @@ public class VideoComponent {
     return videoMapper.mapToVideoResponse(videoEntity);
   }
 
+  public Optional<VideoResponse> editVideo(UUID id, VideoRequest videoRequest) {
+    return findByIdAndDeletedAtIsNull(id) //
+        .map(videoEntity -> {
+          editVideo(videoEntity, videoRequest);
+          return videoEntity;
+        }) //
+        .map(videoMapper::mapToVideoResponse);
+  }
+
+  private void editVideo(VideoEntity videoEntity, VideoRequest videoRequest) {
+    videoEntity.setTitle(videoRequest.title());
+    videoEntity.setDescription(videoRequest.description());
+    videoEntity.setUrl(videoRequest.url());
+    saveVideo(videoEntity);
+  }
+
   private void softDeleteVideo(VideoEntity videoEntity) {
     videoEntity.setDeleted(true);
     videoEntity.setDeletedAt(LocalDateTime.now());
