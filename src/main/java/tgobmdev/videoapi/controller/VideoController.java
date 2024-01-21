@@ -63,7 +63,7 @@ public class VideoController {
         .build();
   }
 
-  @DeleteMapping("/{uuid}")
+  @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteVideo(@PathVariable UUID id) {
     log.info("Requisição [DELETE] recebida em [/videos/{}]", id);
     videoService.deleteVideo(id);
