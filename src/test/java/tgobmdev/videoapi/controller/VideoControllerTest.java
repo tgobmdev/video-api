@@ -5,8 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.UUID;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,7 +16,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.error.exception.ApiException;
 import tgobmdev.videoapi.mockdata.ApiExceptionMockData;
@@ -29,6 +32,14 @@ class VideoControllerTest {
 
   @InjectMocks
   private VideoController videoController;
+
+  @Mock
+  private HttpServletRequest request;
+
+  @BeforeEach
+  void setUp() {
+    RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+  }
 
   @Test
   void givenActiveVideosExist_whenFindAllActiveVideos_thenReturnsListOfVideos() {
@@ -67,9 +78,10 @@ class VideoControllerTest {
   void givenVideoCreateRequest_whenCreateVideo_thenReturnsCreatedStatus() {
     VideoResponse mockVideoResponse = VideoMockData.getSampleVideoResponse();
     when(videoService.createVideo(any())).thenReturn(mockVideoResponse);
+    when(request.getRequestURI()).thenReturn("/videos");
 
     ResponseEntity<VideoResponse> result = videoController.createVideo(
-        VideoMockData.getVideoCreateRequest(), UriComponentsBuilder.newInstance());
+        VideoMockData.getVideoCreateRequest());
 
     assertEquals(HttpStatus.CREATED, result.getStatusCode());
   }
