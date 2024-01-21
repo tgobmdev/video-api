@@ -66,6 +66,14 @@ public class VideoComponentTest {
   }
 
   @Test
+  void testFindActiveVideoByIdNotFound() {
+    when(videoRepositoryManager.findActiveVideoById(any())).thenReturn(Optional.empty());
+
+    Optional<VideoResponse> result = videoComponent.findActiveVideoById(UUID.randomUUID());
+    assertEquals(Optional.empty(), result);
+  }
+
+  @Test
   void testCreateVideo() {
     VideoCreateRequest mockVideoCreateRequest = VideoMockData.getVideoCreateRequest();
     VideoEntity mockVideoEntity = VideoMockData.getSampleVideoEntity();
@@ -85,14 +93,6 @@ public class VideoComponentTest {
   }
 
   @Test
-  void testFindActiveVideoByIdNotFound() {
-    when(videoRepositoryManager.findActiveVideoById(any())).thenReturn(Optional.empty());
-
-    Optional<VideoResponse> result = videoComponent.findActiveVideoById(UUID.randomUUID());
-    assertEquals(Optional.empty(), result);
-  }
-
-  @Test
   public void testDeleteVideo() {
     VideoEntity mockVideoEntity = VideoMockData.getSampleVideoEntity();
 
@@ -103,7 +103,6 @@ public class VideoComponentTest {
 
     assertDoesNotThrow(() -> videoComponent.deleteVideo(UUID.randomUUID()));
   }
-
 
   @Test
   public void testDeleteVideoNotFound() {

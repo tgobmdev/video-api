@@ -60,6 +60,13 @@ public class VideoServiceTest {
   }
 
   @Test
+  void testCreateVideo() {
+    when(videoComponent.createVideo(any())).thenReturn(VideoMockData.getSampleVideoResponse());
+
+    assertDoesNotThrow(() -> videoService.createVideo(any()));
+  }
+
+  @Test
   public void testDeleteVideo() {
     when(videoComponent.deleteVideo(any())).thenReturn(
         Optional.of(VideoMockData.getVideoDeleteResponse()));
