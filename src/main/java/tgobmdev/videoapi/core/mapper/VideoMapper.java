@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import tgobmdev.videoapi.core.entity.VideoEntity;
-import tgobmdev.videoapi.dto.VideoCreateRequest;
-import tgobmdev.videoapi.dto.VideoDeleteResponse;
-import tgobmdev.videoapi.dto.VideoResponse;
+import tgobmdev.videoapi.dto.request.VideoCreateRequest;
+import tgobmdev.videoapi.dto.response.VideoDeleteResponse;
+import tgobmdev.videoapi.dto.response.VideoResponse;
 
 @Component
 public class VideoMapper {
@@ -23,7 +23,9 @@ public class VideoMapper {
   }
 
   public List<VideoResponse> mapToVideoResponses(List<VideoEntity> videoEntities) {
-    return videoEntities.stream().map(this::mapToVideoResponse).collect(Collectors.toList());
+    return videoEntities.stream() //
+        .map(this::mapToVideoResponse) //
+        .collect(Collectors.toList());
   }
 
   public VideoEntity mapToEntity(VideoCreateRequest videoCreateRequest) {

@@ -1,4 +1,4 @@
-package tgobmdev.videoapi.dto;
+package tgobmdev.videoapi.dto.response;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

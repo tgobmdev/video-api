@@ -14,14 +14,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import tgobmdev.videoapi.dto.VideoResponse;
+import org.springframework.web.util.UriComponentsBuilder;
+import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.error.exception.ApiException;
 import tgobmdev.videoapi.mockdata.ApiExceptionMockData;
 import tgobmdev.videoapi.mockdata.VideoMockData;
 import tgobmdev.videoapi.service.VideoService;
 
 @ExtendWith(MockitoExtension.class)
-public class VideoControllerTest {
+class VideoControllerTest {
 
   @Mock
   private VideoService videoService;
@@ -57,6 +58,17 @@ public class VideoControllerTest {
         ApiExceptionMockData.getApiExceptionNotFound());
 
     assertThrows(ApiException.class, () -> videoController.findActiveVideoById(any()));
+  }
+
+  @Test
+  void testCreateVideo() {
+    VideoResponse mockVideoResponse = VideoMockData.getSampleVideoResponse();
+
+    when(videoService.createVideo(any())).thenReturn(mockVideoResponse);
+    ResponseEntity<VideoResponse> result = videoController.createVideo(
+        VideoMockData.getVideoCreateRequest(), UriComponentsBuilder.newInstance());
+
+    assertEquals(HttpStatus.CREATED, result.getStatusCode());
   }
 
   @Test

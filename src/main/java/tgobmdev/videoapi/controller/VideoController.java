@@ -1,8 +1,11 @@
 package tgobmdev.videoapi.controller;
 
 import jakarta.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,12 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tgobmdev.videoapi.dto.VideoCreateRequest;
-import tgobmdev.videoapi.dto.VideoResponse;
+import org.springframework.web.util.UriComponentsBuilder;
+import tgobmdev.videoapi.dto.request.VideoCreateRequest;
+import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.service.VideoService;
 
+@Log4j2
 @RestController
-@RequestMapping(value = "videos")
+@RequestMapping(value = "videos", produces = MediaType.APPLICATION_JSON_VALUE)
 public class VideoController {
 
   private final VideoService videoService;
@@ -27,23 +32,44 @@ public class VideoController {
 
   @GetMapping
   public ResponseEntity<List<VideoResponse>> findAllActiveVideos() {
-    return ResponseEntity.ok(videoService.findAllActiveVideos());
+    log.info("Requisição [GET] recebida em [/videos]");
+    List<VideoResponse> videoResponses = videoService.findAllActiveVideos();
+    log.info("Requisição [GET] finalizada em [/videos]");
+    return ResponseEntity.ok(videoResponses);
   }
 
   @GetMapping(value = "/{id}")
   public ResponseEntity<VideoResponse> findActiveVideoById(@PathVariable UUID id) {
-    return ResponseEntity.ok(videoService.findActiveVideoById(id));
+    log.info("Requisição [GET] recebida em [/videos/{}]", id);
+    VideoResponse videoResponse = videoService.findActiveVideoById(id);
+    log.info("Requisição [GET] finalizada em [/videos/{}]", id);
+    return ResponseEntity.ok(videoResponse);
   }
 
   @PostMapping
   public ResponseEntity<VideoResponse> createVideo(
-      @Valid @RequestBody VideoCreateRequest videoCreateRequest) {
-    return ResponseEntity.ok(videoService.createVideo(videoCreateRequest));
+      @Valid @RequestBody VideoCreateRequest videoCreateRequest,
+      UriComponentsBuilder uriComponentsBuilder) {
+    log.info("Requisição [POST] recebida em [/videos]");
+    VideoResponse videoResponse = videoService.createVideo(videoCreateRequest);
+
+    URI location = uriComponentsBuilder //
+        .path("/videos/{id}") //
+        .buildAndExpand(videoResponse.id()) //
+        .toUri();
+    log.info("Requisição [POST] finalizada em [/videos]");
+    return ResponseEntity //
+        .created(location) //
+        .build();
   }
 
-  @DeleteMapping("/{id}")
+  @DeleteMapping("/{uuid}")
   public ResponseEntity<Void> deleteVideo(@PathVariable UUID id) {
+    log.info("Requisição [DELETE] recebida em [/videos/{}]", id);
     videoService.deleteVideo(id);
-    return ResponseEntity.noContent().build();
+    log.info("Requisição [DELETE] finalizada em [/videos/{}]", id);
+    return ResponseEntity //
+        .noContent() //
+        .build();
   }
 }
