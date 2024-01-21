@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 import tgobmdev.videoapi.dto.request.VideoCreateRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.service.VideoService;
+import tgobmdev.videoapi.util.UriUtil;
 
 @Log4j2
 @RestController
@@ -48,15 +48,10 @@ public class VideoController {
 
   @PostMapping
   public ResponseEntity<VideoResponse> createVideo(
-      @Valid @RequestBody VideoCreateRequest videoCreateRequest,
-      UriComponentsBuilder uriComponentsBuilder) {
+      @Valid @RequestBody VideoCreateRequest videoCreateRequest) {
     log.info("Requisição [POST] recebida em [/videos]");
     VideoResponse videoResponse = videoService.createVideo(videoCreateRequest);
-
-    URI location = uriComponentsBuilder //
-        .path("/videos/{id}") //
-        .buildAndExpand(videoResponse.id()) //
-        .toUri();
+    URI location = UriUtil.buildUriFindById(videoResponse.id());
     log.info("Requisição [POST] finalizada em [/videos]");
     return ResponseEntity //
         .created(location) //
