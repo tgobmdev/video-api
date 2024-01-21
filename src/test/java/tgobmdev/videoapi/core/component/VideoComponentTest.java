@@ -24,7 +24,7 @@ import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.mockdata.VideoMockData;
 
 @ExtendWith(MockitoExtension.class)
-public class VideoComponentTest {
+class VideoComponentTest {
 
   @Mock
   private VideoRepositoryManager videoRepositoryManager;
