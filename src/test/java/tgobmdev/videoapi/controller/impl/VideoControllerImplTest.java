@@ -1,4 +1,4 @@
-package tgobmdev.videoapi.controller;
+package tgobmdev.videoapi.controller.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -25,13 +25,13 @@ import tgobmdev.videoapi.mockdata.VideoMockData;
 import tgobmdev.videoapi.service.VideoService;
 
 @ExtendWith(MockitoExtension.class)
-class VideoControllerTest {
+class VideoControllerImplTest {
 
   @Mock
   private VideoService videoService;
 
   @InjectMocks
-  private VideoController videoController;
+  private VideoControllerImpl videoControllerImpl;
 
   @Mock
   private HttpServletRequest request;
@@ -46,7 +46,7 @@ class VideoControllerTest {
     List<VideoResponse> mockVideoResponses = List.of(VideoMockData.getSampleVideoResponse());
     when(videoService.findAllActiveVideos()).thenReturn(mockVideoResponses);
 
-    ResponseEntity<List<VideoResponse>> responseEntity = videoController.findAllActiveVideos();
+    ResponseEntity<List<VideoResponse>> responseEntity = videoControllerImpl.findAllActiveVideos();
 
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     assertEquals(mockVideoResponses, responseEntity.getBody());
@@ -58,7 +58,7 @@ class VideoControllerTest {
     UUID videoId = UUID.randomUUID();
     when(videoService.findActiveVideoById(videoId)).thenReturn(mockVideoResponse);
 
-    ResponseEntity<VideoResponse> result = videoController.findActiveVideoById(videoId);
+    ResponseEntity<VideoResponse> result = videoControllerImpl.findActiveVideoById(videoId);
 
     assertEquals(HttpStatus.OK, result.getStatusCode());
     assertEquals(mockVideoResponse, result.getBody());
@@ -71,7 +71,8 @@ class VideoControllerTest {
     when(videoService.findActiveVideoById(nonExistentVideoId)).thenThrow(
         ApiExceptionMockData.getApiExceptionNotFound());
 
-    assertThrows(ApiException.class, () -> videoController.findActiveVideoById(nonExistentVideoId));
+    assertThrows(ApiException.class,
+        () -> videoControllerImpl.findActiveVideoById(nonExistentVideoId));
   }
 
   @Test
@@ -80,7 +81,7 @@ class VideoControllerTest {
     when(videoService.createVideo(any())).thenReturn(mockVideoResponse);
     when(request.getRequestURI()).thenReturn("/videos");
 
-    ResponseEntity<VideoResponse> result = videoController.createVideo(
+    ResponseEntity<VideoResponse> result = videoControllerImpl.createVideo(
         VideoMockData.getSampleVideoRequest());
 
     assertEquals(HttpStatus.CREATED, result.getStatusCode());
@@ -88,7 +89,7 @@ class VideoControllerTest {
 
   @Test
   void givenVideoIdExists_whenDeleteVideo_thenReturnsNoContentStatus() {
-    ResponseEntity<Void> result = videoController.deleteVideo(UUID.randomUUID());
+    ResponseEntity<Void> result = videoControllerImpl.deleteVideo(UUID.randomUUID());
 
     assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
   }
@@ -101,7 +102,7 @@ class VideoControllerTest {
     when(videoService.editVideo(existingVideoId, VideoMockData.getSampleVideoRequest())) //
         .thenReturn(mockVideoResponse);
 
-    ResponseEntity<VideoResponse> result = videoController.editVideo(existingVideoId,
+    ResponseEntity<VideoResponse> result = videoControllerImpl.editVideo(existingVideoId,
         VideoMockData.getSampleVideoRequest());
 
     assertEquals(HttpStatus.OK, result.getStatusCode());
@@ -115,7 +116,7 @@ class VideoControllerTest {
     when(videoService.editVideo(nonExistentVideoId, VideoMockData.getSampleVideoRequest())) //
         .thenThrow(ApiExceptionMockData.getApiExceptionNotFound());
 
-    assertThrows(ApiException.class,
-        () -> videoController.editVideo(nonExistentVideoId, VideoMockData.getSampleVideoRequest()));
+    assertThrows(ApiException.class, () -> videoControllerImpl.editVideo(nonExistentVideoId,
+        VideoMockData.getSampleVideoRequest()));
   }
 }

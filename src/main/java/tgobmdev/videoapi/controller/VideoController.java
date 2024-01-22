@@ -1,79 +1,194 @@
 package tgobmdev.videoapi.controller;
 
-import jakarta.validation.Valid;
-import java.net.URI;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.UUID;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
-import tgobmdev.videoapi.service.VideoService;
-import tgobmdev.videoapi.util.UriUtil;
+import tgobmdev.videoapi.error.model.ApiErrorResponse;
 
-@Log4j2
-@RestController
-@RequestMapping(value = "videos", produces = MediaType.APPLICATION_JSON_VALUE)
-public class VideoController {
+@Tag(name = "Videos", description = "API para gerenciamento de vídeos")
+public interface VideoController {
 
-  private final VideoService videoService;
+  @Operation(
+      summary = "Obter Lista de Vídeos Ativos",
+      description = "Este endpoint tem por objetivo obter a lista de vídeos ativos.",
+      responses = {
+          @ApiResponse(
+              responseCode = "200",
+              description = "Lista de vídeos obtida com sucesso.",
+              content = @Content(
+                  mediaType = MediaType.APPLICATION_JSON_VALUE,
+                  array = @ArraySchema(schema = @Schema(implementation = VideoResponse.class))
+              )
+          )
+      }
+  )
+  ResponseEntity<List<VideoResponse>> findAllActiveVideos();
 
-  public VideoController(VideoService videoService) {
-    this.videoService = videoService;
-  }
+  @Operation(
+      summary = "Obter um Vídeo Ativo por ID",
+      description = "Este endpoint tem por objetivo obter um vídeo ativo pelo seu ID.",
+      responses = {
+          @ApiResponse(
+              responseCode = "200",
+              description = "Vídeo obtido com sucesso.",
+              content = @Content(
+                  mediaType = MediaType.APPLICATION_JSON_VALUE,
+                  schema = @Schema(implementation = VideoResponse.class)
+              )
+          ),
+          @ApiResponse(
+              responseCode = "400",
+              description = "Falha ao obter vídeo. Requisição inválida.",
+              content = @Content(
+                  mediaType = MediaType.APPLICATION_JSON_VALUE,
+                  schema = @Schema(implementation = ApiErrorResponse.class)
+              )
+          ),
+          @ApiResponse(
+              responseCode = "404",
+              description = "Vídeo não encontrado.",
+              content = @Content(
+                  mediaType = MediaType.APPLICATION_JSON_VALUE,
+                  schema = @Schema(implementation = ApiErrorResponse.class)
+              )
+          ),
+          @ApiResponse(
+              responseCode = "500",
+              description = "Falha ao obter vídeo. Erro interno do servidor.",
+              content = @Content(
+                  mediaType = MediaType.APPLICATION_JSON_VALUE,
+                  schema = @Schema(implementation = ApiErrorResponse.class)
+              )
+          )
+      }
+  )
+  @Parameter(
+      name = "id",
+      description = "ID único do vídeo",
+      required = true,
+      example = "123e4567-e89b-12d3-a456-426614174001"
+  )
+  ResponseEntity<VideoResponse> findActiveVideoById(UUID id);
 
-  @GetMapping
-  public ResponseEntity<List<VideoResponse>> findAllActiveVideos() {
-    log.info("Requisição [GET] recebida em [/videos]");
-    List<VideoResponse> videoResponses = videoService.findAllActiveVideos();
-    log.info("Requisição [GET] finalizada em [/videos]");
-    return ResponseEntity.ok(videoResponses);
-  }
+  @Operation(
+      summary = "Criar um Novo Vídeo",
+      description = "Este endpoint tem por objetivo criar um novo vídeo.",
+      responses = {
+          @ApiResponse(
+              responseCode = "201",
+              description = "Vídeo criado com sucesso.",
+              content = @Content(
+                  mediaType = MediaType.APPLICATION_JSON_VALUE,
+                  schema = @Schema(implementation = VideoResponse.class)
+              )
+          ),
+          @ApiResponse(
+              responseCode = "400",
+              description = "Falha ao criar vídeo. Requisição inválida.",
+              content = @Content(
+                  mediaType = MediaType.APPLICATION_JSON_VALUE,
+                  schema = @Schema(implementation = ApiErrorResponse.class)
+              )
+          ),
+          @ApiResponse(
+              responseCode = "500",
+              description = "Falha ao criar vídeo. Erro interno do servidor.",
+              content = @Content(
+                  mediaType = MediaType.APPLICATION_JSON_VALUE,
+                  schema = @Schema(implementation = ApiErrorResponse.class)
+              )
+          )
+      }
+  )
+  ResponseEntity<VideoResponse> createVideo(VideoRequest videoRequest);
 
-  @GetMapping(value = "/{id}")
-  public ResponseEntity<VideoResponse> findActiveVideoById(@PathVariable UUID id) {
-    log.info("Requisição [GET] recebida em [/videos/{}]", id);
-    VideoResponse videoResponse = videoService.findActiveVideoById(id);
-    log.info("Requisição [GET] finalizada em [/videos/{}]", id);
-    return ResponseEntity.ok(videoResponse);
-  }
+  @Operation(
+      summary = "Editar um Vídeo Existente",
+      description = "Este endpoint tem por objetivo editar um vídeo existente.",
+      responses = {
+          @ApiResponse(
+              responseCode = "200",
+              description = "Vídeo editado com sucesso.",
+              content = @Content(
+                  mediaType = MediaType.APPLICATION_JSON_VALUE,
+                  schema = @Schema(implementation = VideoResponse.class)
+              )
+          ),
+          @ApiResponse(
+              responseCode = "400",
+              description = "Falha ao editar vídeo. Requisição inválida.",
+              content = @Content(
+                  mediaType = MediaType.APPLICATION_JSON_VALUE,
+                  schema = @Schema(implementation = ApiErrorResponse.class)
+              )
+          ),
+          @ApiResponse(
+              responseCode = "404",
+              description = "Vídeo não encontrado.",
+              content = @Content(
+                  mediaType = MediaType.APPLICATION_JSON_VALUE,
+                  schema = @Schema(implementation = ApiErrorResponse.class)
+              )
+          ),
+          @ApiResponse(
+              responseCode = "500",
+              description = "Falha ao editar vídeo. Erro interno do servidor.",
+              content = @Content(
+                  mediaType = MediaType.APPLICATION_JSON_VALUE,
+                  schema = @Schema(implementation = ApiErrorResponse.class)
+              )
+          )
+      }
+  )
+  @Parameter(
+      name = "id",
+      description = "ID único do vídeo",
+      required = true,
+      example = "123e4567-e89b-12d3-a456-426614174001"
+  )
+  ResponseEntity<VideoResponse> editVideo(UUID id, VideoRequest videoRequest);
 
-  @PostMapping
-  public ResponseEntity<VideoResponse> createVideo(@Valid @RequestBody VideoRequest videoRequest) {
-    log.info("Requisição [POST] recebida em [/videos]");
-    VideoResponse videoResponse = videoService.createVideo(videoRequest);
-    URI location = UriUtil.buildUriFindById(videoResponse.id());
-    log.info("Requisição [POST] finalizada em [/videos]");
-    return ResponseEntity //
-        .created(location) //
-        .build();
-  }
-
-  @PatchMapping(value = "/{id}")
-  public ResponseEntity<VideoResponse> editVideo(@PathVariable UUID id,
-      @Valid @RequestBody VideoRequest videoRequest) {
-    log.info("Requisição [PATCH] recebida em [/videos/{}]", id);
-    VideoResponse videoResponse = videoService.editVideo(id, videoRequest);
-    log.info("Requisição [PATCH] finalizada em [/videos/{}]", id);
-    return ResponseEntity.ok(videoResponse);
-  }
-
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteVideo(@PathVariable UUID id) {
-    log.info("Requisição [DELETE] recebida em [/videos/{}]", id);
-    videoService.deleteVideo(id);
-    log.info("Requisição [DELETE] finalizada em [/videos/{}]", id);
-    return ResponseEntity //
-        .noContent() //
-        .build();
-  }
+  @Operation(
+      summary = "Excluir um Vídeo Existente",
+      description = "Este endpoint tem por objetivo excluir um vídeo existente.",
+      responses = {
+          @ApiResponse(
+              responseCode = "204",
+              description = "Vídeo excluído com sucesso."
+          ),
+          @ApiResponse(
+              responseCode = "404",
+              description = "Vídeo não encontrado.",
+              content = @Content(
+                  mediaType = MediaType.APPLICATION_JSON_VALUE,
+                  schema = @Schema(implementation = ApiErrorResponse.class)
+              )
+          ),
+          @ApiResponse(
+              responseCode = "500",
+              description = "Falha ao excluir vídeo. Erro interno do servidor.",
+              content = @Content(
+                  mediaType = MediaType.APPLICATION_JSON_VALUE,
+                  schema = @Schema(implementation = ApiErrorResponse.class)
+              )
+          )
+      }
+  )
+  @Parameter(
+      name = "id",
+      description = "ID único do vídeo",
+      required = true,
+      example = "123e4567-e89b-12d3-a456-426614174001"
+  )
+  ResponseEntity<Void> deleteVideo(UUID id);
 }
