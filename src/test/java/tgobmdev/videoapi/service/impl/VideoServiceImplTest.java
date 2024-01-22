@@ -1,4 +1,4 @@
-package tgobmdev.videoapi.service;
+package tgobmdev.videoapi.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,20 +20,20 @@ import tgobmdev.videoapi.error.exception.ApiException;
 import tgobmdev.videoapi.mockdata.VideoMockData;
 
 @ExtendWith(MockitoExtension.class)
-class VideoServiceTest {
+class VideoServiceImplTest {
 
   @Mock
   private VideoComponent videoComponent;
 
   @InjectMocks
-  private VideoService videoService;
+  private VideoServiceImpl videoServiceImpl;
 
   @Test
   void givenExistingVideos_whenFindAllActiveVideos_thenReturnListOfVideoResponses() {
     List<VideoResponse> mockVideoResponses = List.of(VideoMockData.getSampleVideoResponse());
     when(videoComponent.findAllActiveVideos()).thenReturn(mockVideoResponses);
 
-    List<VideoResponse> result = videoService.findAllActiveVideos();
+    List<VideoResponse> result = videoServiceImpl.findAllActiveVideos();
 
     assertEquals(mockVideoResponses, result);
   }
@@ -43,7 +43,7 @@ class VideoServiceTest {
     VideoResponse mockVideoResponse = VideoMockData.getSampleVideoResponse();
     when(videoComponent.findActiveVideoById(any())).thenReturn(Optional.of(mockVideoResponse));
 
-    VideoResponse result = videoService.findActiveVideoById(UUID.randomUUID());
+    VideoResponse result = videoServiceImpl.findActiveVideoById(UUID.randomUUID());
 
     assertEquals(mockVideoResponse, result);
   }
@@ -52,18 +52,18 @@ class VideoServiceTest {
   void givenNonExistingVideoId_whenFindActiveVideoById_thenThrowApiException() {
     when(videoComponent.findActiveVideoById(any())).thenReturn(Optional.empty());
 
-    assertThrows(ApiException.class, () -> videoService.findActiveVideoById(UUID.randomUUID()));
+    assertThrows(ApiException.class, () -> videoServiceImpl.findActiveVideoById(UUID.randomUUID()));
   }
 
   @Test
   void givenVideoCreateRequest_whenCreateVideo_thenNoExceptionShouldBeThrown() {
     when(videoComponent.createVideo(any())).thenReturn(VideoMockData.getSampleVideoResponse());
 
-    assertDoesNotThrow(() -> videoService.createVideo(any()));
+    assertDoesNotThrow(() -> videoServiceImpl.createVideo(any()));
   }
 
   @Test
   void givenExistingVideoId_whenDeleteVideo_thenNoExceptionShouldBeThrown() {
-    assertDoesNotThrow(() -> videoService.deleteVideo(any()));
+    assertDoesNotThrow(() -> videoServiceImpl.deleteVideo(any()));
   }
 }
