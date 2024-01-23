@@ -3,7 +3,7 @@ package tgobmdev.videoapi.service.impl;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
-import tgobmdev.videoapi.core.component.VideoComponent;
+import tgobmdev.videoapi.component.VideoComponent;
 import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.error.enumeration.ErrorEnum;

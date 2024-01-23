@@ -1,11 +1,11 @@
-package tgobmdev.videoapi.core.repository;
+package tgobmdev.videoapi.repository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import tgobmdev.videoapi.core.entity.VideoEntity;
+import tgobmdev.videoapi.entity.VideoEntity;
 
 @Repository
 public interface VideoRepository extends JpaRepository<VideoEntity, UUID> {

@@ -3,7 +3,7 @@ package tgobmdev.videoapi.mockdata;
 import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import tgobmdev.videoapi.core.entity.VideoEntity;
+import tgobmdev.videoapi.entity.VideoEntity;
 import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
 

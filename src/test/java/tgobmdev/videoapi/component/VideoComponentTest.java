@@ -1,4 +1,4 @@
-package tgobmdev.videoapi.core.component;
+package tgobmdev.videoapi.component;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,9 +15,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import tgobmdev.videoapi.core.entity.VideoEntity;
-import tgobmdev.videoapi.core.mapper.VideoMapper;
-import tgobmdev.videoapi.core.repository.VideoRepository;
+import tgobmdev.videoapi.component.VideoComponent;
+import tgobmdev.videoapi.entity.VideoEntity;
+import tgobmdev.videoapi.parse.VideoParse;
+import tgobmdev.videoapi.repository.VideoRepository;
 import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.error.exception.ApiException;
@@ -30,7 +31,7 @@ class VideoComponentTest {
   private VideoRepository videoRepository;
 
   @Mock
-  private VideoMapper videoMapper;
+  private VideoParse videoParse;
 
   @InjectMocks
   private VideoComponent videoComponent;
@@ -42,7 +43,7 @@ class VideoComponentTest {
 
     when(videoRepository.findAllByDeletedAtIsNull()) //
         .thenReturn(mockVideoEntities);
-    when(videoMapper.mapToVideoResponses(mockVideoEntities)) //
+    when(videoParse.mapToVideoResponses(mockVideoEntities)) //
         .thenReturn(mockVideoResponses);
 
     List<VideoResponse> result = videoComponent.findAllActiveVideos();
@@ -57,7 +58,7 @@ class VideoComponentTest {
 
     when(videoRepository.findByIdAndDeletedAtIsNull(videoId)) //
         .thenReturn(Optional.of(mockVideoEntity));
-    when(videoMapper.mapToVideoResponse(mockVideoEntity)) //
+    when(videoParse.toVideoResponse(mockVideoEntity)) //
         .thenReturn(mockVideoResponse);
 
     Optional<VideoResponse> result = videoComponent.findActiveVideoById(videoId);
@@ -83,16 +84,16 @@ class VideoComponentTest {
     VideoEntity mockVideoEntity = VideoMockData.getSampleVideoEntity();
     VideoResponse mockVideoResponse = VideoMockData.getSampleVideoResponse();
 
-    when(videoMapper.mapToEntity(mockVideoRequest)) //
+    when(videoParse.toEntity(mockVideoRequest)) //
         .thenReturn(mockVideoEntity);
-    when(videoMapper.mapToVideoResponse(mockVideoEntity)) //
+    when(videoParse.toVideoResponse(mockVideoEntity)) //
         .thenReturn(mockVideoResponse);
 
     VideoResponse result = videoComponent.createVideo(mockVideoRequest);
 
-    verify(videoMapper).mapToEntity(mockVideoRequest);
+    verify(videoParse).toEntity(mockVideoRequest);
     verify(videoRepository).save(mockVideoEntity);
-    verify(videoMapper).mapToVideoResponse(mockVideoEntity);
+    verify(videoParse).toVideoResponse(mockVideoEntity);
     assertEquals(mockVideoResponse.hashCode(), result.hashCode());
   }
 

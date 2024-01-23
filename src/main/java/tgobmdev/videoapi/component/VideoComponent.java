@@ -1,27 +1,27 @@
-package tgobmdev.videoapi.core.component;
+package tgobmdev.videoapi.component;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
-import tgobmdev.videoapi.core.entity.VideoEntity;
-import tgobmdev.videoapi.core.mapper.VideoMapper;
-import tgobmdev.videoapi.core.repository.VideoRepository;
 import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
+import tgobmdev.videoapi.entity.VideoEntity;
 import tgobmdev.videoapi.error.enumeration.ErrorEnum;
 import tgobmdev.videoapi.error.exception.ApiException;
+import tgobmdev.videoapi.parse.VideoParse;
+import tgobmdev.videoapi.repository.VideoRepository;
 
 @Component
 public class VideoComponent {
 
   private final VideoRepository videoRepository;
-  private final VideoMapper videoMapper;
+  private final VideoParse videoParse;
 
-  public VideoComponent(VideoRepository videoRepository, VideoMapper videoMapper) {
+  public VideoComponent(VideoRepository videoRepository, VideoParse videoParse) {
     this.videoRepository = videoRepository;
-    this.videoMapper = videoMapper;
+    this.videoParse = videoParse;
   }
 
   private Optional<VideoEntity> findByIdAndDeletedAtIsNull(UUID id) {
@@ -33,18 +33,18 @@ public class VideoComponent {
   }
 
   public List<VideoResponse> findAllActiveVideos() {
-    return videoMapper.mapToVideoResponses(videoRepository.findAllByDeletedAtIsNull());
+    return videoParse.mapToVideoResponses(videoRepository.findAllByDeletedAtIsNull());
   }
 
   public Optional<VideoResponse> findActiveVideoById(UUID id) {
     return findByIdAndDeletedAtIsNull(id) //
-        .map(videoMapper::mapToVideoResponse);
+        .map(videoParse::toVideoResponse);
   }
 
   public VideoResponse createVideo(VideoRequest videoRequest) {
-    VideoEntity videoEntity = videoMapper.mapToEntity(videoRequest);
+    VideoEntity videoEntity = videoParse.toEntity(videoRequest);
     saveVideo(videoEntity);
-    return videoMapper.mapToVideoResponse(videoEntity);
+    return videoParse.toVideoResponse(videoEntity);
   }
 
   public Optional<VideoResponse> editVideo(UUID id, VideoRequest videoRequest) {
@@ -53,7 +53,7 @@ public class VideoComponent {
           editVideo(videoEntity, videoRequest);
           return videoEntity;
         }) //
-        .map(videoMapper::mapToVideoResponse);
+        .map(videoParse::toVideoResponse);
   }
 
   private void editVideo(VideoEntity videoEntity, VideoRequest videoRequest) {

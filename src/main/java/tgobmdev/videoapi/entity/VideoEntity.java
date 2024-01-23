@@ -1,4 +1,4 @@
-package tgobmdev.videoapi.core.entity;
+package tgobmdev.videoapi.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

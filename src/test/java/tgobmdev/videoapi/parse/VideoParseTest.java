@@ -1,4 +1,4 @@
-package tgobmdev.videoapi.core.mapper;
+package tgobmdev.videoapi.parse;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -11,17 +11,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import tgobmdev.videoapi.core.entity.VideoEntity;
+import tgobmdev.videoapi.entity.VideoEntity;
 import tgobmdev.videoapi.dto.response.VideoResponse;
+import tgobmdev.videoapi.parse.VideoParse;
 
 @ExtendWith(MockitoExtension.class)
-class VideoMapperTest {
+class VideoParseTest {
 
   @Mock
   private VideoEntity videoEntity;
 
   @InjectMocks
-  private VideoMapper videoMapper;
+  private VideoParse videoParse;
 
   @BeforeEach
   void setUp() {
@@ -33,7 +34,7 @@ class VideoMapperTest {
 
   @Test
   void mapToVideoResponse_ShouldMapVideoEntityToVideoResponse() {
-    VideoResponse videoResponse = videoMapper.mapToVideoResponse(videoEntity);
+    VideoResponse videoResponse = videoParse.toVideoResponse(videoEntity);
 
     assertEquals(videoEntity.getId(), videoResponse.id());
     assertEquals(videoEntity.getTitle(), videoResponse.title());
@@ -42,7 +43,7 @@ class VideoMapperTest {
 
   @Test
   void mapToVideoResponses_ShouldMapListOfVideoEntityToVideoResponses() {
-    List<VideoResponse> videoResponses = videoMapper.mapToVideoResponses(List.of(videoEntity));
+    List<VideoResponse> videoResponses = videoParse.mapToVideoResponses(List.of(videoEntity));
 
     VideoResponse videoResponse = videoResponses.getFirst();
     assertEquals(videoEntity.getId(), videoResponse.id());
