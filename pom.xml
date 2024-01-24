@@ -63,6 +63,12 @@
       <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
       <version>${springdoc-openapi-starter-webmvc-ui.version}</version>
     </dependency>
+    <dependency>
+      <groupId>net.datafaker</groupId>
+      <artifactId>datafaker</artifactId>
+      <version>${datafaker.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <parent>
     <artifactId>spring-boot-starter-parent</artifactId>
@@ -75,6 +81,7 @@
     <flyway.version>10.6.0</flyway.version>
     <json-path.version>2.9.0</json-path.version>
     <springdoc-openapi-starter-webmvc-ui.version>2.3.0</springdoc-openapi-starter-webmvc-ui.version>
+    <datafaker.version>2.1.0</datafaker.version>
   </properties>
 
   <!-- Build Settings -->

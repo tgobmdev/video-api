@@ -5,6 +5,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tgobmdev.videoapi.controller.VideoController;
@@ -43,9 +45,10 @@ public class VideoControllerImpl implements VideoController {
 
   @Override
   @GetMapping(value = "/{id}")
-  public ResponseEntity<VideoResponse> findActiveVideoById(@PathVariable UUID id) {
+  public ResponseEntity<VideoResponse> findActiveVideoById(@PathVariable UUID id,
+      @RequestHeader HttpHeaders httpHeaders) {
     log.info("Requisição [GET] recebida em [/videos/{}]", id);
-    VideoResponse videoResponse = videoService.findActiveVideoById(id);
+    VideoResponse videoResponse = videoService.findActiveVideoById(id, httpHeaders);
     log.info("Requisição [GET] finalizada em [/videos/{}]", id);
     return ResponseEntity.ok(videoResponse);
   }

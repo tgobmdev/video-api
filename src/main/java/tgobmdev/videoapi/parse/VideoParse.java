@@ -22,7 +22,7 @@ public class VideoParse {
         videoEntity.getDescription(), videoEntity.getUrl());
   }
 
-  public List<VideoResponse> mapToVideoResponses(List<VideoEntity> videoEntities) {
+  public List<VideoResponse> toVideoResponseList(List<VideoEntity> videoEntities) {
     return videoEntities.stream() //
         .map(this::toVideoResponse) //
         .toList();

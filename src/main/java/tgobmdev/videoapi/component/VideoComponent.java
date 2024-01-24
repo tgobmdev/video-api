@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.entity.VideoEntity;
-import tgobmdev.videoapi.error.enumeration.ErrorEnum;
-import tgobmdev.videoapi.error.exception.ApiException;
+import tgobmdev.videoapi.exception.ApiException;
+import tgobmdev.videoapi.message.MessageErrorEnum;
 import tgobmdev.videoapi.parse.VideoParse;
 import tgobmdev.videoapi.repository.VideoRepository;
 
@@ -33,7 +33,7 @@ public class VideoComponent {
   }
 
   public List<VideoResponse> findAllActiveVideos() {
-    return videoParse.mapToVideoResponses(videoRepository.findAllByDeletedAtIsNull());
+    return videoParse.toVideoResponseList(videoRepository.findAllByDeletedAtIsNull());
   }
 
   public Optional<VideoResponse> findActiveVideoById(UUID id) {
@@ -71,7 +71,7 @@ public class VideoComponent {
 
   public void deleteVideo(UUID id) {
     VideoEntity videoEntity = findByIdAndDeletedAtIsNull(id) //
-        .orElseThrow(() -> ApiException.of(404, ErrorEnum.VIDEO_NOT_FOUND));
+        .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODIGO_2));
     softDeleteVideo(videoEntity);
   }
 }

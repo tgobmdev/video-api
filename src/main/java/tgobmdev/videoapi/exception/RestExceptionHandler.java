@@ -1,21 +1,19 @@
-package tgobmdev.videoapi.error.handle;
+package tgobmdev.videoapi.exception;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import tgobmdev.videoapi.error.exception.ApiException;
-import tgobmdev.videoapi.error.model.ApiErrorResponse;
 
 @RestControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(ApiException.class)
-  public ResponseEntity<ApiErrorResponse> handleApiException(ApiException ex) {
-    ApiErrorResponse errorResponse = ApiErrorResponse.builder() //
+  public ResponseEntity<ErrorResponse> handleApiException(ApiException ex) {
+    ErrorResponse errorResponse = ErrorResponse.builder() //
         .status(ex.getStatus()) //
-        .codeMessage(ex.getErrorEnum().getCode()) //
-        .message(ex.getErrorEnum().getMessage()) //
+        .codeMessage(ex.getCodeMessage()) //
+        .message(ex.getMessage()) //
         .build();
     return ResponseEntity //
         .status(errorResponse.getStatus()) //

@@ -2,12 +2,13 @@ package tgobmdev.videoapi.service.impl;
 
 import java.util.List;
 import java.util.UUID;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import tgobmdev.videoapi.component.VideoComponent;
 import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
-import tgobmdev.videoapi.error.enumeration.ErrorEnum;
-import tgobmdev.videoapi.error.exception.ApiException;
+import tgobmdev.videoapi.exception.ApiException;
+import tgobmdev.videoapi.message.MessageErrorEnum;
 import tgobmdev.videoapi.service.VideoService;
 
 @Service
@@ -25,9 +26,9 @@ public class VideoServiceImpl implements VideoService {
   }
 
   @Override
-  public VideoResponse findActiveVideoById(UUID id) {
+  public VideoResponse findActiveVideoById(UUID id, HttpHeaders httpHeaders) {
     return videoComponent.findActiveVideoById(id) //
-        .orElseThrow(() -> ApiException.of(404, ErrorEnum.VIDEO_NOT_FOUND));
+        .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODIGO_2));
   }
 
   @Override
@@ -38,7 +39,7 @@ public class VideoServiceImpl implements VideoService {
   @Override
   public VideoResponse editVideo(UUID id, VideoRequest videoRequest) {
     return videoComponent.editVideo(id, videoRequest) //
-        .orElseThrow(() -> ApiException.of(404, ErrorEnum.VIDEO_NOT_FOUND));
+        .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODIGO_2));
   }
 
   @Override

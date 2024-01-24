@@ -3,15 +3,19 @@ package tgobmdev.videoapi.mockdata;
 import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import tgobmdev.videoapi.entity.VideoEntity;
+import net.datafaker.Faker;
 import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
+import tgobmdev.videoapi.entity.VideoEntity;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class VideoMockData {
 
-  public static VideoRequest getSampleVideoRequest() {
-    return new VideoRequest("Video", "Description", "http://example.com/1");
+  private static final Faker faker = new Faker();
+
+  public static VideoRequest createVideoRequest() {
+    return new VideoRequest(faker.dcComics().title(), faker.lorem().characters(),
+        faker.internet().url());
   }
 
   public static VideoResponse getSampleVideoResponse() {

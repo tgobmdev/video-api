@@ -1,4 +1,4 @@
-package tgobmdev.videoapi.error.model;
+package tgobmdev.videoapi.exception;
 
 import java.time.LocalDateTime;
 import lombok.Builder;
@@ -8,7 +8,7 @@ import lombok.extern.jackson.Jacksonized;
 @Getter
 @Builder
 @Jacksonized
-public final class ApiErrorResponse {
+public final class ErrorResponse {
 
   private final int status;
   private final int codeMessage;
