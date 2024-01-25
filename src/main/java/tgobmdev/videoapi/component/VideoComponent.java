@@ -6,57 +6,25 @@ import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
 import tgobmdev.videoapi.dto.request.VideoRequest;
-import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.entity.VideoEntity;
 import tgobmdev.videoapi.exception.ApiException;
 import tgobmdev.videoapi.message.MessageErrorEnum;
-import tgobmdev.videoapi.parse.VideoParse;
 import tgobmdev.videoapi.repository.VideoRepository;
 
 @Component
 public class VideoComponent {
 
   private final VideoRepository videoRepository;
-  private final VideoParse videoParse;
 
-  public VideoComponent(VideoRepository videoRepository, VideoParse videoParse) {
+  public VideoComponent(VideoRepository videoRepository) {
     this.videoRepository = videoRepository;
-    this.videoParse = videoParse;
   }
 
   private Optional<VideoEntity> findByIdAndDeletedAtIsNull(UUID id) {
     return videoRepository.findByIdAndDeletedAtIsNull(id);
   }
 
-  private void saveVideo(VideoEntity videoEntity) {
-    videoRepository.save(videoEntity);
-  }
-
-  public List<VideoResponse> findAllActiveVideos() {
-    return videoParse.toVideoResponseList(videoRepository.findAllByDeletedAtIsNull());
-  }
-
-  public Optional<VideoResponse> findActiveVideoById(UUID id) {
-    return findByIdAndDeletedAtIsNull(id) //
-        .map(videoParse::toVideoResponse);
-  }
-
-  public VideoResponse createVideo(VideoRequest videoRequest) {
-    VideoEntity videoEntity = videoParse.toEntity(videoRequest);
-    saveVideo(videoEntity);
-    return videoParse.toVideoResponse(videoEntity);
-  }
-
-  public Optional<VideoResponse> editVideo(UUID id, VideoRequest videoRequest) {
-    return findByIdAndDeletedAtIsNull(id) //
-        .map(videoEntity -> {
-          editVideo(videoEntity, videoRequest);
-          return videoEntity;
-        }) //
-        .map(videoParse::toVideoResponse);
-  }
-
-  private void editVideo(VideoEntity videoEntity, VideoRequest videoRequest) {
+  private void updateVideo(VideoEntity videoEntity, VideoRequest videoRequest) {
     videoEntity.setTitle(videoRequest.title());
     videoEntity.setDescription(videoRequest.description());
     videoEntity.setUrl(videoRequest.url());
@@ -67,6 +35,26 @@ public class VideoComponent {
     videoEntity.setDeleted(true);
     videoEntity.setDeletedAt(LocalDateTime.now());
     saveVideo(videoEntity);
+  }
+
+  public List<VideoEntity> findAllActiveVideos() {
+    return videoRepository.findAllByDeletedAtIsNull();
+  }
+
+  public Optional<VideoEntity> findActiveVideoById(UUID id) {
+    return findByIdAndDeletedAtIsNull(id);
+  }
+
+  public void saveVideo(VideoEntity videoEntity) {
+    videoRepository.save(videoEntity);
+  }
+
+  public Optional<VideoEntity> editVideo(UUID id, VideoRequest videoRequest) {
+    return findByIdAndDeletedAtIsNull(id) //
+        .map(videoEntity -> {
+          updateVideo(videoEntity, videoRequest);
+          return videoEntity;
+        });
   }
 
   public void deleteVideo(UUID id) {

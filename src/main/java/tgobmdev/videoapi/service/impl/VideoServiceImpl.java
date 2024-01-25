@@ -7,39 +7,47 @@ import org.springframework.stereotype.Service;
 import tgobmdev.videoapi.component.VideoComponent;
 import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
+import tgobmdev.videoapi.entity.VideoEntity;
 import tgobmdev.videoapi.exception.ApiException;
 import tgobmdev.videoapi.message.MessageErrorEnum;
+import tgobmdev.videoapi.parse.VideoParse;
 import tgobmdev.videoapi.service.VideoService;
 
 @Service
 public class VideoServiceImpl implements VideoService {
 
   private final VideoComponent videoComponent;
+  private final VideoParse videoParse;
 
-  public VideoServiceImpl(VideoComponent videoComponent) {
+  public VideoServiceImpl(VideoComponent videoComponent, VideoParse videoParse) {
     this.videoComponent = videoComponent;
+    this.videoParse = videoParse;
   }
 
   @Override
   public List<VideoResponse> findAllActiveVideos() {
-    return videoComponent.findAllActiveVideos();
+    return videoParse.toVideoResponseList(videoComponent.findAllActiveVideos());
   }
 
   @Override
   public VideoResponse findActiveVideoById(UUID id, HttpHeaders httpHeaders) {
-    return videoComponent.findActiveVideoById(id) //
+    VideoEntity videoEntity = videoComponent.findActiveVideoById(id) //
         .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODIGO_2));
+    return videoParse.toVideoResponse(videoEntity);
   }
 
   @Override
   public VideoResponse createVideo(VideoRequest videoRequest) {
-    return videoComponent.createVideo(videoRequest);
+    VideoEntity videoEntity = videoParse.toEntity(videoRequest);
+    videoComponent.saveVideo(videoEntity);
+    return videoParse.toVideoResponse(videoEntity);
   }
 
   @Override
   public VideoResponse editVideo(UUID id, VideoRequest videoRequest) {
-    return videoComponent.editVideo(id, videoRequest) //
+    VideoEntity videoEntity = videoComponent.editVideo(id, videoRequest) //
         .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODIGO_2));
+    return videoParse.toVideoResponse(videoEntity);
   }
 
   @Override
