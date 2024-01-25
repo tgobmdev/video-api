@@ -14,7 +14,7 @@ import tgobmdev.videoapi.exception.ApiException;
 import tgobmdev.videoapi.message.MessageErrorEnum;
 import tgobmdev.videoapi.util.ConstantsUtil;
 
-public class LocaleInterceptor implements HandlerInterceptor {
+public class AcceptLanguageInterceptor implements HandlerInterceptor {
 
   private static final List<Locale> ALLOWED_LOCALES = List.of(Locale.ENGLISH,
       ConstantsUtil.BRAZILIAN_PORTUGUESE);
