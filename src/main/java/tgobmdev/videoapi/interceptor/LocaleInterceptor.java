@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -21,11 +22,17 @@ public class LocaleInterceptor implements HandlerInterceptor {
   @Override
   public boolean preHandle(@NonNull HttpServletRequest request,
       @NonNull HttpServletResponse response, @NonNull Object handler) {
-    String language = request.getHeader("Accept-Language");
+    String language = request.getHeader(ConstantsUtil.ACCEPT_LANGUAGE);
     Locale locale = Objects.nonNull(language) ? Locale.forLanguageTag(language)
         : ConstantsUtil.BRAZILIAN_PORTUGUESE;
+
+    String allowedValues = ALLOWED_LOCALES.stream() //
+        .map(Locale::toLanguageTag) //
+        .collect(Collectors.joining(", "));
+
     if (!ALLOWED_LOCALES.contains(locale)) {
-      throw ApiException.of(400, MessageErrorEnum.CODIGO_1);
+      throw ApiException.of(400, MessageErrorEnum.CODIGO_1, ConstantsUtil.ACCEPT_LANGUAGE,
+          allowedValues);
     }
     LocaleContextHolder.setLocale(locale);
     return true;
