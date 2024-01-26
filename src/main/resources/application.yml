@@ -22,5 +22,5 @@ springdoc:
 info:
   application:
     name: video-api
-    description: Api de Videos
+    description: API para gerenciamento de vídeos
     version: 0.0.1
