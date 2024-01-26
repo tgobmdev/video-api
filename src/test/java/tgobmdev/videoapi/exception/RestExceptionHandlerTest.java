@@ -36,6 +36,8 @@ class RestExceptionHandlerTest {
     ErrorResponse errorResponse = responseEntity.getBody();
     assertNotNull(errorResponse);
     assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+    assertEquals(400, errorResponse.getStatus());
     assertEquals(0, errorResponse.getCodeMessage());
+    assertEquals("Error message", errorResponse.getMessage());
   }
 }
