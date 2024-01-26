@@ -26,28 +26,28 @@ public class VideoServiceImpl implements VideoService {
 
   @Override
   public List<VideoResponse> findAllActiveVideos() {
-    return videoParse.toVideoResponseList(videoComponent.findAllActiveVideos());
+    return videoParse.toResponseList(videoComponent.findAllActiveVideos());
   }
 
   @Override
   public VideoResponse findActiveVideoById(UUID id, HttpHeaders httpHeaders) {
     VideoEntity videoEntity = videoComponent.findActiveVideoById(id) //
         .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODIGO_2));
-    return videoParse.toVideoResponse(videoEntity);
+    return videoParse.toResponse(videoEntity);
   }
 
   @Override
   public VideoResponse createVideo(VideoRequest videoRequest) {
-    VideoEntity videoEntity = videoParse.toEntity(videoRequest);
+    VideoEntity videoEntity = videoParse.createFromRequest(videoRequest);
     videoComponent.saveVideo(videoEntity);
-    return videoParse.toVideoResponse(videoEntity);
+    return videoParse.toResponse(videoEntity);
   }
 
   @Override
   public VideoResponse editVideo(UUID id, VideoRequest videoRequest) {
     VideoEntity videoEntity = videoComponent.editVideo(id, videoRequest) //
         .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODIGO_2));
-    return videoParse.toVideoResponse(videoEntity);
+    return videoParse.toResponse(videoEntity);
   }
 
   @Override

@@ -9,7 +9,7 @@ import tgobmdev.videoapi.entity.VideoEntity;
 @Component
 public class VideoParse {
 
-  public VideoEntity toEntity(VideoRequest videoRequest) {
+  public VideoEntity createFromRequest(VideoRequest videoRequest) {
     VideoEntity videoEntity = new VideoEntity();
     videoEntity.setTitle(videoRequest.title());
     videoEntity.setDescription(videoRequest.description());
@@ -17,14 +17,14 @@ public class VideoParse {
     return videoEntity;
   }
 
-  public VideoResponse toVideoResponse(VideoEntity videoEntity) {
-    return new VideoResponse(videoEntity.getId(), videoEntity.getTitle(),
-        videoEntity.getDescription(), videoEntity.getUrl());
+  public VideoResponse toResponse(VideoEntity video) {
+    return new VideoResponse(video.getId(), video.getTitle(), video.getDescription(),
+        video.getUrl());
   }
 
-  public List<VideoResponse> toVideoResponseList(List<VideoEntity> videoEntities) {
-    return videoEntities.stream() //
-        .map(this::toVideoResponse) //
+  public List<VideoResponse> toResponseList(List<VideoEntity> videos) {
+    return videos.stream() //
+        .map(this::toResponse) //
         .toList();
   }
 }
