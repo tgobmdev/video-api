@@ -1,4 +1,4 @@
-package tgobmdev.videoapi.mockdata;
+package tgobmdev.videoapi.mock;
 
 import java.util.UUID;
 import lombok.AccessLevel;
@@ -9,25 +9,26 @@ import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.entity.VideoEntity;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class VideoMockData {
+public class VideoMock {
 
   private static final Faker faker = new Faker();
 
-  public static VideoRequest createVideoRequest() {
+  public static VideoRequest generateRequest() {
     return new VideoRequest(faker.dcComics().title(), faker.lorem().characters(),
         faker.internet().url());
   }
 
-  public static VideoResponse getSampleVideoResponse() {
-    return new VideoResponse(UUID.randomUUID(), "Video", "Description", "http://example.com/1");
+  public static VideoResponse createResponse() {
+    return new VideoResponse(UUID.randomUUID(), faker.worldOfWarcraft().hero(),
+        faker.lorem().characters(), faker.internet().url());
   }
 
-  public static VideoEntity getSampleVideoEntity() {
+  public static VideoEntity generateEntity() {
     VideoEntity videoEntity = new VideoEntity();
     videoEntity.setId(UUID.randomUUID());
-    videoEntity.setTitle("Video");
-    videoEntity.setDescription("Description");
-    videoEntity.setUrl("http://example.com/1");
+    videoEntity.setTitle(faker.basketball().players());
+    videoEntity.setDescription(faker.lorem().characters());
+    videoEntity.setUrl(faker.internet().url());
     return videoEntity;
   }
 }
