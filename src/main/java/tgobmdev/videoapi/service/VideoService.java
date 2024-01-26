@@ -2,38 +2,19 @@ package tgobmdev.videoapi.service;
 
 import java.util.List;
 import java.util.UUID;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.stereotype.Service;
-import tgobmdev.videoapi.core.component.VideoComponent;
+import org.springframework.http.HttpHeaders;
 import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
-import tgobmdev.videoapi.error.enumeration.ErrorEnum;
-import tgobmdev.videoapi.error.exception.ApiException;
 
-@Log4j2
-@Service
-public class VideoService {
+public interface VideoService {
 
-  private final VideoComponent videoComponent;
+  List<VideoResponse> findAllActiveVideos();
 
-  public VideoService(VideoComponent videoComponent) {
-    this.videoComponent = videoComponent;
-  }
+  VideoResponse findActiveVideoById(UUID id, HttpHeaders httpHeaders);
 
-  public List<VideoResponse> findAllActiveVideos() {
-    return videoComponent.findAllActiveVideos();
-  }
+  VideoResponse createVideo(VideoRequest videoRequest);
 
-  public VideoResponse findActiveVideoById(UUID id) {
-    return videoComponent.findActiveVideoById(id) //
-        .orElseThrow(() -> ApiException.of(404, ErrorEnum.VIDEO_NOT_FOUND));
-  }
+  VideoResponse editVideo(UUID id, VideoRequest videoRequest);
 
-  public VideoResponse createVideo(VideoRequest videoRequest) {
-    return videoComponent.createVideo(videoRequest);
-  }
-
-  public void deleteVideo(UUID id) {
-    videoComponent.deleteVideo(id);
-  }
+  void deleteVideo(UUID id);
 }
