@@ -32,7 +32,7 @@ public class VideoServiceImpl implements VideoService {
   @Override
   public VideoResponse findActiveVideoById(UUID id, HttpHeaders httpHeaders) {
     VideoEntity videoEntity = videoComponent.findActiveVideoById(id) //
-        .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODIGO_2));
+        .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODIGO_1));
     return videoParse.toResponse(videoEntity);
   }
 
@@ -46,7 +46,7 @@ public class VideoServiceImpl implements VideoService {
   @Override
   public VideoResponse editVideo(UUID id, VideoRequest videoRequest) {
     VideoEntity videoEntity = videoComponent.editVideo(id, videoRequest) //
-        .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODIGO_2));
+        .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODIGO_1));
     return videoParse.toResponse(videoEntity);
   }
 

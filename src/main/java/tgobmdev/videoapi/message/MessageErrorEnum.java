@@ -4,8 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum MessageErrorEnum {
-  CODIGO_1(1, "dados.invalidos.informe"),
-  CODIGO_2(2, "video.nao.encontrado");
+  CODIGO_1(1, "video.nao.encontrado");
 
   private final int code;
   private final String message;

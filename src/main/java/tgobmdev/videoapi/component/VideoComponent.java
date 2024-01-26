@@ -59,7 +59,7 @@ public class VideoComponent {
 
   public void deleteVideo(UUID id) {
     VideoEntity videoEntity = findByIdAndDeletedAtIsNull(id) //
-        .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODIGO_2));
+        .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODIGO_1));
     softDeleteVideo(videoEntity);
   }
 }
