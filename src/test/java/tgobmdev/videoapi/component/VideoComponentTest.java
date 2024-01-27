@@ -3,6 +3,7 @@ package tgobmdev.videoapi.component;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -51,6 +52,17 @@ class VideoComponentTest {
     Optional<VideoEntity> result = videoComponent.findActiveVideoById(videoId);
 
     assertEquals(Optional.of(videoEntity), result);
+  }
+
+  @Test
+  void givenThereAreActiveVideosByTitle_whenFindAllActiveVideosByTitle_thenReturnsListOfVideos() {
+    String title = anyString();
+    when(videoRepository.findByTitleContainingIgnoreCaseAndDeletedAtIsNull(title)) //
+        .thenReturn(List.of(VideoMock.generateEntity()));
+
+    List<VideoEntity> result = videoComponent.findAllActiveVideosByTitle(title);
+
+    assertEquals(1, result.size());
   }
 
   @Test

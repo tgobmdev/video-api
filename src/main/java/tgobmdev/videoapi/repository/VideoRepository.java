@@ -13,4 +13,6 @@ public interface VideoRepository extends JpaRepository<VideoEntity, UUID> {
   List<VideoEntity> findAllByDeletedAtIsNull();
 
   Optional<VideoEntity> findByIdAndDeletedAtIsNull(UUID id);
+
+  List<VideoEntity> findByTitleContainingIgnoreCaseAndDeletedAtIsNull(String title);
 }

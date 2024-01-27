@@ -45,6 +45,10 @@ public class VideoComponent {
     return findByIdAndDeletedAtIsNull(id);
   }
 
+  public List<VideoEntity> findAllActiveVideosByTitle(String title) {
+    return videoRepository.findByTitleContainingIgnoreCaseAndDeletedAtIsNull(title);
+  }
+
   public void saveVideo(VideoEntity videoEntity) {
     videoRepository.save(videoEntity);
   }
