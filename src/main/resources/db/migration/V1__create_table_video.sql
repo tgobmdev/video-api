@@ -1,7 +1,7 @@
 CREATE TABLE video (
-	id uuid NOT NULL,
-	description varchar(255) NOT NULL,
-	title varchar(255) NOT NULL,
-	url varchar(255) NOT NULL,
+	id UUID NOT NULL,
+	description VARCHAR(255) NOT NULL,
+	title VARCHAR(255) NOT NULL,
+	url VARCHAR(255) NOT NULL,
 	CONSTRAINT video_pkey PRIMARY KEY (id)
 );
