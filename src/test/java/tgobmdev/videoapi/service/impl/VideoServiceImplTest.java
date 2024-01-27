@@ -2,6 +2,7 @@ package tgobmdev.videoapi.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -90,6 +91,26 @@ class VideoServiceImplTest {
     assertEquals(MessageErrorEnum.CODIGO_1.getCode(), apiException.getCodeMessage());
     verify(videoComponent, times(1)).findActiveVideoById(videoId);
     verifyNoInteractions(videoParse);
+  }
+
+  @Test
+  void givenThereAreActiveVideosByTitle_whenFindAllActiveVideosByTitle_thenReturnsListOfVideoResponses() {
+    String title = anyString();
+    List<VideoEntity> videoEntities = List.of(VideoMock.generateEntity(),
+        VideoMock.generateEntity());
+    List<VideoResponse> expectedResponses = List.of(VideoMock.createResponse(),
+        VideoMock.createResponse());
+
+    when(videoComponent.findAllActiveVideosByTitle(title)) //
+        .thenReturn(videoEntities);
+    when(videoParse.toResponseList(videoEntities)) //
+        .thenReturn(expectedResponses);
+
+    List<VideoResponse> result = videoService.findAllActiveVideosByTitle(title);
+
+    assertEquals(expectedResponses, result);
+    verify(videoComponent, times(1)).findAllActiveVideosByTitle(title);
+    verify(videoParse, times(1)).toResponseList(videoEntities);
   }
 
   @Test

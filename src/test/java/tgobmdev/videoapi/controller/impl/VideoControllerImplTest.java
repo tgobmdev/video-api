@@ -1,6 +1,7 @@
 package tgobmdev.videoapi.controller.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -74,6 +75,23 @@ class VideoControllerImplTest {
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     assertEquals(expectedResponse, responseEntity.getBody());
     verify(videoService, times(1)).findActiveVideoById(videoId, httpHeaders);
+  }
+
+  @Test
+  void givenThereAreActiveVideosByTitle_whenFindAllActiveVideosByTitle_thenReturnsListOfVideoResponses() {
+    String title = anyString();
+    List<VideoResponse> expectedResponses = List.of(VideoMock.createResponse(),
+        VideoMock.createResponse());
+
+    when(videoService.findAllActiveVideosByTitle(title)) //
+        .thenReturn(expectedResponses);
+
+    ResponseEntity<List<VideoResponse>> responseEntity = videoController.findAllActiveVideosByTitle(
+        title);
+
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(expectedResponses, responseEntity.getBody());
+    verify(videoService, times(1)).findAllActiveVideosByTitle(title);
   }
 
   @Test
