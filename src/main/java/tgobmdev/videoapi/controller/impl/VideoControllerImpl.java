@@ -36,7 +36,7 @@ public class VideoControllerImpl implements VideoController {
   }
 
   @Override
-  @GetMapping
+  @GetMapping(value = "/list")
   public ResponseEntity<List<VideoResponse>> findAllActiveVideos() {
     log.info("Requisição [GET] recebida em [/videos]");
     List<VideoResponse> videoResponses = videoService.findAllActiveVideos();
@@ -55,7 +55,7 @@ public class VideoControllerImpl implements VideoController {
   }
 
   @Override
-  @GetMapping(params = {"search"})
+  @GetMapping
   public ResponseEntity<List<VideoResponse>> findAllActiveVideosByTitle(
       @RequestParam String search) {
     log.info("Requisição [GET] recebida em [/videos?search={}]", search);
