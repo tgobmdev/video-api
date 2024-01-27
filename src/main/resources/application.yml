@@ -24,3 +24,5 @@ info:
     name: video-api
     description: API para gerenciamento de vídeos
     version: 0.0.1
+flyway:
+  enabled: true
