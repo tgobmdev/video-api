@@ -12,6 +12,8 @@ public interface VideoService {
 
   VideoResponse findActiveVideoById(UUID id, HttpHeaders httpHeaders);
 
+  List<VideoResponse> findAllActiveVideosByTitle(String title);
+
   VideoResponse createVideo(VideoRequest videoRequest);
 
   VideoResponse editVideo(UUID id, VideoRequest videoRequest);

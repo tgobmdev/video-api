@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import tgobmdev.videoapi.controller.VideoController;
 import tgobmdev.videoapi.dto.request.VideoRequest;
@@ -51,6 +52,16 @@ public class VideoControllerImpl implements VideoController {
     VideoResponse videoResponse = videoService.findActiveVideoById(id, httpHeaders);
     log.info("Requisição [GET] finalizada em [/videos/{}]", id);
     return ResponseEntity.ok(videoResponse);
+  }
+
+  @Override
+  @GetMapping(params = {"search"})
+  public ResponseEntity<List<VideoResponse>> findAllActiveVideosByTitle(
+      @RequestParam String search) {
+    log.info("Requisição [GET] recebida em [/videos?search={}]", search);
+    List<VideoResponse> videoResponsesByTitle = videoService.findAllActiveVideosByTitle(search);
+    log.info("Requisição [GET] finalizada em [/videos?search={}]", search);
+    return ResponseEntity.ok(videoResponsesByTitle);
   }
 
   @Override

@@ -86,6 +86,46 @@ public interface VideoController {
   ResponseEntity<VideoResponse> findActiveVideoById(UUID id, HttpHeaders httpHeaders);
 
   @Operation(
+      summary = "Obter Lista de Vídeos Ativos por Título",
+      description = "Este endpoint tem por objetivo obter a lista de vídeos ativos com base no título.",
+      parameters = {
+          @Parameter(
+              name = "search",
+              description = "Título a ser utilizado como critério de busca.",
+              required = true,
+              in = ParameterIn.QUERY
+          )
+      },
+      responses = {
+          @ApiResponse(
+              responseCode = "200",
+              description = "Lista de vídeos obtida com sucesso.",
+              content = @Content(
+                  mediaType = MediaType.APPLICATION_JSON_VALUE,
+                  array = @ArraySchema(schema = @Schema(implementation = VideoResponse.class))
+              )
+          ),
+          @ApiResponse(
+              responseCode = "400",
+              description = "Falha ao obter vídeos. Requisição inválida.",
+              content = @Content(
+                  mediaType = MediaType.APPLICATION_JSON_VALUE,
+                  schema = @Schema(implementation = ErrorResponse.class)
+              )
+          ),
+          @ApiResponse(
+              responseCode = "500",
+              description = "Falha ao obter vídeos. Erro interno do servidor.",
+              content = @Content(
+                  mediaType = MediaType.APPLICATION_JSON_VALUE,
+                  schema = @Schema(implementation = ErrorResponse.class)
+              )
+          )
+      }
+  )
+  ResponseEntity<List<VideoResponse>> findAllActiveVideosByTitle(String search);
+
+  @Operation(
       summary = "Criar um Novo Vídeo",
       description = "Este endpoint tem por objetivo criar um novo vídeo.",
       responses = {

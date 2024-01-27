@@ -37,6 +37,11 @@ public class VideoServiceImpl implements VideoService {
   }
 
   @Override
+  public List<VideoResponse> findAllActiveVideosByTitle(String title) {
+    return videoParse.toResponseList(videoComponent.findAllActiveVideosByTitle(title));
+  }
+
+  @Override
   public VideoResponse createVideo(VideoRequest videoRequest) {
     VideoEntity videoEntity = videoParse.createFromRequest(videoRequest);
     videoComponent.saveVideo(videoEntity);
