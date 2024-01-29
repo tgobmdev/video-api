@@ -1,11 +1,8 @@
 package tgobmdev.videoapi.service.impl;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import tgobmdev.videoapi.component.CategoriaComponent;
 import tgobmdev.videoapi.component.VideoComponent;
@@ -16,38 +13,21 @@ import tgobmdev.videoapi.entity.VideoEntity;
 import tgobmdev.videoapi.exception.ApiException;
 import tgobmdev.videoapi.message.MessageErrorEnum;
 import tgobmdev.videoapi.parse.VideoParse;
-import tgobmdev.videoapi.service.VideoService;
+import tgobmdev.videoapi.service.VideoCreationService;
 import tgobmdev.videoapi.util.CollectionsUtil;
 
 @Service
-public class VideoServiceImpl implements VideoService {
+public class VideoCreationServiceImpl implements VideoCreationService {
 
   private final VideoComponent videoComponent;
   private final VideoParse videoParse;
   private final CategoriaComponent categoriaComponent;
 
-  public VideoServiceImpl(VideoComponent videoComponent, VideoParse videoParse,
+  public VideoCreationServiceImpl(VideoComponent videoComponent, VideoParse videoParse,
       CategoriaComponent categoriaComponent) {
     this.videoComponent = videoComponent;
     this.videoParse = videoParse;
     this.categoriaComponent = categoriaComponent;
-  }
-
-  @Override
-  public List<VideoResponse> findAllActiveVideos() {
-    return videoParse.toResponseList(videoComponent.findAllActiveVideos());
-  }
-
-  @Override
-  public VideoResponse findActiveVideoById(UUID id, HttpHeaders httpHeaders) {
-    VideoEntity videoEntity = videoComponent.findActiveVideoById(id) //
-        .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODIGO_1));
-    return videoParse.toResponse(videoEntity);
-  }
-
-  @Override
-  public List<VideoResponse> findAllActiveVideosByTitle(String title) {
-    return videoParse.toResponseList(videoComponent.findAllActiveVideosByTitle(title));
   }
 
   @Override
@@ -69,17 +49,5 @@ public class VideoServiceImpl implements VideoService {
     videoEntity.setCategoriaEntities(categorias);
     videoComponent.saveVideo(videoEntity);
     return videoParse.toResponse(videoEntity);
-  }
-
-  @Override
-  public VideoResponse editVideo(UUID id, VideoRequest videoRequest) {
-    VideoEntity videoEntity = videoComponent.editVideo(id, videoRequest) //
-        .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODIGO_1));
-    return videoParse.toResponse(videoEntity);
-  }
-
-  @Override
-  public void deleteVideo(UUID id) {
-    videoComponent.deleteVideo(id);
   }
 }

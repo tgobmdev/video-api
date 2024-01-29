@@ -24,7 +24,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.mock.VideoMock;
-import tgobmdev.videoapi.service.VideoService;
 
 @ExtendWith(MockitoExtension.class)
 class VideoControllerImplTest {

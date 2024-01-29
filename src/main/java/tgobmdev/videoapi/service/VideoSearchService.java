@@ -3,7 +3,7 @@ package tgobmdev.videoapi.service;
 import java.util.List;
 import tgobmdev.videoapi.dto.response.VideoResponse;
 
-public interface CategoriaVideoService {
+public interface VideoSearchService {
 
-  List<VideoResponse> findByCategoriaEntitiesId(Long idCategoria);
+  List<VideoResponse> findAllActiveVideosByTitle(String title);
 }
