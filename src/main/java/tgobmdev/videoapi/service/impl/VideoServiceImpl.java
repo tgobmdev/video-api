@@ -82,9 +82,4 @@ public class VideoServiceImpl implements VideoService {
   public void deleteVideo(UUID id) {
     videoComponent.deleteVideo(id);
   }
-
-  @Override
-  public List<VideoResponse> findByCategoriaEntitiesId(Long idCategoria) {
-    return videoParse.toResponseList(videoComponent.findByCategoriaEntitiesId(idCategoria));
-  }
 }

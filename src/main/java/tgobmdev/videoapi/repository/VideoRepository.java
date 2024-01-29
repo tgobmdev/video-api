@@ -1,7 +1,7 @@
 package tgobmdev.videoapi.repository;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -10,11 +10,11 @@ import tgobmdev.videoapi.entity.VideoEntity;
 @Repository
 public interface VideoRepository extends JpaRepository<VideoEntity, UUID> {
 
-  List<VideoEntity> findAllByDeletedAtIsNull();
+  Set<VideoEntity> findAllByDeletedAtIsNull();
 
   Optional<VideoEntity> findByIdAndDeletedAtIsNull(UUID id);
 
-  List<VideoEntity> findByTitleContainingIgnoreCaseAndDeletedAtIsNull(String title);
+  Set<VideoEntity> findByTitleContainingIgnoreCaseAndDeletedAtIsNull(String title);
 
-  List<VideoEntity> findByCategoriaEntitiesId(Long idCategoria);
+  Set<VideoEntity> findByCategoriaEntitiesId(Long idCategoria);
 }

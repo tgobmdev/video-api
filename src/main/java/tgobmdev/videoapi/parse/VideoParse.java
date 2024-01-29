@@ -1,6 +1,7 @@
 package tgobmdev.videoapi.parse;
 
 import java.util.List;
+import java.util.Set;
 import org.springframework.stereotype.Component;
 import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
@@ -22,7 +23,7 @@ public class VideoParse {
         video.getUrl());
   }
 
-  public List<VideoResponse> toResponseList(List<VideoEntity> videos) {
+  public List<VideoResponse> toResponseList(Set<VideoEntity> videos) {
     return videos.stream() //
         .map(this::toResponse) //
         .toList();

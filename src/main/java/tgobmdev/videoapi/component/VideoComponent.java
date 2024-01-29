@@ -1,8 +1,8 @@
 package tgobmdev.videoapi.component;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
 import tgobmdev.videoapi.dto.request.VideoRequest;
@@ -37,7 +37,7 @@ public class VideoComponent {
     saveVideo(videoEntity);
   }
 
-  public List<VideoEntity> findAllActiveVideos() {
+  public Set<VideoEntity> findAllActiveVideos() {
     return videoRepository.findAllByDeletedAtIsNull();
   }
 
@@ -45,7 +45,7 @@ public class VideoComponent {
     return findByIdAndDeletedAtIsNull(id);
   }
 
-  public List<VideoEntity> findAllActiveVideosByTitle(String title) {
+  public Set<VideoEntity> findAllActiveVideosByTitle(String title) {
     return videoRepository.findByTitleContainingIgnoreCaseAndDeletedAtIsNull(title);
   }
 
@@ -65,9 +65,5 @@ public class VideoComponent {
     VideoEntity videoEntity = findByIdAndDeletedAtIsNull(id) //
         .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODIGO_1));
     softDeleteVideo(videoEntity);
-  }
-
-  public List<VideoEntity> findByCategoriaEntitiesId(Long idCategoria) {
-    return videoRepository.findByCategoriaEntitiesId(idCategoria);
   }
 }

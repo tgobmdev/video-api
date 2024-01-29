@@ -96,14 +96,4 @@ public class VideoControllerImpl implements VideoController {
         .noContent() //
         .build();
   }
-
-  @Override
-  @GetMapping("/categorias/{idCategoria}/videos")
-  public ResponseEntity<List<VideoResponse>> findByCategoriaEntitiesId(
-      @PathVariable Long idCategoria) {
-    log.info("Requisição [DELETE] recebida em [/categorias/{}/videos]", idCategoria);
-    List<VideoResponse> videoResponses = videoService.findByCategoriaEntitiesId(idCategoria);
-    log.info("Requisição [DELETE] finalizada em [/categorias/{}/videos]", idCategoria);
-    return ResponseEntity.ok(videoResponses);
-  }
 }

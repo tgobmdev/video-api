@@ -8,8 +8,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,9 +34,9 @@ class VideoComponentTest {
   @Test
   void givenActiveVideosExists_whenFindAllActiveVideos_thenReturnsListOfVideos() {
     when(videoRepository.findAllByDeletedAtIsNull()) //
-        .thenReturn(List.of(VideoMock.generateEntity()));
+        .thenReturn(Set.of(VideoMock.generateEntity()));
 
-    List<VideoEntity> result = videoComponent.findAllActiveVideos();
+    Set<VideoEntity> result = videoComponent.findAllActiveVideos();
 
     assertEquals(1, result.size());
   }
@@ -58,9 +58,9 @@ class VideoComponentTest {
   void givenThereAreActiveVideosByTitle_whenFindAllActiveVideosByTitle_thenReturnsListOfVideos() {
     String title = anyString();
     when(videoRepository.findByTitleContainingIgnoreCaseAndDeletedAtIsNull(title)) //
-        .thenReturn(List.of(VideoMock.generateEntity()));
+        .thenReturn(Set.of(VideoMock.generateEntity()));
 
-    List<VideoEntity> result = videoComponent.findAllActiveVideosByTitle(title);
+    Set<VideoEntity> result = videoComponent.findAllActiveVideosByTitle(title);
 
     assertEquals(1, result.size());
   }
