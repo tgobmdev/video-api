@@ -1,5 +1,6 @@
 package tgobmdev.videoapi.mock;
 
+import java.util.Set;
 import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ public class VideoMock {
 
   public static VideoRequest generateRequest() {
     return new VideoRequest(faker.dcComics().title(), faker.lorem().characters(),
-        faker.internet().url());
+        faker.internet().url(), Set.of(1L));
   }
 
   public static VideoResponse createResponse() {

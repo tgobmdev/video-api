@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,8 +44,7 @@ class VideoServiceImplTest {
 
   @Test
   void givenActiveVideosExists_whenFindAllActiveVideos_thenReturnsListOfVideoResponses() {
-    List<VideoEntity> videoEntities = List.of(VideoMock.generateEntity(),
-        VideoMock.generateEntity());
+    Set<VideoEntity> videoEntities = Set.of(VideoMock.generateEntity(), VideoMock.generateEntity());
     List<VideoResponse> expectedResponses = List.of(VideoMock.createResponse(),
         VideoMock.createResponse());
 
@@ -96,8 +96,7 @@ class VideoServiceImplTest {
   @Test
   void givenThereAreActiveVideosByTitle_whenFindAllActiveVideosByTitle_thenReturnsListOfVideoResponses() {
     String title = anyString();
-    List<VideoEntity> videoEntities = List.of(VideoMock.generateEntity(),
-        VideoMock.generateEntity());
+    Set<VideoEntity> videoEntities = Set.of(VideoMock.generateEntity(), VideoMock.generateEntity());
     List<VideoResponse> expectedResponses = List.of(VideoMock.createResponse(),
         VideoMock.createResponse());
 
