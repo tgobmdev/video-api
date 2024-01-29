@@ -19,4 +19,6 @@ public interface VideoService {
   VideoResponse editVideo(UUID id, VideoRequest videoRequest);
 
   void deleteVideo(UUID id);
+
+  List<VideoResponse> findByCategoriaEntitiesId(Long idCategoria);
 }

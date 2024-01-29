@@ -66,4 +66,8 @@ public class VideoComponent {
         .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODIGO_1));
     softDeleteVideo(videoEntity);
   }
+
+  public List<VideoEntity> findByCategoriaEntitiesId(Long idCategoria) {
+    return videoRepository.findByCategoriaEntitiesId(idCategoria);
+  }
 }
