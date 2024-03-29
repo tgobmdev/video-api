@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import tgobmdev.videoapi.dto.response.CategoriaResponse;
 import tgobmdev.videoapi.mock.CategoriaMock;
+import tgobmdev.videoapi.service.CategoriaService;
 
 @ExtendWith(MockitoExtension.class)
 class CategoriaControllerImplTest {

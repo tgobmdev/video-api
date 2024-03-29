@@ -8,15 +8,15 @@ import tgobmdev.videoapi.entity.CategoriaEntity;
 import tgobmdev.videoapi.exception.ApiException;
 import tgobmdev.videoapi.message.MessageErrorEnum;
 import tgobmdev.videoapi.parse.VideoParse;
-import tgobmdev.videoapi.service.VideoCategoriaService;
+import tgobmdev.videoapi.service.CategoriaVideoService;
 
 @Service
-public class VideoCategoriaServiceImpl implements VideoCategoriaService {
+public class CategoriaVideoServiceImpl implements CategoriaVideoService {
 
   private final CategoriaComponent categoriaComponent;
   private final VideoParse videoParse;
 
-  public VideoCategoriaServiceImpl(CategoriaComponent categoriaComponent, VideoParse videoParse) {
+  public CategoriaVideoServiceImpl(CategoriaComponent categoriaComponent, VideoParse videoParse) {
     this.categoriaComponent = categoriaComponent;
     this.videoParse = videoParse;
   }

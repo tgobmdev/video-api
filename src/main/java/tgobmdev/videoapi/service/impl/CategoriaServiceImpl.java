@@ -5,15 +5,15 @@ import org.springframework.stereotype.Service;
 import tgobmdev.videoapi.component.CategoriaComponent;
 import tgobmdev.videoapi.dto.response.CategoriaResponse;
 import tgobmdev.videoapi.parse.CategoriaParse;
-import tgobmdev.videoapi.service.CategoriaListService;
+import tgobmdev.videoapi.service.CategoriaService;
 
 @Service
-public class CategoriaListServiceImpl implements CategoriaListService {
+public class CategoriaServiceImpl implements CategoriaService {
 
   private final CategoriaComponent categoriaComponent;
   private final CategoriaParse categoriaParse;
 
-  public CategoriaListServiceImpl(CategoriaComponent categoriaComponent,
+  public CategoriaServiceImpl(CategoriaComponent categoriaComponent,
       CategoriaParse categoriaParse) {
     this.categoriaComponent = categoriaComponent;
     this.categoriaParse = categoriaParse;
