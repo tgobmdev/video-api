@@ -16,7 +16,7 @@ import tgobmdev.videoapi.dto.response.CategoriaVideoResponse;
 import tgobmdev.videoapi.exception.ErrorResponse;
 
 @Tag(name = "Categorias", description = "Operações relacionadas a categorias")
-public interface CategoriaController {
+public interface CategoryController {
 
   @Operation(
       summary = "Obter Lista de Categorias",
@@ -81,5 +81,5 @@ public interface CategoriaController {
           )
       }
   )
-  ResponseEntity<CategoriaVideoResponse> findVideosByCategoriaId(Long categoriaId);
+  ResponseEntity<CategoriaVideoResponse> findVideosByCategoryId(Long categoryId);
 }

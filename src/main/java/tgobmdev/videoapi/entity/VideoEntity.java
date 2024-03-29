@@ -43,5 +43,5 @@ public class VideoEntity {
       name = "video_categoria",
       joinColumns = @JoinColumn(name = "video_id"),
       inverseJoinColumns = @JoinColumn(name = "categoria_id"))
-  private Set<CategoriaEntity> categoriaEntities;
+  private Set<CategoryEntity> categoriaEntities;
 }

@@ -4,9 +4,9 @@ import java.util.List;
 import tgobmdev.videoapi.dto.response.CategoriaResponse;
 import tgobmdev.videoapi.dto.response.CategoriaVideoResponse;
 
-public interface CategoriaService {
+public interface CategoryService {
 
   List<CategoriaResponse> findAllCategories();
 
-  CategoriaVideoResponse findVideosByCategoriaId(Long categoriaId);
+  CategoriaVideoResponse findVideosByCategoryId(Long categoryId);
 }

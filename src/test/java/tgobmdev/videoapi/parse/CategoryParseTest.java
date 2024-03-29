@@ -8,32 +8,31 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tgobmdev.videoapi.dto.response.CategoriaResponse;
-import tgobmdev.videoapi.entity.CategoriaEntity;
 import tgobmdev.videoapi.mock.CategoriaMock;
 
 @ExtendWith(MockitoExtension.class)
-class CategoriaParseTest {
+class CategoryParseTest {
 
   @InjectMocks
-  private CategoriaParse categoriaParse;
+  private CategoryParse categoryParse;
 
   @Test
   void toResponse_thenReturnsVideoResponse() {
-    CategoriaEntity categoriaEntity = CategoriaMock.generateEntity();
+    CategoryEntity categoryEntity = CategoriaMock.generateEntity();
 
-    CategoriaResponse result = categoriaParse.toResponse(categoriaEntity);
+    CategoriaResponse result = categoryParse.toResponse(categoryEntity);
 
-    assertEquals(categoriaEntity.getId(), result.id());
-    assertEquals(categoriaEntity.getTitle(), result.title());
-    assertEquals(categoriaEntity.getColor(), result.color());
+    assertEquals(categoryEntity.getId(), result.id());
+    assertEquals(categoryEntity.getTitle(), result.title());
+    assertEquals(categoryEntity.getColor(), result.color());
   }
 
   @Test
   void toResponseList_thenReturnsListOfVideoResponses() {
-    List<CategoriaEntity> categoriaEntities = List.of(CategoriaMock.generateEntity(),
+    List<CategoryEntity> categoriaEntities = List.of(CategoriaMock.generateEntity(),
         CategoriaMock.generateEntity());
 
-    List<CategoriaResponse> result = categoriaParse.toResponseList(categoriaEntities);
+    List<CategoriaResponse> result = categoryParse.toResponseList(categoriaEntities);
 
     assertEquals(2, result.size());
   }

@@ -11,40 +11,40 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import tgobmdev.videoapi.component.CategoriaComponent;
+import tgobmdev.videoapi.component.CategoryComponent;
 import tgobmdev.videoapi.dto.response.CategoriaResponse;
-import tgobmdev.videoapi.entity.CategoriaEntity;
+import tgobmdev.videoapi.entity.CategoryEntity;
 import tgobmdev.videoapi.mock.CategoriaMock;
-import tgobmdev.videoapi.parse.CategoriaParse;
+import tgobmdev.videoapi.parse.CategoryParse;
 
 @ExtendWith(MockitoExtension.class)
-class CategoriaServiceImplTest {
+class CategoryServiceImplTest {
 
   @Mock
-  private CategoriaComponent categoriaComponent;
+  private CategoryComponent categoryComponent;
 
   @Mock
-  private CategoriaParse categoriaParse;
+  private CategoryParse categoryParse;
 
   @InjectMocks
-  private CategoriaServiceImpl categoriaService;
+  private CategoryServiceImpl categoriaService;
 
   @Test
   void givenActiveCategoriesExists_whenFindAllCategories_thenReturnsListOfVideoResponses() {
-    List<CategoriaEntity> categoriaEntities = List.of(CategoriaMock.generateEntity(),
+    List<CategoryEntity> categoriaEntities = List.of(CategoriaMock.generateEntity(),
         CategoriaMock.generateEntity());
     List<CategoriaResponse> expectedResponses = List.of(CategoriaMock.createResponse(),
         CategoriaMock.createResponse());
 
-    when(categoriaComponent.findAllCategories()) //
+    when(categoryComponent.findAllCategories()) //
         .thenReturn(categoriaEntities);
-    when(categoriaParse.toResponseList(categoriaEntities)) //
+    when(categoryParse.toResponseList(categoriaEntities)) //
         .thenReturn(expectedResponses);
 
     List<CategoriaResponse> result = categoriaService.findAllCategories();
 
     assertEquals(expectedResponses, result);
-    verify(categoriaComponent, times(1)).findAllCategories();
-    verify(categoriaParse, times(1)).toResponseList(categoriaEntities);
+    verify(categoryComponent, times(1)).findAllCategories();
+    verify(categoryParse, times(1)).toResponseList(categoriaEntities);
   }
 }

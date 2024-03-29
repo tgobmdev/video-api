@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.datafaker.Faker;
 import tgobmdev.videoapi.dto.response.CategoriaResponse;
-import tgobmdev.videoapi.entity.CategoriaEntity;
+import tgobmdev.videoapi.entity.CategoryEntity;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CategoriaMock {
@@ -16,11 +16,11 @@ public class CategoriaMock {
         faker.lorem().characters());
   }
 
-  public static CategoriaEntity generateEntity() {
-    CategoriaEntity categoriaEntity = new CategoriaEntity();
-    categoriaEntity.setId(Long.MAX_VALUE);
-    categoriaEntity.setTitle(faker.basketball().players());
-    categoriaEntity.setColor(faker.lorem().characters());
-    return categoriaEntity;
+  public static CategoryEntity generateEntity() {
+    CategoryEntity categoryEntity = new CategoryEntity();
+    categoryEntity.setId(Long.MAX_VALUE);
+    categoryEntity.setTitle(faker.basketball().players());
+    categoryEntity.setColor(faker.lorem().characters());
+    return categoryEntity;
   }
 }

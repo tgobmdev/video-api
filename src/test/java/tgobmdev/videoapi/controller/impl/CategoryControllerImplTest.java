@@ -15,29 +15,29 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import tgobmdev.videoapi.dto.response.CategoriaResponse;
 import tgobmdev.videoapi.mock.CategoriaMock;
-import tgobmdev.videoapi.service.CategoriaService;
+import tgobmdev.videoapi.service.CategoryService;
 
 @ExtendWith(MockitoExtension.class)
-class CategoriaControllerImplTest {
+class CategoryControllerImplTest {
 
   @Mock
-  private CategoriaService categoriaService;
+  private CategoryService categoryService;
 
   @InjectMocks
-  private CategoriaControllerImpl categoriaController;
+  private CategoryControllerImpl categoriaController;
 
   @Test
   void givenActiveCategoriesExists_whenFindAllCategories_thenReturnsListOfVideoResponses() {
     List<CategoriaResponse> expectedResponses = List.of(CategoriaMock.createResponse(),
         CategoriaMock.createResponse());
 
-    when(categoriaService.findAllCategories()) //
+    when(categoryService.findAllCategories()) //
         .thenReturn(expectedResponses);
 
     ResponseEntity<List<CategoriaResponse>> responseEntity = categoriaController.findAllCategories();
 
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     assertEquals(expectedResponses, responseEntity.getBody());
-    verify(categoriaService, times(1)).findAllCategories();
+    verify(categoryService, times(1)).findAllCategories();
   }
 }
