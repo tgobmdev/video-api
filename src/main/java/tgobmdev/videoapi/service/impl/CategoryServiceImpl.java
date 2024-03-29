@@ -3,8 +3,8 @@ package tgobmdev.videoapi.service.impl;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import tgobmdev.videoapi.component.CategoryComponent;
-import tgobmdev.videoapi.dto.response.CategoriaResponse;
-import tgobmdev.videoapi.dto.response.CategoriaVideoResponse;
+import tgobmdev.videoapi.dto.response.CategoryResponse;
+import tgobmdev.videoapi.dto.response.CategoryVideoResponse;
 import tgobmdev.videoapi.entity.CategoryEntity;
 import tgobmdev.videoapi.exception.ApiException;
 import tgobmdev.videoapi.message.MessageErrorEnum;
@@ -23,12 +23,12 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
-  public List<CategoriaResponse> findAllCategories() {
+  public List<CategoryResponse> findAllCategories() {
     return categoryParse.toResponseList(categoryComponent.findAllCategories());
   }
 
   @Override
-  public CategoriaVideoResponse findVideosByCategoryId(Long categoryId) {
+  public CategoryVideoResponse findVideosByCategoryId(Long categoryId) {
     CategoryEntity categoryEntity = categoryComponent.findCategoryById(categoryId)
         .orElseThrow(() -> new ApiException(404, MessageErrorEnum.CODIGO_2));
     return categoryParse.toCategoriaVideoResponse(categoryEntity);

@@ -11,8 +11,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import tgobmdev.videoapi.dto.response.CategoriaResponse;
-import tgobmdev.videoapi.dto.response.CategoriaVideoResponse;
+import tgobmdev.videoapi.dto.response.CategoryResponse;
+import tgobmdev.videoapi.dto.response.CategoryVideoResponse;
 import tgobmdev.videoapi.exception.ErrorResponse;
 
 @Tag(name = "Categorias", description = "Operações relacionadas a categorias")
@@ -27,12 +27,12 @@ public interface CategoryController {
               description = "Lista de categorias obtida com sucesso.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
-                  array = @ArraySchema(schema = @Schema(implementation = CategoriaResponse.class))
+                  array = @ArraySchema(schema = @Schema(implementation = CategoryResponse.class))
               )
           )
       }
   )
-  ResponseEntity<List<CategoriaResponse>> findAllCategories();
+  ResponseEntity<List<CategoryResponse>> findAllCategories();
 
   @Operation(
       summary = "Obter Lista de Vídeos por Categoria",
@@ -52,7 +52,7 @@ public interface CategoryController {
               description = "Lista de vídeos obtida com sucesso.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
-                  array = @ArraySchema(schema = @Schema(implementation = CategoriaVideoResponse.class))
+                  array = @ArraySchema(schema = @Schema(implementation = CategoryVideoResponse.class))
               )
           ),
           @ApiResponse(
@@ -81,5 +81,5 @@ public interface CategoryController {
           )
       }
   )
-  ResponseEntity<CategoriaVideoResponse> findVideosByCategoryId(Long categoryId);
+  ResponseEntity<CategoryVideoResponse> findVideosByCategoryId(Long categoryId);
 }

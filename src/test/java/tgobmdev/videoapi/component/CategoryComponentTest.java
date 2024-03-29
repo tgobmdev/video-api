@@ -10,7 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tgobmdev.videoapi.entity.CategoryEntity;
-import tgobmdev.videoapi.mock.CategoriaMock;
+import tgobmdev.videoapi.mock.CategoryMock;
 import tgobmdev.videoapi.repository.CategoryRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -25,7 +25,7 @@ class CategoryComponentTest {
   @Test
   void givenActiveCategoriesExists_whenFindAllCategories_thenReturnsListOfVideos() {
     when(categoryRepository.findAll()) //
-        .thenReturn(List.of(CategoriaMock.generateEntity()));
+        .thenReturn(List.of(CategoryMock.generateEntity()));
 
     List<CategoryEntity> result = categoryComponent.findAllCategories();
 

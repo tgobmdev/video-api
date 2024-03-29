@@ -3,16 +3,16 @@ package tgobmdev.videoapi.mock;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.datafaker.Faker;
-import tgobmdev.videoapi.dto.response.CategoriaResponse;
+import tgobmdev.videoapi.dto.response.CategoryResponse;
 import tgobmdev.videoapi.entity.CategoryEntity;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class CategoriaMock {
+public class CategoryMock {
 
   private static final Faker faker = new Faker();
 
-  public static CategoriaResponse createResponse() {
-    return new CategoriaResponse(Long.MAX_VALUE, faker.worldOfWarcraft().hero(),
+  public static CategoryResponse createResponse() {
+    return new CategoryResponse(Long.MAX_VALUE, faker.worldOfWarcraft().hero(),
         faker.lorem().characters());
   }
 

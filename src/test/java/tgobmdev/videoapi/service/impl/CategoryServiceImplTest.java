@@ -12,9 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tgobmdev.videoapi.component.CategoryComponent;
-import tgobmdev.videoapi.dto.response.CategoriaResponse;
+import tgobmdev.videoapi.dto.response.CategoryResponse;
 import tgobmdev.videoapi.entity.CategoryEntity;
-import tgobmdev.videoapi.mock.CategoriaMock;
+import tgobmdev.videoapi.mock.CategoryMock;
 import tgobmdev.videoapi.parse.CategoryParse;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,17 +31,17 @@ class CategoryServiceImplTest {
 
   @Test
   void givenActiveCategoriesExists_whenFindAllCategories_thenReturnsListOfVideoResponses() {
-    List<CategoryEntity> categoriaEntities = List.of(CategoriaMock.generateEntity(),
-        CategoriaMock.generateEntity());
-    List<CategoriaResponse> expectedResponses = List.of(CategoriaMock.createResponse(),
-        CategoriaMock.createResponse());
+    List<CategoryEntity> categoriaEntities = List.of(CategoryMock.generateEntity(),
+        CategoryMock.generateEntity());
+    List<CategoryResponse> expectedResponses = List.of(CategoryMock.createResponse(),
+        CategoryMock.createResponse());
 
     when(categoryComponent.findAllCategories()) //
         .thenReturn(categoriaEntities);
     when(categoryParse.toResponseList(categoriaEntities)) //
         .thenReturn(expectedResponses);
 
-    List<CategoriaResponse> result = categoriaService.findAllCategories();
+    List<CategoryResponse> result = categoriaService.findAllCategories();
 
     assertEquals(expectedResponses, result);
     verify(categoryComponent, times(1)).findAllCategories();
