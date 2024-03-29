@@ -15,7 +15,7 @@ import tgobmdev.videoapi.service.CategoriaService;
 
 @Log4j2
 @RestController
-@RequestMapping(value = "categorias", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "categories", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CategoriaControllerImpl implements CategoriaController {
 
   private final CategoriaService categoriaService;
@@ -27,20 +27,20 @@ public class CategoriaControllerImpl implements CategoriaController {
   @Override
   @GetMapping(value = "/list")
   public ResponseEntity<List<CategoriaResponse>> findAllCategories() {
-    log.info("Requisição [GET] recebida em [/categorias/list]");
+    log.info("Request [GET] received em [/categories/list]");
     List<CategoriaResponse> categoriaResponses = categoriaService.findAllCategories();
-    log.info("Requisição [GET] finalizada em [/categorias/list]");
+    log.info("Request [GET] finished em [/categories/list]");
     return ResponseEntity.ok(categoriaResponses);
   }
 
   @Override
-  @GetMapping("/categorias/{categoriaId}/videos")
+  @GetMapping("/{categoryId}/videos")
   public ResponseEntity<CategoriaVideoResponse> findVideosByCategoriaId(
-      @PathVariable Long categoriaId) {
-    log.info("Requisição [GET] recebida em [/categorias/{}/videos]", categoriaId);
+      @PathVariable Long categoryId) {
+    log.info("Request [GET] received em [/categories/{}/videos]", categoryId);
     CategoriaVideoResponse categoriaVideoResponses = categoriaService.findVideosByCategoriaId(
-        categoriaId);
-    log.info("Requisição [GET] finalizada em [/categorias/{}/videos]", categoriaId);
+        categoryId);
+    log.info("Request [GET] finished em [/categories/{}/videos]", categoryId);
     return ResponseEntity.ok(categoriaVideoResponses);
   }
 }

@@ -19,7 +19,7 @@ public class CategoriaComponent {
     return categoriaRepository.findAll();
   }
 
-  public Optional<CategoriaEntity> findCategoryById(Long idCategoria) {
-    return categoriaRepository.findById(idCategoria);
+  public Optional<CategoriaEntity> findCategoryById(Long categoryId) {
+    return categoriaRepository.findById(categoryId);
   }
 }

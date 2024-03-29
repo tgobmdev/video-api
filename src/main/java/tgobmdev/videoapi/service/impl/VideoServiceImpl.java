@@ -17,7 +17,7 @@ import tgobmdev.videoapi.exception.ApiException;
 import tgobmdev.videoapi.message.MessageErrorEnum;
 import tgobmdev.videoapi.parse.VideoParse;
 import tgobmdev.videoapi.service.VideoService;
-import tgobmdev.videoapi.util.CollectionsUtil;
+import tgobmdev.videoapi.util.CollectionUtil;
 
 @Service
 public class VideoServiceImpl implements VideoService {
@@ -54,7 +54,7 @@ public class VideoServiceImpl implements VideoService {
   public VideoResponse createVideo(VideoRequest videoRequest) {
     Set<CategoriaEntity> categorias;
 
-    if (CollectionsUtil.isNullOrEmpty(videoRequest.idsCategoria())) {
+    if (CollectionUtil.isNullOrEmpty(videoRequest.idsCategoria())) {
       CategoriaEntity categoriaLivre = categoriaComponent.findCategoryById(1L)
           .orElseThrow(() -> new ApiException(404, MessageErrorEnum.CODIGO_3));
       categorias = Collections.singleton(categoriaLivre);
