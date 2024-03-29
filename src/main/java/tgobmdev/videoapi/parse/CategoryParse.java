@@ -1,29 +1,26 @@
 package tgobmdev.videoapi.parse;
 
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import tgobmdev.videoapi.dto.response.CategoryResponse;
-import tgobmdev.videoapi.dto.response.CategoryVideoResponse;
 import tgobmdev.videoapi.entity.CategoryEntity;
 
 @Component
-@RequiredArgsConstructor(staticName = "of")
 public class CategoryParse {
 
   private final VideoParse videoParse;
 
-  public CategoryResponse toResponse(CategoryEntity categoria) {
-    return new CategoryResponse(categoria.getId(), categoria.getTitle(), categoria.getColor());
+  public CategoryParse(VideoParse videoParse) {
+    this.videoParse = videoParse;
   }
 
-  public CategoryVideoResponse toCategoriaVideoResponse(CategoryEntity categoria) {
-    return new CategoryVideoResponse(categoria.getId(), categoria.getTitle(), categoria.getColor(),
-        videoParse.toResponseList(categoria.getVideoEntities()));
+  public CategoryResponse toResponse(CategoryEntity category) {
+    return new CategoryResponse(category.getId(), category.getTitle(), category.getColor(),
+        videoParse.toResponseList(category.getVideoEntities()));
   }
 
-  public List<CategoryResponse> toResponseList(List<CategoryEntity> categorias) {
-    return categorias.stream() //
+  public List<CategoryResponse> toResponseList(List<CategoryEntity> categories) {
+    return categories.stream() //
         .map(this::toResponse) //
         .toList();
   }

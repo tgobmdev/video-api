@@ -5,7 +5,6 @@ import java.util.Set;
 import org.hibernate.validator.constraints.URL;
 
 public record VideoRequest
-    (@NotBlank String title, @NotBlank String description, @URL String url,
-     Set<Long> idsCategoria) {
+    (@NotBlank String title, @NotBlank String description, @URL String url, Set<Long> categoryIds) {
 
 }

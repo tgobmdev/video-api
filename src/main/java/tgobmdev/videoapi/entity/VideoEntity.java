@@ -40,8 +40,8 @@ public class VideoEntity {
 
   @ManyToMany
   @JoinTable(
-      name = "video_categoria",
+      name = "video_category",
       joinColumns = @JoinColumn(name = "video_id"),
-      inverseJoinColumns = @JoinColumn(name = "categoria_id"))
-  private Set<CategoryEntity> categoriaEntities;
+      inverseJoinColumns = @JoinColumn(name = "category_id"))
+  private Set<CategoryEntity> categoryEntities;
 }

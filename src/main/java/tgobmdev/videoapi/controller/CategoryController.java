@@ -12,19 +12,18 @@ import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import tgobmdev.videoapi.dto.response.CategoryResponse;
-import tgobmdev.videoapi.dto.response.CategoryVideoResponse;
 import tgobmdev.videoapi.exception.ErrorResponse;
 
-@Tag(name = "Categorias", description = "Operações relacionadas a categorias")
+@Tag(name = "Categories", description = "Operations related to categories")
 public interface CategoryController {
 
   @Operation(
-      summary = "Obter Lista de Categorias",
-      description = "Este endpoint tem por objetivo obter a lista de categorias.",
+      summary = "Get List of Categories",
+      description = "This endpoint aims to retrieve the list of categories.",
       responses = {
           @ApiResponse(
               responseCode = "200",
-              description = "Lista de categorias obtida com sucesso.",
+              description = "List of categories retrieved successfully.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
                   array = @ArraySchema(schema = @Schema(implementation = CategoryResponse.class))
@@ -35,12 +34,12 @@ public interface CategoryController {
   ResponseEntity<List<CategoryResponse>> findAllCategories();
 
   @Operation(
-      summary = "Obter Lista de Vídeos por Categoria",
-      description = "Este endpoint tem por objetivo obter a lista de vídeos associados a uma categoria específica.",
+      summary = "Get List of Videos by Category",
+      description = "This endpoint aims to retrieve the list of videos associated with a specific category.",
       parameters = {
           @Parameter(
-              name = "idCategoria",
-              description = "ID único da categoria",
+              name = "categoryId",
+              description = "Unique ID of the category",
               example = "1",
               required = true,
               in = ParameterIn.PATH
@@ -49,15 +48,15 @@ public interface CategoryController {
       responses = {
           @ApiResponse(
               responseCode = "200",
-              description = "Lista de vídeos obtida com sucesso.",
+              description = "List of videos retrieved successfully.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
-                  array = @ArraySchema(schema = @Schema(implementation = CategoryVideoResponse.class))
+                  array = @ArraySchema(schema = @Schema(implementation = CategoryResponse.class))
               )
           ),
           @ApiResponse(
               responseCode = "400",
-              description = "Falha ao obter vídeos. Requisição inválida.",
+              description = "Failed to retrieve videos. Invalid request.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
                   schema = @Schema(implementation = ErrorResponse.class)
@@ -65,7 +64,7 @@ public interface CategoryController {
           ),
           @ApiResponse(
               responseCode = "404",
-              description = "Categoria não encontrada.",
+              description = "Category not found.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
                   schema = @Schema(implementation = ErrorResponse.class)
@@ -73,7 +72,7 @@ public interface CategoryController {
           ),
           @ApiResponse(
               responseCode = "500",
-              description = "Falha ao obter vídeos. Erro interno do servidor.",
+              description = "Failed to retrieve videos. Internal server error.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
                   schema = @Schema(implementation = ErrorResponse.class)
@@ -81,5 +80,5 @@ public interface CategoryController {
           )
       }
   )
-  ResponseEntity<CategoryVideoResponse> findVideosByCategoryId(Long categoryId);
+  ResponseEntity<CategoryResponse> findVideosByCategoryId(Long categoryId);
 }

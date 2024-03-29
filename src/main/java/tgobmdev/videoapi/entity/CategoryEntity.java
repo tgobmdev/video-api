@@ -1,6 +1,5 @@
 package tgobmdev.videoapi.entity;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +14,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "categoria")
+@Table(name = "category")
 public class CategoryEntity {
 
   @Id
@@ -28,6 +27,6 @@ public class CategoryEntity {
   @Column(nullable = false)
   private String color;
 
-  @ManyToMany(mappedBy = "categoriaEntities")
+  @ManyToMany(mappedBy = "categoryEntities")
   private Set<VideoEntity> videoEntities;
 }

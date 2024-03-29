@@ -38,39 +38,39 @@ public class VideoControllerImpl implements VideoController {
   @Override
   @GetMapping(value = "/list")
   public ResponseEntity<List<VideoResponse>> findAllActiveVideos() {
-    log.info("Request [GET] received em [/videos]");
-    List<VideoResponse> videoResponses = videoService.findAllActiveVideos();
-    log.info("Request [GET] finished em [/videos]");
-    return ResponseEntity.ok(videoResponses);
+    log.info("Request [GET] received at [/videos]");
+    List<VideoResponse> activeVideos = videoService.findAllActiveVideos();
+    log.info("Request [GET] finished at [/videos]");
+    return ResponseEntity.ok(activeVideos);
   }
 
   @Override
   @GetMapping(value = "/{videoId}")
   public ResponseEntity<VideoResponse> findActiveVideoById(@PathVariable UUID videoId,
       @RequestHeader HttpHeaders httpHeaders) {
-    log.info("Request [GET] received em [/videos/{}]", videoId);
-    VideoResponse videoResponse = videoService.findActiveVideoById(videoId, httpHeaders);
-    log.info("Request [GET] finished em [/videos/{}]", videoId);
-    return ResponseEntity.ok(videoResponse);
+    log.info("Request [GET] received at [/videos/{}]", videoId);
+    VideoResponse activeVideo = videoService.findActiveVideoById(videoId, httpHeaders);
+    log.info("Request [GET] finished at [/videos/{}]", videoId);
+    return ResponseEntity.ok(activeVideo);
   }
 
   @Override
   @GetMapping
   public ResponseEntity<List<VideoResponse>> findAllActiveVideosByTitle(
       @RequestParam String search) {
-    log.info("Request [GET] received em [/videos?search={}]", search);
-    List<VideoResponse> videoResponsesByTitle = videoService.findAllActiveVideosByTitle(search);
-    log.info("Request [GET] finished em [/videos?search={}]", search);
-    return ResponseEntity.ok(videoResponsesByTitle);
+    log.info("Request [GET] received at [/videos?search={}]", search);
+    List<VideoResponse> activeVideosByTitle = videoService.findAllActiveVideosByTitle(search);
+    log.info("Request [GET] finished at [/videos?search={}]", search);
+    return ResponseEntity.ok(activeVideosByTitle);
   }
 
   @Override
   @PostMapping
   public ResponseEntity<VideoResponse> createVideo(@Valid @RequestBody VideoRequest videoRequest) {
-    log.info("Request [POST] received em [/videos]");
-    VideoResponse videoResponse = videoService.createVideo(videoRequest);
-    URI location = UriUtil.buildUriFindById(videoResponse.id());
-    log.info("Request [POST] finished em [/videos]");
+    log.info("Request [POST] received at [/videos]");
+    VideoResponse createdVideo = videoService.createVideo(videoRequest);
+    URI location = UriUtil.buildUriFindById(createdVideo.id());
+    log.info("Request [POST] finished at [/videos]");
     return ResponseEntity //
         .created(location) //
         .build();
@@ -80,18 +80,18 @@ public class VideoControllerImpl implements VideoController {
   @PatchMapping(value = "/{videoId}")
   public ResponseEntity<VideoResponse> editVideo(@PathVariable UUID videoId,
       @Valid @RequestBody VideoRequest videoRequest) {
-    log.info("Request [PATCH] received em [/videos/{}]", videoId);
-    VideoResponse videoResponse = videoService.editVideo(videoId, videoRequest);
-    log.info("Request [PATCH] finished em [/videos/{}]", videoId);
-    return ResponseEntity.ok(videoResponse);
+    log.info("Request [PATCH] received at [/videos/{}]", videoId);
+    VideoResponse editedVideo = videoService.editVideo(videoId, videoRequest);
+    log.info("Request [PATCH] finished at [/videos/{}]", videoId);
+    return ResponseEntity.ok(editedVideo);
   }
 
   @Override
   @DeleteMapping("/{videoId}")
   public ResponseEntity<Void> deleteVideo(@PathVariable UUID videoId) {
-    log.info("Request [DELETE] received em [/videos/{}]", videoId);
+    log.info("Request [DELETE] received at [/videos/{}]", videoId);
     videoService.deleteVideo(videoId);
-    log.info("Request [DELETE] finished em [/videos/{}]", videoId);
+    log.info("Request [DELETE] finished at [/videos/{}]", videoId);
     return ResponseEntity //
         .noContent() //
         .build();

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tgobmdev.videoapi.controller.CategoryController;
 import tgobmdev.videoapi.dto.response.CategoryResponse;
-import tgobmdev.videoapi.dto.response.CategoryVideoResponse;
 import tgobmdev.videoapi.service.CategoryService;
 
 @Log4j2
@@ -27,20 +26,18 @@ public class CategoryControllerImpl implements CategoryController {
   @Override
   @GetMapping(value = "/list")
   public ResponseEntity<List<CategoryResponse>> findAllCategories() {
-    log.info("Request [GET] received em [/categories/list]");
-    List<CategoryResponse> categoryRespons = categoryService.findAllCategories();
-    log.info("Request [GET] finished em [/categories/list]");
-    return ResponseEntity.ok(categoryRespons);
+    log.info("Request [GET] received at [/categories/list]");
+    List<CategoryResponse> categoryResponses = categoryService.findAllCategories();
+    log.info("Request [GET] finished at [/categories/list]");
+    return ResponseEntity.ok(categoryResponses);
   }
 
   @Override
   @GetMapping("/{categoryId}/videos")
-  public ResponseEntity<CategoryVideoResponse> findVideosByCategoryId(
-      @PathVariable Long categoryId) {
-    log.info("Request [GET] received em [/categories/{}/videos]", categoryId);
-    CategoryVideoResponse categoryVideoResponses = categoryService.findVideosByCategoryId(
-        categoryId);
-    log.info("Request [GET] finished em [/categories/{}/videos]", categoryId);
-    return ResponseEntity.ok(categoryVideoResponses);
+  public ResponseEntity<CategoryResponse> findVideosByCategoryId(@PathVariable Long categoryId) {
+    log.info("Request [GET] received at [/categories/{}/videos]", categoryId);
+    CategoryResponse categoryResponse = categoryService.findVideosByCategoryId(categoryId);
+    log.info("Request [GET] finished at [/categories/{}/videos]", categoryId);
+    return ResponseEntity.ok(categoryResponse);
   }
 }

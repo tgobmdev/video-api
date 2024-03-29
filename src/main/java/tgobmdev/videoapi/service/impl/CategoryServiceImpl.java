@@ -4,7 +4,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import tgobmdev.videoapi.component.CategoryComponent;
 import tgobmdev.videoapi.dto.response.CategoryResponse;
-import tgobmdev.videoapi.dto.response.CategoryVideoResponse;
 import tgobmdev.videoapi.entity.CategoryEntity;
 import tgobmdev.videoapi.exception.ApiException;
 import tgobmdev.videoapi.message.MessageErrorEnum;
@@ -28,9 +27,9 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
-  public CategoryVideoResponse findVideosByCategoryId(Long categoryId) {
+  public CategoryResponse findVideosByCategoryId(Long categoryId) {
     CategoryEntity categoryEntity = categoryComponent.findCategoryById(categoryId)
         .orElseThrow(() -> new ApiException(404, MessageErrorEnum.CODIGO_2));
-    return categoryParse.toCategoriaVideoResponse(categoryEntity);
+    return categoryParse.toResponse(categoryEntity);
   }
 }
