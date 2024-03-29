@@ -4,6 +4,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import tgobmdev.videoapi.component.CategoriaComponent;
 import tgobmdev.videoapi.dto.response.CategoriaResponse;
+import tgobmdev.videoapi.dto.response.CategoriaVideoResponse;
+import tgobmdev.videoapi.entity.CategoriaEntity;
+import tgobmdev.videoapi.exception.ApiException;
+import tgobmdev.videoapi.message.MessageErrorEnum;
 import tgobmdev.videoapi.parse.CategoriaParse;
 import tgobmdev.videoapi.service.CategoriaService;
 
@@ -22,5 +26,12 @@ public class CategoriaServiceImpl implements CategoriaService {
   @Override
   public List<CategoriaResponse> findAllCategories() {
     return categoriaParse.toResponseList(categoriaComponent.findAllCategories());
+  }
+
+  @Override
+  public CategoriaVideoResponse findVideosByCategoriaId(Long categoriaId) {
+    CategoriaEntity categoriaEntity = categoriaComponent.findCategoryById(categoriaId)
+        .orElseThrow(() -> new ApiException(404, MessageErrorEnum.CODIGO_2));
+    return categoriaParse.toCategoriaVideoResponse(categoriaEntity);
   }
 }
