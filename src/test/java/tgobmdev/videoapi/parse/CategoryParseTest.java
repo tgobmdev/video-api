@@ -6,6 +6,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tgobmdev.videoapi.dto.response.CategoryResponse;
 import tgobmdev.videoapi.entity.CategoryEntity;
@@ -13,6 +14,9 @@ import tgobmdev.videoapi.mock.CategoryMock;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryParseTest {
+
+  @Mock
+  private VideoParse videoParse;
 
   @InjectMocks
   private CategoryParse categoryParse;
@@ -30,10 +34,10 @@ class CategoryParseTest {
 
   @Test
   void toResponseList_thenReturnsListOfVideoResponses() {
-    List<CategoryEntity> categoriaEntities = List.of(CategoryMock.generateEntity(),
+    List<CategoryEntity> categoryEntities = List.of(CategoryMock.generateEntity(),
         CategoryMock.generateEntity());
 
-    List<CategoryResponse> result = categoryParse.toResponseList(categoriaEntities);
+    List<CategoryResponse> result = categoryParse.toResponseList(categoryEntities);
 
     assertEquals(2, result.size());
   }

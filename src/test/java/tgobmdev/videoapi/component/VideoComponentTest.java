@@ -76,7 +76,7 @@ class VideoComponentTest {
   @Test
   void givenVideoIdAndRequestExists_whenEditVideo_thenReturnsUpdatedVideoEntity() {
     UUID videoId = UUID.randomUUID();
-    VideoRequest videoRequest = VideoMock.generateRequest();
+    VideoRequest videoRequest = VideoMock.createRequest();
     VideoEntity videoEntity = VideoMock.generateEntity();
 
     when(videoRepository.findByIdAndDeletedAtIsNull(videoId)) //

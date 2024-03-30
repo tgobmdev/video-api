@@ -14,7 +14,7 @@ public class VideoMock {
 
   private static final Faker faker = new Faker();
 
-  public static VideoRequest generateRequest() {
+  public static VideoRequest createRequest() {
     return new VideoRequest(faker.dcComics().title(), faker.lorem().characters(),
         faker.internet().url(), Set.of(1L));
   }

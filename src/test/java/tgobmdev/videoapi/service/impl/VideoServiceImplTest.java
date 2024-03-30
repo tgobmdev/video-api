@@ -85,7 +85,7 @@ class VideoServiceImplTest {
         .thenReturn(Optional.empty());
 
     ApiException apiException = assertThrows(ApiException.class,
-        () -> videoService.findActiveVideoById(videoId, httpHeaders), "Vídeo não encontrado.");
+        () -> videoService.findActiveVideoById(videoId, httpHeaders), "Video not found.");
 
     assertEquals(404, apiException.getStatus());
     assertEquals(MessageErrorEnum.CODE_1.getCode(), apiException.getCodeMessage());
@@ -114,7 +114,7 @@ class VideoServiceImplTest {
 
   @Test
   void givenValidVideoRequest_whenCreateVideo_thenReturnsVideoResponse() {
-    VideoRequest videoRequest = VideoMock.generateRequest();
+    VideoRequest videoRequest = VideoMock.createRequest();
     VideoEntity videoEntity = VideoMock.generateEntity();
     VideoResponse expectedResponse = VideoMock.createResponse();
 
@@ -132,7 +132,7 @@ class VideoServiceImplTest {
   @Test
   void givenExistingIdAndValidRequest_whenEditVideo_thenReturnsUpdatedVideoResponse() {
     UUID videoId = UUID.randomUUID();
-    VideoRequest videoRequest = VideoMock.generateRequest();
+    VideoRequest videoRequest = VideoMock.createRequest();
     VideoEntity videoEntity = VideoMock.generateEntity();
     VideoResponse expectedResponse = VideoMock.createResponse();
 
@@ -151,17 +151,17 @@ class VideoServiceImplTest {
   @Test
   void givenNonExistingIdAndValidRequest_whenEditVideo_thenThrowsApiException() {
     UUID videoId = UUID.randomUUID();
-    VideoRequest videoRequest = VideoMock.generateRequest();
+    VideoRequest videoRequest = VideoMock.createRequest();
 
     when(videoComponent.editVideo(videoId, videoRequest)) //
         .thenReturn(Optional.empty());
 
     ApiException apiException = assertThrows(ApiException.class,
-        () -> videoService.editVideo(videoId, videoRequest), "Vídeo não encontrado.");
+        () -> videoService.editVideo(videoId, videoRequest), "Video not found.");
 
     assertEquals(404, apiException.getStatus());
     assertEquals(MessageErrorEnum.CODE_1.getCode(), apiException.getCodeMessage());
-    assertEquals("Vídeo não encontrado.", apiException.getMessage());
+    assertEquals("Video not found.", apiException.getMessage());
     verify(videoComponent, times(1)).editVideo(videoId, videoRequest);
     verifyNoInteractions(videoParse);
   }

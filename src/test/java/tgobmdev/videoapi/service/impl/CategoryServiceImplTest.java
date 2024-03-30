@@ -27,24 +27,24 @@ class CategoryServiceImplTest {
   private CategoryParse categoryParse;
 
   @InjectMocks
-  private CategoryServiceImpl categoriaService;
+  private CategoryServiceImpl categoryService;
 
   @Test
   void givenActiveCategoriesExists_whenFindAllCategories_thenReturnsListOfVideoResponses() {
-    List<CategoryEntity> categoriaEntities = List.of(CategoryMock.generateEntity(),
+    List<CategoryEntity> categoryEntities = List.of(CategoryMock.generateEntity(),
         CategoryMock.generateEntity());
     List<CategoryResponse> expectedResponses = List.of(CategoryMock.createResponse(),
         CategoryMock.createResponse());
 
     when(categoryComponent.findAllCategories()) //
-        .thenReturn(categoriaEntities);
-    when(categoryParse.toResponseList(categoriaEntities)) //
+        .thenReturn(categoryEntities);
+    when(categoryParse.toResponseList(categoryEntities)) //
         .thenReturn(expectedResponses);
 
-    List<CategoryResponse> result = categoriaService.findAllCategories();
+    List<CategoryResponse> result = categoryService.findAllCategories();
 
     assertEquals(expectedResponses, result);
     verify(categoryComponent, times(1)).findAllCategories();
-    verify(categoryParse, times(1)).toResponseList(categoriaEntities);
+    verify(categoryParse, times(1)).toResponseList(categoryEntities);
   }
 }

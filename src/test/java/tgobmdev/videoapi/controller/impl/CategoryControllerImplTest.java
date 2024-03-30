@@ -24,7 +24,7 @@ class CategoryControllerImplTest {
   private CategoryService categoryService;
 
   @InjectMocks
-  private CategoryControllerImpl categoriaController;
+  private CategoryControllerImpl categoryController;
 
   @Test
   void givenActiveCategoriesExists_whenFindAllCategories_thenReturnsListOfVideoResponses() {
@@ -34,7 +34,7 @@ class CategoryControllerImplTest {
     when(categoryService.findAllCategories()) //
         .thenReturn(expectedResponses);
 
-    ResponseEntity<List<CategoryResponse>> responseEntity = categoriaController.findAllCategories();
+    ResponseEntity<List<CategoryResponse>> responseEntity = categoryController.findAllCategories();
 
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     assertEquals(expectedResponses, responseEntity.getBody());

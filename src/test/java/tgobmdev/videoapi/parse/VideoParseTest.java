@@ -21,7 +21,7 @@ class VideoParseTest {
 
   @Test
   void createFromRequest_thenReturnsVideoEntity() {
-    VideoRequest videoRequest = VideoMock.generateRequest();
+    VideoRequest videoRequest = VideoMock.createRequest();
 
     VideoEntity result = videoParse.createFromRequest(videoRequest);
 
