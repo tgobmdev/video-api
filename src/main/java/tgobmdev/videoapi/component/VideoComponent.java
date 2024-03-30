@@ -1,8 +1,8 @@
 package tgobmdev.videoapi.component;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
 import tgobmdev.videoapi.dto.request.VideoRequest;
@@ -20,8 +20,8 @@ public class VideoComponent {
     this.videoRepository = videoRepository;
   }
 
-  private Optional<VideoEntity> findByIdAndDeletedAtIsNull(UUID id) {
-    return videoRepository.findByIdAndDeletedAtIsNull(id);
+  private Optional<VideoEntity> findByIdAndDeletedAtIsNull(UUID videoId) {
+    return videoRepository.findByIdAndDeletedAtIsNull(videoId);
   }
 
   private void updateVideo(VideoEntity videoEntity, VideoRequest videoRequest) {
@@ -37,15 +37,15 @@ public class VideoComponent {
     saveVideo(videoEntity);
   }
 
-  public List<VideoEntity> findAllActiveVideos() {
+  public Set<VideoEntity> findAllActiveVideos() {
     return videoRepository.findAllByDeletedAtIsNull();
   }
 
-  public Optional<VideoEntity> findActiveVideoById(UUID id) {
-    return findByIdAndDeletedAtIsNull(id);
+  public Optional<VideoEntity> findActiveVideoById(UUID videoId) {
+    return findByIdAndDeletedAtIsNull(videoId);
   }
 
-  public List<VideoEntity> findAllActiveVideosByTitle(String title) {
+  public Set<VideoEntity> findAllActiveVideosByTitle(String title) {
     return videoRepository.findByTitleContainingIgnoreCaseAndDeletedAtIsNull(title);
   }
 
@@ -53,17 +53,17 @@ public class VideoComponent {
     videoRepository.save(videoEntity);
   }
 
-  public Optional<VideoEntity> editVideo(UUID id, VideoRequest videoRequest) {
-    return findByIdAndDeletedAtIsNull(id) //
+  public Optional<VideoEntity> editVideo(UUID videoId, VideoRequest videoRequest) {
+    return findByIdAndDeletedAtIsNull(videoId) //
         .map(videoEntity -> {
           updateVideo(videoEntity, videoRequest);
           return videoEntity;
         });
   }
 
-  public void deleteVideo(UUID id) {
-    VideoEntity videoEntity = findByIdAndDeletedAtIsNull(id) //
-        .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODIGO_1));
+  public void deleteVideo(UUID videoId) {
+    VideoEntity videoEntity = findByIdAndDeletedAtIsNull(videoId) //
+        .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODE_1));
     softDeleteVideo(videoEntity);
   }
 }

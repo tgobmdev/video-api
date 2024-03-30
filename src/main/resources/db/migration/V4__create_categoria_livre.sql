@@ -1,1 +1,0 @@
-INSERT INTO categoria (id, title, color) VALUES (gen_random_uuid(), 'Livre','Amarelo');

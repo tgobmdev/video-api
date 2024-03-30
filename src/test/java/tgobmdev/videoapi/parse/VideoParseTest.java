@@ -3,6 +3,7 @@ package tgobmdev.videoapi.parse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,7 +21,7 @@ class VideoParseTest {
 
   @Test
   void createFromRequest_thenReturnsVideoEntity() {
-    VideoRequest videoRequest = VideoMock.generateRequest();
+    VideoRequest videoRequest = VideoMock.createRequest();
 
     VideoEntity result = videoParse.createFromRequest(videoRequest);
 
@@ -42,8 +43,7 @@ class VideoParseTest {
 
   @Test
   void toResponseList_thenReturnsListOfVideoResponses() {
-    List<VideoEntity> videoEntities = List.of(VideoMock.generateEntity(),
-        VideoMock.generateEntity());
+    Set<VideoEntity> videoEntities = Set.of(VideoMock.generateEntity(), VideoMock.generateEntity());
 
     List<VideoResponse> result = videoParse.toResponseList(videoEntities);
 

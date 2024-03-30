@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tgobmdev.videoapi.controller.VideoController;
 import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.service.VideoService;
-import tgobmdev.videoapi.util.UriUtil;
 
 @Log4j2
 @RestController
@@ -38,60 +38,64 @@ public class VideoControllerImpl implements VideoController {
   @Override
   @GetMapping(value = "/list")
   public ResponseEntity<List<VideoResponse>> findAllActiveVideos() {
-    log.info("Requisição [GET] recebida em [/videos]");
-    List<VideoResponse> videoResponses = videoService.findAllActiveVideos();
-    log.info("Requisição [GET] finalizada em [/videos]");
-    return ResponseEntity.ok(videoResponses);
+    log.info("Request [GET] received at [/videos]");
+    List<VideoResponse> activeVideos = videoService.findAllActiveVideos();
+    log.info("Request [GET] finished at [/videos]");
+    return ResponseEntity.ok(activeVideos);
   }
 
   @Override
-  @GetMapping(value = "/{id}")
-  public ResponseEntity<VideoResponse> findActiveVideoById(@PathVariable UUID id,
+  @GetMapping(value = "/{videoId}")
+  public ResponseEntity<VideoResponse> findActiveVideoById(@PathVariable UUID videoId,
       @RequestHeader HttpHeaders httpHeaders) {
-    log.info("Requisição [GET] recebida em [/videos/{}]", id);
-    VideoResponse videoResponse = videoService.findActiveVideoById(id, httpHeaders);
-    log.info("Requisição [GET] finalizada em [/videos/{}]", id);
-    return ResponseEntity.ok(videoResponse);
+    log.info("Request [GET] received at [/videos/{}]", videoId);
+    VideoResponse activeVideo = videoService.findActiveVideoById(videoId, httpHeaders);
+    log.info("Request [GET] finished at [/videos/{}]", videoId);
+    return ResponseEntity.ok(activeVideo);
   }
 
   @Override
   @GetMapping
   public ResponseEntity<List<VideoResponse>> findAllActiveVideosByTitle(
       @RequestParam String search) {
-    log.info("Requisição [GET] recebida em [/videos?search={}]", search);
-    List<VideoResponse> videoResponsesByTitle = videoService.findAllActiveVideosByTitle(search);
-    log.info("Requisição [GET] finalizada em [/videos?search={}]", search);
-    return ResponseEntity.ok(videoResponsesByTitle);
+    log.info("Request [GET] received at [/videos?search={}]", search);
+    List<VideoResponse> activeVideosByTitle = videoService.findAllActiveVideosByTitle(search);
+    log.info("Request [GET] finished at [/videos?search={}]", search);
+    return ResponseEntity.ok(activeVideosByTitle);
   }
 
   @Override
   @PostMapping
   public ResponseEntity<VideoResponse> createVideo(@Valid @RequestBody VideoRequest videoRequest) {
-    log.info("Requisição [POST] recebida em [/videos]");
-    VideoResponse videoResponse = videoService.createVideo(videoRequest);
-    URI location = UriUtil.buildUriFindById(videoResponse.id());
-    log.info("Requisição [POST] finalizada em [/videos]");
+    log.info("Request [POST] received at [/videos]");
+    VideoResponse createdVideo = videoService.createVideo(videoRequest);
+
+    URI location = ServletUriComponentsBuilder.fromCurrentRequest() //
+        .path("/{videoId}") //
+        .buildAndExpand(createdVideo.id()) //
+        .toUri();
+    log.info("Request [POST] finished at [/videos]");
     return ResponseEntity //
         .created(location) //
         .build();
   }
 
   @Override
-  @PatchMapping(value = "/{id}")
-  public ResponseEntity<VideoResponse> editVideo(@PathVariable UUID id,
+  @PatchMapping(value = "/{videoId}")
+  public ResponseEntity<VideoResponse> editVideo(@PathVariable UUID videoId,
       @Valid @RequestBody VideoRequest videoRequest) {
-    log.info("Requisição [PATCH] recebida em [/videos/{}]", id);
-    VideoResponse videoResponse = videoService.editVideo(id, videoRequest);
-    log.info("Requisição [PATCH] finalizada em [/videos/{}]", id);
-    return ResponseEntity.ok(videoResponse);
+    log.info("Request [PATCH] received at [/videos/{}]", videoId);
+    VideoResponse editedVideo = videoService.editVideo(videoId, videoRequest);
+    log.info("Request [PATCH] finished at [/videos/{}]", videoId);
+    return ResponseEntity.ok(editedVideo);
   }
 
   @Override
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteVideo(@PathVariable UUID id) {
-    log.info("Requisição [DELETE] recebida em [/videos/{}]", id);
-    videoService.deleteVideo(id);
-    log.info("Requisição [DELETE] finalizada em [/videos/{}]", id);
+  @DeleteMapping("/{videoId}")
+  public ResponseEntity<Void> deleteVideo(@PathVariable UUID videoId) {
+    log.info("Request [DELETE] received at [/videos/{}]", videoId);
+    videoService.deleteVideo(videoId);
+    log.info("Request [DELETE] finished at [/videos/{}]", videoId);
     return ResponseEntity //
         .noContent() //
         .build();

@@ -96,7 +96,7 @@ class VideoControllerImplTest {
 
   @Test
   void givenValidVideoRequest_whenCreateVideo_thenReturnsCreatedResponseWithLocationHeader() {
-    VideoRequest videoRequest = VideoMock.generateRequest();
+    VideoRequest videoRequest = VideoMock.createRequest();
     VideoResponse expectedResponse = VideoMock.createResponse();
     URI expectedLocation = URI.create("/videos/" + expectedResponse.id());
 
@@ -115,7 +115,7 @@ class VideoControllerImplTest {
   @Test
   void givenVideoIdAndRequestExists_whenEditVideo_thenReturnsUpdatedVideoResponse() {
     UUID videoId = UUID.randomUUID();
-    VideoRequest videoRequest = VideoMock.generateRequest();
+    VideoRequest videoRequest = VideoMock.createRequest();
     VideoResponse expectedResponse = VideoMock.createResponse();
 
     when(videoService.editVideo(videoId, videoRequest)) //
