@@ -18,6 +18,7 @@ class CategoryComponentTest {
 
   @Mock
   private CategoryRepository categoryRepository;
+
   @InjectMocks
   private CategoryComponent categoryComponent;
 
