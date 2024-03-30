@@ -2,6 +2,7 @@ package tgobmdev.videoapi.service.impl;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tgobmdev.videoapi.component.CategoryComponent;
 import tgobmdev.videoapi.dto.response.CategoryResponse;
 import tgobmdev.videoapi.entity.CategoryEntity;
@@ -27,6 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public CategoryResponse findVideosByCategoryId(Long categoryId) {
     CategoryEntity categoryEntity = categoryComponent.findCategoryById(categoryId)
         .orElseThrow(() -> new ApiException(404, MessageErrorEnum.CODE_2));
