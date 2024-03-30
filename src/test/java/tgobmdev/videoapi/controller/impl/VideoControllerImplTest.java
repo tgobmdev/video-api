@@ -15,7 +15,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -31,9 +30,6 @@ class VideoControllerImplTest {
 
   @Mock
   private MockHttpServletRequest mockHttpServletRequest;
-
-  @Mock
-  private HttpHeaders httpHeaders;
 
   @Mock
   private VideoService videoService;
@@ -66,15 +62,14 @@ class VideoControllerImplTest {
     UUID videoId = UUID.randomUUID();
     VideoResponse expectedResponse = VideoMock.createResponse();
 
-    when(videoService.findActiveVideoById(videoId, httpHeaders)) //
+    when(videoService.findActiveVideoById(videoId)) //
         .thenReturn(expectedResponse);
 
-    ResponseEntity<VideoResponse> responseEntity = videoController.findActiveVideoById(videoId,
-        httpHeaders);
+    ResponseEntity<VideoResponse> responseEntity = videoController.findActiveVideoById(videoId);
 
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     assertEquals(expectedResponse, responseEntity.getBody());
-    verify(videoService, times(1)).findActiveVideoById(videoId, httpHeaders);
+    verify(videoService, times(1)).findActiveVideoById(videoId);
   }
 
   @Test

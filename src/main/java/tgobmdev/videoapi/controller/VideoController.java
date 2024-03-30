@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.UUID;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import tgobmdev.videoapi.dto.request.VideoRequest;
@@ -83,7 +82,7 @@ public interface VideoController {
           )
       }
   )
-  ResponseEntity<VideoResponse> findActiveVideoById(UUID videoId, HttpHeaders httpHeaders);
+  ResponseEntity<VideoResponse> findActiveVideoById(UUID videoId);
 
   @Operation(
       summary = "Get List of Active Videos by Title",
