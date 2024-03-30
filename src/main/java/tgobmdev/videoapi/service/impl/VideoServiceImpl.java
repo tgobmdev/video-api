@@ -3,7 +3,6 @@ package tgobmdev.videoapi.service.impl;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import tgobmdev.videoapi.component.CategoryComponent;
 import tgobmdev.videoapi.component.VideoComponent;
@@ -36,7 +35,7 @@ public class VideoServiceImpl implements VideoService {
   }
 
   @Override
-  public VideoResponse findActiveVideoById(UUID videoId, HttpHeaders httpHeaders) {
+  public VideoResponse findActiveVideoById(UUID videoId) {
     VideoEntity videoEntity = videoComponent.findActiveVideoById(videoId) //
         .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODE_1));
     return videoParse.toResponse(videoEntity);

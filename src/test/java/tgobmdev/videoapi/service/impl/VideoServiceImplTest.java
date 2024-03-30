@@ -17,7 +17,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpHeaders;
 import tgobmdev.videoapi.component.CategoryComponent;
 import tgobmdev.videoapi.component.VideoComponent;
 import tgobmdev.videoapi.dto.request.VideoRequest;
@@ -30,9 +29,6 @@ import tgobmdev.videoapi.parse.VideoParse;
 
 @ExtendWith(MockitoExtension.class)
 class VideoServiceImplTest {
-
-  @Mock
-  private HttpHeaders httpHeaders;
 
   @Mock
   private VideoComponent videoComponent;
@@ -75,7 +71,7 @@ class VideoServiceImplTest {
     when(videoParse.toResponse(videoEntity)) //
         .thenReturn(expectedResponse);
 
-    VideoResponse result = videoService.findActiveVideoById(videoId, httpHeaders);
+    VideoResponse result = videoService.findActiveVideoById(videoId);
 
     assertEquals(expectedResponse, result);
     verify(videoComponent, times(1)).findActiveVideoById(videoId);
@@ -89,7 +85,7 @@ class VideoServiceImplTest {
         .thenReturn(Optional.empty());
 
     ApiException apiException = assertThrows(ApiException.class,
-        () -> videoService.findActiveVideoById(videoId, httpHeaders), "Video not found.");
+        () -> videoService.findActiveVideoById(videoId), "Video not found.");
 
     assertEquals(404, apiException.getStatus());
     assertEquals(MessageErrorEnum.CODE_1.getCode(), apiException.getCodeMessage());
