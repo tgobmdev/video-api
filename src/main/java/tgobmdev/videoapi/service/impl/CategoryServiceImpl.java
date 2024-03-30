@@ -22,16 +22,31 @@ public class CategoryServiceImpl implements CategoryService {
     this.categoryParse = categoryParse;
   }
 
+  private CategoryResponse parse(CategoryEntity categoryEntity, boolean includeVideos) {
+    return categoryParse.parseToCategoryResponse(categoryEntity, includeVideos);
+  }
+
+  private CategoryEntity obtainCategoryById(Long categoryId) {
+    return categoryComponent.findCategoryById(categoryId)
+        .orElseThrow(() -> new ApiException(404, MessageErrorEnum.CODE_2));
+  }
+
   @Override
   public List<CategoryResponse> findAllCategories() {
-    return categoryParse.toResponseList(categoryComponent.findAllCategories());
+    return categoryParse.parseToCategoryResponses(categoryComponent.findAllCategories(),
+        Boolean.FALSE);
   }
 
   @Override
   @Transactional(readOnly = true)
   public CategoryResponse findVideosByCategoryId(Long categoryId) {
-    CategoryEntity categoryEntity = categoryComponent.findCategoryById(categoryId)
-        .orElseThrow(() -> new ApiException(404, MessageErrorEnum.CODE_2));
-    return categoryParse.toResponse(categoryEntity);
+    CategoryEntity categoryEntity = obtainCategoryById(categoryId);
+    return parse(categoryEntity, Boolean.TRUE);
+  }
+
+  @Override
+  public CategoryResponse findCategoryById(Long categoryId) {
+    CategoryEntity categoryEntity = obtainCategoryById(categoryId);
+    return parse(categoryEntity, Boolean.FALSE);
   }
 }

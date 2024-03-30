@@ -50,14 +50,14 @@ class VideoServiceImplTest {
 
     when(videoComponent.findAllActiveVideos()) //
         .thenReturn(videoEntities);
-    when(videoParse.toResponseList(videoEntities)) //
+    when(videoParse.parseToVideoResponses(videoEntities)) //
         .thenReturn(expectedResponses);
 
     List<VideoResponse> result = videoService.findAllActiveVideos();
 
     assertEquals(expectedResponses, result);
     verify(videoComponent, times(1)).findAllActiveVideos();
-    verify(videoParse, times(1)).toResponseList(videoEntities);
+    verify(videoParse, times(1)).parseToVideoResponses(videoEntities);
   }
 
   @Test
@@ -68,14 +68,14 @@ class VideoServiceImplTest {
 
     when(videoComponent.findActiveVideoById(videoId)) //
         .thenReturn(Optional.of(videoEntity));
-    when(videoParse.toResponse(videoEntity)) //
+    when(videoParse.parseToVideoResponse(videoEntity)) //
         .thenReturn(expectedResponse);
 
     VideoResponse result = videoService.findActiveVideoById(videoId);
 
     assertEquals(expectedResponse, result);
     verify(videoComponent, times(1)).findActiveVideoById(videoId);
-    verify(videoParse, times(1)).toResponse(videoEntity);
+    verify(videoParse, times(1)).parseToVideoResponse(videoEntity);
   }
 
   @Test
@@ -102,14 +102,14 @@ class VideoServiceImplTest {
 
     when(videoComponent.findAllActiveVideosByTitle(title)) //
         .thenReturn(videoEntities);
-    when(videoParse.toResponseList(videoEntities)) //
+    when(videoParse.parseToVideoResponses(videoEntities)) //
         .thenReturn(expectedResponses);
 
     List<VideoResponse> result = videoService.findAllActiveVideosByTitle(title);
 
     assertEquals(expectedResponses, result);
     verify(videoComponent, times(1)).findAllActiveVideosByTitle(title);
-    verify(videoParse, times(1)).toResponseList(videoEntities);
+    verify(videoParse, times(1)).parseToVideoResponses(videoEntities);
   }
 
   @Test
@@ -117,15 +117,15 @@ class VideoServiceImplTest {
     VideoRequest videoRequest = VideoMock.createRequest();
     VideoEntity videoEntity = VideoMock.generateEntity();
     VideoResponse expectedResponse = VideoMock.createResponse();
-    when(videoParse.createFromRequest(videoRequest)).thenReturn(videoEntity);
-    when(videoParse.toResponse(videoEntity)).thenReturn(expectedResponse);
+    when(videoParse.parseToVideoEntity(videoRequest)).thenReturn(videoEntity);
+    when(videoParse.parseToVideoResponse(videoEntity)).thenReturn(expectedResponse);
 
     VideoResponse result = videoService.createVideo(videoRequest);
 
     assertEquals(expectedResponse, result);
-    verify(videoParse, times(1)).createFromRequest(videoRequest);
+    verify(videoParse, times(1)).parseToVideoEntity(videoRequest);
     verify(videoComponent, times(1)).saveVideo(videoEntity);
-    verify(videoParse, times(1)).toResponse(videoEntity);
+    verify(videoParse, times(1)).parseToVideoResponse(videoEntity);
   }
 
   @Test
@@ -137,14 +137,14 @@ class VideoServiceImplTest {
 
     when(videoComponent.editVideo(videoId, videoRequest)) //
         .thenReturn(Optional.of(videoEntity));
-    when(videoParse.toResponse(videoEntity)) //
+    when(videoParse.parseToVideoResponse(videoEntity)) //
         .thenReturn(expectedResponse);
 
     VideoResponse result = videoService.editVideo(videoId, videoRequest);
 
     assertEquals(expectedResponse, result);
     verify(videoComponent, times(1)).editVideo(videoId, videoRequest);
-    verify(videoParse, times(1)).toResponse(videoEntity);
+    verify(videoParse, times(1)).parseToVideoResponse(videoEntity);
   }
 
   @Test

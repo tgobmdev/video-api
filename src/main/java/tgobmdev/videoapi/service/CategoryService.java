@@ -8,4 +8,6 @@ public interface CategoryService {
   List<CategoryResponse> findAllCategories();
 
   CategoryResponse findVideosByCategoryId(Long categoryId);
+
+  CategoryResponse findCategoryById(Long categoryId);
 }
