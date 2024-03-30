@@ -88,7 +88,7 @@ class VideoServiceImplTest {
         () -> videoService.findActiveVideoById(videoId, httpHeaders), "Vídeo não encontrado.");
 
     assertEquals(404, apiException.getStatus());
-    assertEquals(MessageErrorEnum.CODIGO_1.getCode(), apiException.getCodeMessage());
+    assertEquals(MessageErrorEnum.CODE_1.getCode(), apiException.getCodeMessage());
     verify(videoComponent, times(1)).findActiveVideoById(videoId);
     verifyNoInteractions(videoParse);
   }
@@ -160,7 +160,7 @@ class VideoServiceImplTest {
         () -> videoService.editVideo(videoId, videoRequest), "Vídeo não encontrado.");
 
     assertEquals(404, apiException.getStatus());
-    assertEquals(MessageErrorEnum.CODIGO_1.getCode(), apiException.getCodeMessage());
+    assertEquals(MessageErrorEnum.CODE_1.getCode(), apiException.getCodeMessage());
     assertEquals("Vídeo não encontrado.", apiException.getMessage());
     verify(videoComponent, times(1)).editVideo(videoId, videoRequest);
     verifyNoInteractions(videoParse);

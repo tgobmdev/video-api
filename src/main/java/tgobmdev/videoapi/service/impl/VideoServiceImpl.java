@@ -1,10 +1,8 @@
 package tgobmdev.videoapi.service.impl;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import tgobmdev.videoapi.component.CategoryComponent;
@@ -17,7 +15,6 @@ import tgobmdev.videoapi.exception.ApiException;
 import tgobmdev.videoapi.message.MessageErrorEnum;
 import tgobmdev.videoapi.parse.VideoParse;
 import tgobmdev.videoapi.service.VideoService;
-import tgobmdev.videoapi.util.CollectionUtil;
 
 @Service
 public class VideoServiceImpl implements VideoService {
@@ -39,9 +36,9 @@ public class VideoServiceImpl implements VideoService {
   }
 
   @Override
-  public VideoResponse findActiveVideoById(UUID id, HttpHeaders httpHeaders) {
-    VideoEntity videoEntity = videoComponent.findActiveVideoById(id) //
-        .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODIGO_1));
+  public VideoResponse findActiveVideoById(UUID videoId, HttpHeaders httpHeaders) {
+    VideoEntity videoEntity = videoComponent.findActiveVideoById(videoId) //
+        .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODE_1));
     return videoParse.toResponse(videoEntity);
   }
 
@@ -52,34 +49,25 @@ public class VideoServiceImpl implements VideoService {
 
   @Override
   public VideoResponse createVideo(VideoRequest videoRequest) {
-    Set<CategoryEntity> categorias;
-
-    if (CollectionUtil.isNullOrEmpty(videoRequest.idsCategoria())) {
-      CategoryEntity categoriaLivre = categoryComponent.findCategoryById(1L)
-          .orElseThrow(() -> new ApiException(404, MessageErrorEnum.CODIGO_3));
-      categorias = Collections.singleton(categoriaLivre);
-    } else {
-      categorias = videoRequest.idsCategoria().stream() //
-          .map(idCategoria -> categoryComponent.findCategoryById(idCategoria)
-              .orElseThrow(() -> new ApiException(404, MessageErrorEnum.CODIGO_2)))
-          .collect(Collectors.toSet());
-    }
+    Set<CategoryEntity> categoryEntities = categoryComponent //
+        .findCategoriesOrFallbackToDefault(videoRequest.categoryIds());
 
     VideoEntity videoEntity = videoParse.createFromRequest(videoRequest);
-    videoEntity.setCategoriaEntities(categorias);
+    videoEntity.setCategoryEntities(categoryEntities);
+
     videoComponent.saveVideo(videoEntity);
     return videoParse.toResponse(videoEntity);
   }
 
   @Override
-  public VideoResponse editVideo(UUID id, VideoRequest videoRequest) {
-    VideoEntity videoEntity = videoComponent.editVideo(id, videoRequest) //
-        .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODIGO_1));
+  public VideoResponse editVideo(UUID videoId, VideoRequest videoRequest) {
+    VideoEntity videoEntity = videoComponent.editVideo(videoId, videoRequest) //
+        .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODE_1));
     return videoParse.toResponse(videoEntity);
   }
 
   @Override
-  public void deleteVideo(UUID id) {
-    videoComponent.deleteVideo(id);
+  public void deleteVideo(UUID videoId) {
+    videoComponent.deleteVideo(videoId);
   }
 }

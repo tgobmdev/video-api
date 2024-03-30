@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tgobmdev.videoapi.controller.VideoController;
 import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.service.VideoService;
-import tgobmdev.videoapi.util.UriUtil;
 
 @Log4j2
 @RestController
@@ -69,7 +69,11 @@ public class VideoControllerImpl implements VideoController {
   public ResponseEntity<VideoResponse> createVideo(@Valid @RequestBody VideoRequest videoRequest) {
     log.info("Request [POST] received at [/videos]");
     VideoResponse createdVideo = videoService.createVideo(videoRequest);
-    URI location = UriUtil.buildUriFindById(createdVideo.id());
+
+    URI location = ServletUriComponentsBuilder.fromCurrentRequest() //
+        .path("/{videoId}") //
+        .buildAndExpand(createdVideo.id()) //
+        .toUri();
     log.info("Request [POST] finished at [/videos]");
     return ResponseEntity //
         .created(location) //

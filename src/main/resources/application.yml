@@ -22,7 +22,7 @@ springdoc:
 info:
   application:
     name: video-api
-    description: API para gerenciamento de vídeos
+    description: API for video management
     version: 0.0.1
 flyway:
   enabled: true

@@ -29,7 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
   @Override
   public CategoryResponse findVideosByCategoryId(Long categoryId) {
     CategoryEntity categoryEntity = categoryComponent.findCategoryById(categoryId)
-        .orElseThrow(() -> new ApiException(404, MessageErrorEnum.CODIGO_2));
+        .orElseThrow(() -> new ApiException(404, MessageErrorEnum.CODE_2));
     return categoryParse.toResponse(categoryEntity);
   }
 }
