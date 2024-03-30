@@ -25,4 +25,4 @@ info:
     description: API for video management
     version: 0.0.1
 flyway:
-  enabled: true
+  enabled: false
