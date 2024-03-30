@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -46,5 +47,23 @@ class CategoryServiceImplTest {
     assertEquals(expectedResponses, result);
     verify(categoryComponent, times(1)).findAllCategories();
     verify(categoryParse, times(1)).toResponseList(categoryEntities);
+  }
+
+  @Test
+  void givenExistingCategoryId_whenFindVideosByCategoryId_thenReturnsCategoryResponse() {
+    Long categoryId = 1L;
+    CategoryEntity categoryEntity = CategoryMock.generateEntity();
+    CategoryResponse expectedResponse = CategoryMock.createResponse();
+
+    when(categoryComponent.findCategoryById(categoryId)) //
+        .thenReturn(Optional.of(categoryEntity));
+    when(categoryParse.toResponse(categoryEntity)) //
+        .thenReturn(expectedResponse);
+
+    CategoryResponse result = categoryService.findVideosByCategoryId(categoryId);
+
+    assertEquals(expectedResponse, result);
+    verify(categoryComponent, times(1)).findCategoryById(categoryId);
+    verify(categoryParse, times(1)).toResponse(categoryEntity);
   }
 }

@@ -20,7 +20,7 @@ public class CategoryComponent {
     this.categoryRepository = categoryRepository;
   }
 
-  private CategoryEntity getDefaultCategory() {
+  private CategoryEntity findDefaultCategory() {
     return findCategoryById(1L).orElseThrow(() -> new ApiException(404, MessageErrorEnum.CODE_3));
   }
 
@@ -38,6 +38,6 @@ public class CategoryComponent {
 
   public Set<CategoryEntity> findCategoriesOrFallbackToDefault(Set<Long> categoryIds) {
     Set<CategoryEntity> categories = new HashSet<>(findCategoriesByIdIn(categoryIds));
-    return categories.isEmpty() ? Collections.singleton(getDefaultCategory()) : categories;
+    return categories.isEmpty() ? Collections.singleton(findDefaultCategory()) : categories;
   }
 }
