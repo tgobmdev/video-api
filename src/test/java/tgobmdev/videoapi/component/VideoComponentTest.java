@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -70,6 +71,7 @@ class VideoComponentTest {
     VideoEntity videoEntity = VideoMock.generateEntity();
 
     assertDoesNotThrow(() -> videoComponent.saveVideo(videoEntity));
+    assertEquals(Collections.emptySet(), videoEntity.getCategoryEntities());
     verify(videoRepository).save(videoEntity);
   }
 

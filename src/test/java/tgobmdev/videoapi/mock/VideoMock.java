@@ -1,5 +1,6 @@
 package tgobmdev.videoapi.mock;
 
+import java.util.Collections;
 import java.util.Set;
 import java.util.UUID;
 import lombok.AccessLevel;
@@ -30,6 +31,7 @@ public class VideoMock {
     videoEntity.setTitle(faker.basketball().players());
     videoEntity.setDescription(faker.lorem().characters());
     videoEntity.setUrl(faker.internet().url());
+    videoEntity.setCategoryEntities(Collections.emptySet());
     return videoEntity;
   }
 }
