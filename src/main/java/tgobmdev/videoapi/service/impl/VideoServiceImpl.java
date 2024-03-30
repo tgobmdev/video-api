@@ -29,21 +29,29 @@ public class VideoServiceImpl implements VideoService {
     this.categoryComponent = categoryComponent;
   }
 
+  private VideoResponse parse(VideoEntity videoEntity) {
+    return videoParse.parseToVideoResponse(videoEntity);
+  }
+
+  private List<VideoResponse> parse(Set<VideoEntity> videoEntities) {
+    return videoParse.parseToVideoResponses(videoEntities);
+  }
+
   @Override
   public List<VideoResponse> findAllActiveVideos() {
-    return videoParse.toResponseList(videoComponent.findAllActiveVideos());
+    return parse(videoComponent.findAllActiveVideos());
   }
 
   @Override
   public VideoResponse findActiveVideoById(UUID videoId) {
     VideoEntity videoEntity = videoComponent.findActiveVideoById(videoId) //
         .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODE_1));
-    return videoParse.toResponse(videoEntity);
+    return parse(videoEntity);
   }
 
   @Override
   public List<VideoResponse> findAllActiveVideosByTitle(String title) {
-    return videoParse.toResponseList(videoComponent.findAllActiveVideosByTitle(title));
+    return parse(videoComponent.findAllActiveVideosByTitle(title));
   }
 
   @Override
@@ -51,18 +59,18 @@ public class VideoServiceImpl implements VideoService {
     Set<CategoryEntity> categoryEntities = categoryComponent //
         .findCategoriesOrFallbackToDefault(videoRequest.categoryIds());
 
-    VideoEntity videoEntity = videoParse.createFromRequest(videoRequest);
+    VideoEntity videoEntity = videoParse.parseToVideoEntity(videoRequest);
     videoEntity.setCategoryEntities(categoryEntities);
 
     videoComponent.saveVideo(videoEntity);
-    return videoParse.toResponse(videoEntity);
+    return parse(videoEntity);
   }
 
   @Override
   public VideoResponse editVideo(UUID videoId, VideoRequest videoRequest) {
     VideoEntity videoEntity = videoComponent.editVideo(videoId, videoRequest) //
         .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODE_1));
-    return videoParse.toResponse(videoEntity);
+    return parse(videoEntity);
   }
 
   @Override

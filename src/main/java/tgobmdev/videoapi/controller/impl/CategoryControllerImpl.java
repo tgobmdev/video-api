@@ -40,4 +40,13 @@ public class CategoryControllerImpl implements CategoryController {
     log.info("Request [GET] finished at [/categories/{}/videos]", categoryId);
     return ResponseEntity.ok(categoryResponse);
   }
+
+  @Override
+  @GetMapping("/{categoryId}")
+  public ResponseEntity<CategoryResponse> findCategoryById(@PathVariable Long categoryId) {
+    log.info("Request [GET] received at [/categories/{}]", categoryId);
+    CategoryResponse categoryResponse = categoryService.findCategoryById(categoryId);
+    log.info("Request [GET] finished at [/categories/{}]", categoryId);
+    return ResponseEntity.ok(categoryResponse);
+  }
 }

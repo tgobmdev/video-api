@@ -20,10 +20,10 @@ class VideoParseTest {
   private VideoParse videoParse;
 
   @Test
-  void createFromRequest_thenReturnsVideoEntity() {
+  void parseToVideoEntity_thenReturnsVideoEntity() {
     VideoRequest videoRequest = VideoMock.createRequest();
 
-    VideoEntity result = videoParse.createFromRequest(videoRequest);
+    VideoEntity result = videoParse.parseToVideoEntity(videoRequest);
 
     assertEquals(videoRequest.title(), result.getTitle());
     assertEquals(videoRequest.description(), result.getDescription());
@@ -31,10 +31,10 @@ class VideoParseTest {
   }
 
   @Test
-  void toResponse_thenReturnsVideoResponse() {
+  void parseToVideoResponse_thenReturnsVideoResponse() {
     VideoEntity videoEntity = VideoMock.generateEntity();
 
-    VideoResponse result = videoParse.toResponse(videoEntity);
+    VideoResponse result = videoParse.parseToVideoResponse(videoEntity);
 
     assertEquals(videoEntity.getId(), result.id());
     assertEquals(videoEntity.getTitle(), result.title());
@@ -42,10 +42,10 @@ class VideoParseTest {
   }
 
   @Test
-  void toResponseList_thenReturnsListOfVideoResponses() {
+  void parseToVideoResponses_thenReturnsListOfVideoResponse() {
     Set<VideoEntity> videoEntities = Set.of(VideoMock.generateEntity(), VideoMock.generateEntity());
 
-    List<VideoResponse> result = videoParse.toResponseList(videoEntities);
+    List<VideoResponse> result = videoParse.parseToVideoResponses(videoEntities);
 
     assertEquals(2, result.size());
   }

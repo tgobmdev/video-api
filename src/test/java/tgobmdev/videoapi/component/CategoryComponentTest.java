@@ -62,6 +62,7 @@ class CategoryComponentTest {
     Set<CategoryEntity> result = categoryComponent.findCategoriesOrFallbackToDefault(categoryIds);
 
     assertEquals(Collections.singleton(categoryEntity), result);
+    assertEquals(Collections.emptySet(), categoryEntity.getVideoEntities());
   }
 
   @Test
