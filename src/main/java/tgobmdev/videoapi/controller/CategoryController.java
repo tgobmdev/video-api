@@ -81,4 +81,6 @@ public interface CategoryController {
       }
   )
   ResponseEntity<CategoryResponse> findVideosByCategoryId(Long categoryId);
+
+  ResponseEntity<CategoryResponse> findCategoryById(Long categoryId);
 }
