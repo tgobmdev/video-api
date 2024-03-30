@@ -39,14 +39,14 @@ class CategoryServiceImplTest {
 
     when(categoryComponent.findAllCategories()) //
         .thenReturn(categoryEntities);
-    when(categoryParse.toResponseList(categoryEntities)) //
+    when(categoryParse.parseToCategoryResponses(categoryEntities, Boolean.FALSE)) //
         .thenReturn(expectedResponses);
 
     List<CategoryResponse> result = categoryService.findAllCategories();
 
     assertEquals(expectedResponses, result);
     verify(categoryComponent, times(1)).findAllCategories();
-    verify(categoryParse, times(1)).toResponseList(categoryEntities);
+    verify(categoryParse, times(1)).parseToCategoryResponses(categoryEntities, Boolean.FALSE);
   }
 
   @Test
@@ -57,13 +57,31 @@ class CategoryServiceImplTest {
 
     when(categoryComponent.findCategoryById(categoryId)) //
         .thenReturn(Optional.of(categoryEntity));
-    when(categoryParse.toResponse(categoryEntity)) //
+    when(categoryParse.parseToCategoryResponse(categoryEntity, Boolean.TRUE)) //
         .thenReturn(expectedResponse);
 
     CategoryResponse result = categoryService.findVideosByCategoryId(categoryId);
 
     assertEquals(expectedResponse, result);
     verify(categoryComponent, times(1)).findCategoryById(categoryId);
-    verify(categoryParse, times(1)).toResponse(categoryEntity);
+    verify(categoryParse, times(1)).parseToCategoryResponse(categoryEntity, Boolean.TRUE);
+  }
+
+  @Test
+  void givenExistingCategoryId_whenFindCategoryById_thenReturnsCategoryResponse() {
+    Long categoryId = 1L;
+    CategoryEntity categoryEntity = CategoryMock.generateEntity();
+    CategoryResponse expectedResponse = CategoryMock.createResponse();
+
+    when(categoryComponent.findCategoryById(categoryId)) //
+        .thenReturn(Optional.of(categoryEntity));
+    when(categoryParse.parseToCategoryResponse(categoryEntity, Boolean.FALSE)) //
+        .thenReturn(expectedResponse);
+
+    CategoryResponse result = categoryService.findCategoryById(categoryId);
+
+    assertEquals(expectedResponse, result);
+    verify(categoryComponent, times(1)).findCategoryById(categoryId);
+    verify(categoryParse, times(1)).parseToCategoryResponse(categoryEntity, Boolean.FALSE);
   }
 }

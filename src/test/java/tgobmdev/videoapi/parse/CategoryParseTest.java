@@ -22,10 +22,10 @@ class CategoryParseTest {
   private CategoryParse categoryParse;
 
   @Test
-  void toResponse_thenReturnsVideoResponse() {
+  void parseToCategoryResponse_thenReturnsCategoryResponse() {
     CategoryEntity categoryEntity = CategoryMock.generateEntity();
 
-    CategoryResponse result = categoryParse.toResponse(categoryEntity);
+    CategoryResponse result = categoryParse.parseToCategoryResponse(categoryEntity, Boolean.FALSE);
 
     assertEquals(categoryEntity.getId(), result.id());
     assertEquals(categoryEntity.getTitle(), result.title());
@@ -33,11 +33,12 @@ class CategoryParseTest {
   }
 
   @Test
-  void toResponseList_thenReturnsListOfVideoResponses() {
+  void parseToCategoryResponses_thenReturnsListOfCategoryResponse() {
     List<CategoryEntity> categoryEntities = List.of(CategoryMock.generateEntity(),
         CategoryMock.generateEntity());
 
-    List<CategoryResponse> result = categoryParse.toResponseList(categoryEntities);
+    List<CategoryResponse> result = categoryParse.parseToCategoryResponses(categoryEntities,
+        Boolean.FALSE);
 
     assertEquals(2, result.size());
   }

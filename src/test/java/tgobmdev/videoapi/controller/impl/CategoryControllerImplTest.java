@@ -56,4 +56,20 @@ class CategoryControllerImplTest {
     assertEquals(expectedResponse, responseEntity.getBody());
     verify(categoryService, times(1)).findVideosByCategoryId(categoryId);
   }
+
+  @Test
+  void givenVideoIdExists_whenFindCategoryById_thenReturnsVideoResponse() {
+    Long categoryId = 1L;
+    CategoryResponse expectedResponse = CategoryMock.createResponse();
+
+    when(categoryService.findCategoryById(categoryId)) //
+        .thenReturn(expectedResponse);
+
+    ResponseEntity<CategoryResponse> responseEntity = categoryController.findCategoryById(
+        categoryId);
+
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(expectedResponse, responseEntity.getBody());
+    verify(categoryService, times(1)).findCategoryById(categoryId);
+  }
 }
