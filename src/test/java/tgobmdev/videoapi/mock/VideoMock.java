@@ -1,5 +1,7 @@
 package tgobmdev.videoapi.mock;
 
+import java.util.Collections;
+import java.util.Set;
 import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -13,9 +15,9 @@ public class VideoMock {
 
   private static final Faker faker = new Faker();
 
-  public static VideoRequest generateRequest() {
+  public static VideoRequest createRequest() {
     return new VideoRequest(faker.dcComics().title(), faker.lorem().characters(),
-        faker.internet().url());
+        faker.internet().url(), Set.of(1L));
   }
 
   public static VideoResponse createResponse() {
@@ -29,6 +31,7 @@ public class VideoMock {
     videoEntity.setTitle(faker.basketball().players());
     videoEntity.setDescription(faker.lorem().characters());
     videoEntity.setUrl(faker.internet().url());
+    videoEntity.setCategoryEntities(Collections.emptySet());
     return videoEntity;
   }
 }

@@ -17,16 +17,16 @@ import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.exception.ErrorResponse;
 
-@Tag(name = "Videos", description = "API para gerenciamento de vídeos")
+@Tag(name = "Videos", description = "API for video management")
 public interface VideoController {
 
   @Operation(
-      summary = "Obter Lista de Vídeos Ativos",
-      description = "Este endpoint tem por objetivo obter a lista de vídeos ativos.",
+      summary = "Get List of Active Videos",
+      description = "This endpoint aims to retrieve the list of active videos.",
       responses = {
           @ApiResponse(
               responseCode = "200",
-              description = "Lista de vídeos obtida com sucesso.",
+              description = "List of videos retrieved successfully.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
                   array = @ArraySchema(schema = @Schema(implementation = VideoResponse.class))
@@ -37,12 +37,12 @@ public interface VideoController {
   ResponseEntity<List<VideoResponse>> findAllActiveVideos();
 
   @Operation(
-      summary = "Obter um Vídeo Ativo por ID",
-      description = "Este endpoint tem por objetivo obter um vídeo ativo pelo seu ID.",
+      summary = "Get an Active Video by ID",
+      description = "This endpoint aims to retrieve an active video by its ID.",
       parameters = {
           @Parameter(
-              name = "id",
-              description = "ID único do vídeo",
+              name = "videoId",
+              description = "Unique ID of the video",
               example = "123e4567-e89b-12d3-a456-426614174001",
               required = true,
               in = ParameterIn.PATH
@@ -51,7 +51,7 @@ public interface VideoController {
       responses = {
           @ApiResponse(
               responseCode = "200",
-              description = "Vídeo obtido com sucesso.",
+              description = "Video retrieved successfully.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
                   schema = @Schema(implementation = VideoResponse.class)
@@ -59,7 +59,7 @@ public interface VideoController {
           ),
           @ApiResponse(
               responseCode = "400",
-              description = "Falha ao obter vídeo. Requisição inválida.",
+              description = "Failed to retrieve video. Invalid request.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
                   schema = @Schema(implementation = ErrorResponse.class)
@@ -67,7 +67,7 @@ public interface VideoController {
           ),
           @ApiResponse(
               responseCode = "404",
-              description = "Vídeo não encontrado.",
+              description = "Video not found.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
                   schema = @Schema(implementation = ErrorResponse.class)
@@ -75,7 +75,7 @@ public interface VideoController {
           ),
           @ApiResponse(
               responseCode = "500",
-              description = "Falha ao obter vídeo. Erro interno do servidor.",
+              description = "Failed to retrieve video. Internal server error.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
                   schema = @Schema(implementation = ErrorResponse.class)
@@ -83,15 +83,15 @@ public interface VideoController {
           )
       }
   )
-  ResponseEntity<VideoResponse> findActiveVideoById(UUID id, HttpHeaders httpHeaders);
+  ResponseEntity<VideoResponse> findActiveVideoById(UUID videoId, HttpHeaders httpHeaders);
 
   @Operation(
-      summary = "Obter Lista de Vídeos Ativos por Título",
-      description = "Este endpoint tem por objetivo obter a lista de vídeos ativos com base no título.",
+      summary = "Get List of Active Videos by Title",
+      description = "This endpoint aims to retrieve the list of active videos based on title.",
       parameters = {
           @Parameter(
               name = "search",
-              description = "Título a ser utilizado como critério de busca.",
+              description = "Title to be used as search criteria.",
               required = true,
               in = ParameterIn.QUERY
           )
@@ -99,7 +99,7 @@ public interface VideoController {
       responses = {
           @ApiResponse(
               responseCode = "200",
-              description = "Lista de vídeos obtida com sucesso.",
+              description = "List of videos retrieved successfully.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
                   array = @ArraySchema(schema = @Schema(implementation = VideoResponse.class))
@@ -107,7 +107,7 @@ public interface VideoController {
           ),
           @ApiResponse(
               responseCode = "400",
-              description = "Falha ao obter vídeos. Requisição inválida.",
+              description = "Failed to retrieve videos. Invalid request.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
                   schema = @Schema(implementation = ErrorResponse.class)
@@ -115,7 +115,7 @@ public interface VideoController {
           ),
           @ApiResponse(
               responseCode = "500",
-              description = "Falha ao obter vídeos. Erro interno do servidor.",
+              description = "Failed to retrieve videos. Internal server error.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
                   schema = @Schema(implementation = ErrorResponse.class)
@@ -126,12 +126,12 @@ public interface VideoController {
   ResponseEntity<List<VideoResponse>> findAllActiveVideosByTitle(String search);
 
   @Operation(
-      summary = "Criar um Novo Vídeo",
-      description = "Este endpoint tem por objetivo criar um novo vídeo.",
+      summary = "Create a New Video",
+      description = "This endpoint aims to create a new video.",
       responses = {
           @ApiResponse(
               responseCode = "201",
-              description = "Vídeo criado com sucesso.",
+              description = "Video created successfully.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
                   schema = @Schema(implementation = VideoResponse.class)
@@ -139,7 +139,7 @@ public interface VideoController {
           ),
           @ApiResponse(
               responseCode = "400",
-              description = "Falha ao criar vídeo. Requisição inválida.",
+              description = "Failed to create video. Invalid request.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
                   schema = @Schema(implementation = ErrorResponse.class)
@@ -147,7 +147,7 @@ public interface VideoController {
           ),
           @ApiResponse(
               responseCode = "500",
-              description = "Falha ao criar vídeo. Erro interno do servidor.",
+              description = "Failed to create video. Internal server error.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
                   schema = @Schema(implementation = ErrorResponse.class)
@@ -158,12 +158,12 @@ public interface VideoController {
   ResponseEntity<VideoResponse> createVideo(VideoRequest videoRequest);
 
   @Operation(
-      summary = "Editar um Vídeo Existente",
-      description = "Este endpoint tem por objetivo editar um vídeo existente.",
+      summary = "Edit an Existing Video",
+      description = "This endpoint aims to edit an existing video.",
       parameters = {
           @Parameter(
-              name = "id",
-              description = "ID único do vídeo",
+              name = "videoId",
+              description = "Unique ID of the video",
               example = "123e4567-e89b-12d3-a456-426614174001",
               required = true,
               in = ParameterIn.PATH
@@ -172,7 +172,7 @@ public interface VideoController {
       responses = {
           @ApiResponse(
               responseCode = "200",
-              description = "Vídeo editado com sucesso.",
+              description = "Video edited successfully.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
                   schema = @Schema(implementation = VideoResponse.class)
@@ -180,7 +180,7 @@ public interface VideoController {
           ),
           @ApiResponse(
               responseCode = "400",
-              description = "Falha ao editar vídeo. Requisição inválida.",
+              description = "Failed to edit video. Invalid request.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
                   schema = @Schema(implementation = ErrorResponse.class)
@@ -188,7 +188,7 @@ public interface VideoController {
           ),
           @ApiResponse(
               responseCode = "404",
-              description = "Vídeo não encontrado.",
+              description = "Video not found.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
                   schema = @Schema(implementation = ErrorResponse.class)
@@ -196,7 +196,7 @@ public interface VideoController {
           ),
           @ApiResponse(
               responseCode = "500",
-              description = "Falha ao editar vídeo. Erro interno do servidor.",
+              description = "Failed to edit video. Internal server error.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
                   schema = @Schema(implementation = ErrorResponse.class)
@@ -204,15 +204,15 @@ public interface VideoController {
           )
       }
   )
-  ResponseEntity<VideoResponse> editVideo(UUID id, VideoRequest videoRequest);
+  ResponseEntity<VideoResponse> editVideo(UUID videoId, VideoRequest videoRequest);
 
   @Operation(
-      summary = "Excluir um Vídeo Existente",
-      description = "Este endpoint tem por objetivo excluir um vídeo existente.",
+      summary = "Delete an Existing Video",
+      description = "This endpoint aims to delete an existing video.",
       parameters = {
           @Parameter(
-              name = "id",
-              description = "ID único do vídeo",
+              name = "videoId",
+              description = "Unique ID of the video",
               example = "123e4567-e89b-12d3-a456-426614174001",
               required = true,
               in = ParameterIn.PATH
@@ -221,11 +221,11 @@ public interface VideoController {
       responses = {
           @ApiResponse(
               responseCode = "204",
-              description = "Vídeo excluído com sucesso."
+              description = "Video deleted successfully."
           ),
           @ApiResponse(
               responseCode = "404",
-              description = "Vídeo não encontrado.",
+              description = "Video not found.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
                   schema = @Schema(implementation = ErrorResponse.class)
@@ -233,7 +233,7 @@ public interface VideoController {
           ),
           @ApiResponse(
               responseCode = "500",
-              description = "Falha ao excluir vídeo. Erro interno do servidor.",
+              description = "Failed to delete video. Internal server error.",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
                   schema = @Schema(implementation = ErrorResponse.class)
@@ -241,5 +241,5 @@ public interface VideoController {
           )
       }
   )
-  ResponseEntity<Void> deleteVideo(UUID id);
+  ResponseEntity<Void> deleteVideo(UUID videoId);
 }

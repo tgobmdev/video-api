@@ -3,5 +3,5 @@ CREATE TABLE video (
 	description VARCHAR(255) NOT NULL,
 	title VARCHAR(255) NOT NULL,
 	url VARCHAR(255) NOT NULL,
-	CONSTRAINT video_pkey PRIMARY KEY (id)
+	PRIMARY KEY (id)
 );
