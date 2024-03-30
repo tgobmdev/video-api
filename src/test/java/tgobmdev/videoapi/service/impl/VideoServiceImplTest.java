@@ -18,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
+import tgobmdev.videoapi.component.CategoryComponent;
 import tgobmdev.videoapi.component.VideoComponent;
 import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
@@ -38,6 +39,9 @@ class VideoServiceImplTest {
 
   @Mock
   private VideoParse videoParse;
+
+  @Mock
+  private CategoryComponent categoryComponent;
 
   @InjectMocks
   private VideoServiceImpl videoService;
@@ -117,7 +121,6 @@ class VideoServiceImplTest {
     VideoRequest videoRequest = VideoMock.createRequest();
     VideoEntity videoEntity = VideoMock.generateEntity();
     VideoResponse expectedResponse = VideoMock.createResponse();
-
     when(videoParse.createFromRequest(videoRequest)).thenReturn(videoEntity);
     when(videoParse.toResponse(videoEntity)).thenReturn(expectedResponse);
 
