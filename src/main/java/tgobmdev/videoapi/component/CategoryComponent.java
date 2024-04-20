@@ -40,4 +40,13 @@ public class CategoryComponent {
     Set<CategoryEntity> categories = new HashSet<>(findCategoriesByIdIn(categoryIds));
     return categories.isEmpty() ? Collections.singleton(findDefaultCategory()) : categories;
   }
+
+  public void deleteCategory(Long categoryId) {
+    CategoryEntity categoryEntity = findCategoryById(categoryId) //
+        .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODE_2));
+
+    categoryEntity.getVideoEntities() //
+        .forEach(videoEntity -> videoEntity.getCategoryEntities().remove(categoryEntity));
+    categoryRepository.delete(categoryEntity);
+  }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,5 +49,16 @@ public class CategoryControllerImpl implements CategoryController {
     CategoryResponse categoryResponse = categoryService.findCategoryById(categoryId);
     log.info("Request [GET] finished at [/categories/{}]", categoryId);
     return ResponseEntity.ok(categoryResponse);
+  }
+
+  @Override
+  @DeleteMapping("/{categoryId}")
+  public ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId) {
+    log.info("Request [DELETE] received at [/categories/{}]", categoryId);
+    categoryService.deleteCategory(categoryId);
+    log.info("Request [DELETE] finished at [/categories/{}]", categoryId);
+    return ResponseEntity //
+        .noContent() //
+        .build();
   }
 }

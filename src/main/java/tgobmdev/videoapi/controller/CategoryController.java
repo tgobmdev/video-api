@@ -114,4 +114,33 @@ public interface CategoryController {
       }
   )
   ResponseEntity<CategoryResponse> findCategoryById(Long categoryId);
+
+  @Operation(
+      summary = "Delete Category",
+      description = "Deletes a category by its unique ID.",
+      parameters = {
+          @Parameter(
+              name = "categoryId",
+              description = "Unique ID of the category",
+              example = "1",
+              required = true,
+              in = ParameterIn.PATH
+          )
+      },
+      responses = {
+          @ApiResponse(
+              responseCode = "204",
+              description = "Category deleted successfully."
+          ),
+          @ApiResponse(
+              responseCode = "404",
+              description = "Category not found.",
+              content = @Content(
+                  mediaType = MediaType.APPLICATION_JSON_VALUE,
+                  schema = @Schema(implementation = ErrorResponse.class)
+              )
+          )
+      }
+  )
+  ResponseEntity<Void> deleteCategory(Long categoryId);
 }
