@@ -5,10 +5,10 @@ spring:
     ansi:
       enabled: ALWAYS
   datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/postgres}
-    username: ${DATABASE_USERNAME:postgres}
-    password: ${DATABASE_PASSWORD:postgres}
-    driver-class-name: ${DATABASE_DRIVER_CLASS_NAME:org.postgresql.Driver}
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: ${DB_DRIVER_CLASS_NAME}
   jpa:
     hibernate:
       ddl-auto: none
