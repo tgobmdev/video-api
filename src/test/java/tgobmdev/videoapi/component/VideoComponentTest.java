@@ -101,7 +101,8 @@ class VideoComponentTest {
     assertDoesNotThrow(() -> videoComponent.deleteVideo(videoId));
     verify(videoRepository).save(videoEntity);
     assertEquals(true, videoEntity.getDeleted());
-    assertEquals(LocalDateTime.class, videoEntity.getDeletedAt().getClass());
+    assertEquals(LocalDateTime.class, videoEntity.getDeletedAt()
+        .getClass());
   }
 
   @Test

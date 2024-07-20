@@ -25,8 +25,8 @@ public class CategoryParse {
 
   public List<CategoryResponse> parseToCategoryResponses(List<CategoryEntity> categories,
       boolean includeVideos) {
-    return categories.stream() //
-        .map(categoryEntity -> parseToCategoryResponse(categoryEntity, includeVideos)) //
+    return categories.stream()
+        .map(categoryEntity -> parseToCategoryResponse(categoryEntity, includeVideos))
         .toList();
   }
 }

@@ -10,13 +10,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(ApiException.class)
   public ResponseEntity<ErrorResponse> handleApiException(ApiException ex) {
-    ErrorResponse errorResponse = ErrorResponse.builder() //
-        .status(ex.getStatus()) //
-        .codeMessage(ex.getCodeMessage()) //
-        .message(ex.getMessage()) //
+    ErrorResponse errorResponse = ErrorResponse.builder()
+        .status(ex.getStatus())
+        .codeMessage(ex.getCodeMessage())
+        .message(ex.getMessage())
         .build();
-    return ResponseEntity //
-        .status(errorResponse.getStatus()) //
+    return ResponseEntity.status(errorResponse.getStatus())
         .body(errorResponse);
   }
 }

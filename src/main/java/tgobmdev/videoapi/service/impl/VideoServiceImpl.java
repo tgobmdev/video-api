@@ -44,7 +44,7 @@ public class VideoServiceImpl implements VideoService {
 
   @Override
   public VideoResponse findActiveVideoById(UUID videoId) {
-    VideoEntity videoEntity = videoComponent.findActiveVideoById(videoId) //
+    VideoEntity videoEntity = videoComponent.findActiveVideoById(videoId)
         .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODE_1));
     return parse(videoEntity);
   }
@@ -56,8 +56,8 @@ public class VideoServiceImpl implements VideoService {
 
   @Override
   public VideoResponse createVideo(VideoRequest videoRequest) {
-    Set<CategoryEntity> categoryEntities = categoryComponent //
-        .findCategoriesOrFallbackToDefault(videoRequest.categoryIds());
+    Set<CategoryEntity> categoryEntities = categoryComponent.findCategoriesOrFallbackToDefault(
+        videoRequest.categoryIds());
 
     VideoEntity videoEntity = videoParse.parseToVideoEntity(videoRequest);
     videoEntity.setCategoryEntities(categoryEntities);
@@ -68,7 +68,7 @@ public class VideoServiceImpl implements VideoService {
 
   @Override
   public VideoResponse editVideo(UUID videoId, VideoRequest videoRequest) {
-    VideoEntity videoEntity = videoComponent.editVideo(videoId, videoRequest) //
+    VideoEntity videoEntity = videoComponent.editVideo(videoId, videoRequest)
         .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODE_1));
     return parse(videoEntity);
   }
