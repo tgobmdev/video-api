@@ -24,8 +24,8 @@ public class VideoParse {
   }
 
   public List<VideoResponse> parseToVideoResponses(Set<VideoEntity> videos) {
-    return videos.stream() //
-        .map(this::parseToVideoResponse) //
+    return videos.stream()
+        .map(this::parseToVideoResponse)
         .toList();
   }
 }

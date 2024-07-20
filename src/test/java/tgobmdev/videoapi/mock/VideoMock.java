@@ -16,21 +16,30 @@ public class VideoMock {
   private static final Faker faker = new Faker();
 
   public static VideoRequest createRequest() {
-    return new VideoRequest(faker.dcComics().title(), faker.lorem().characters(),
-        faker.internet().url(), Set.of(1L));
+    return new VideoRequest(faker.dcComics()
+        .title(), faker.lorem()
+        .characters(),
+        faker.internet()
+            .url(), Set.of(1L));
   }
 
   public static VideoResponse createResponse() {
-    return new VideoResponse(UUID.randomUUID(), faker.worldOfWarcraft().hero(),
-        faker.lorem().characters(), faker.internet().url());
+    return new VideoResponse(UUID.randomUUID(), faker.worldOfWarcraft()
+        .hero(),
+        faker.lorem()
+            .characters(), faker.internet()
+        .url());
   }
 
   public static VideoEntity generateEntity() {
     VideoEntity videoEntity = new VideoEntity();
     videoEntity.setId(UUID.randomUUID());
-    videoEntity.setTitle(faker.basketball().players());
-    videoEntity.setDescription(faker.lorem().characters());
-    videoEntity.setUrl(faker.internet().url());
+    videoEntity.setTitle(faker.basketball()
+        .players());
+    videoEntity.setDescription(faker.lorem()
+        .characters());
+    videoEntity.setUrl(faker.internet()
+        .url());
     videoEntity.setCategoryEntities(Collections.emptySet());
     return videoEntity;
   }

@@ -21,22 +21,20 @@ public class OpenApiConfig {
 
   @Bean
   public OpenAPI openAPI() {
-    return new OpenAPI() //
-        .info(getInfo());
+    return new OpenAPI().info(getInfo());
   }
 
   @Bean
   public GroupedOpenApi groupedOpenApi() {
-    return GroupedOpenApi.builder() //
-        .group("api") //
-        .pathsToMatch("/**") //
+    return GroupedOpenApi.builder()
+        .group("api")
+        .pathsToMatch("/**")
         .build();
   }
 
   private Info getInfo() {
-    return new Info() //
-        .title(applicationName) //
-        .description(applicationDescription) //
+    return new Info().title(applicationName)
+        .description(applicationDescription)
         .version(applicationVersion);
   }
 }
