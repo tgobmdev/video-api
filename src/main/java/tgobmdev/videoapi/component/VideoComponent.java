@@ -54,16 +54,15 @@ public class VideoComponent {
   }
 
   public Optional<VideoEntity> editVideo(UUID videoId, VideoRequest videoRequest) {
-    return findByIdAndDeletedAtIsNull(videoId) //
-        .map(videoEntity -> {
-          updateVideo(videoEntity, videoRequest);
-          return videoEntity;
-        });
+    return findByIdAndDeletedAtIsNull(videoId).map(videoEntity -> {
+      updateVideo(videoEntity, videoRequest);
+      return videoEntity;
+    });
   }
 
   public void deleteVideo(UUID videoId) {
-    VideoEntity videoEntity = findByIdAndDeletedAtIsNull(videoId) //
-        .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODE_1));
+    VideoEntity videoEntity = findByIdAndDeletedAtIsNull(videoId).orElseThrow(
+        () -> ApiException.of(404, MessageErrorEnum.CODE_1));
     softDeleteVideo(videoEntity);
   }
 }
