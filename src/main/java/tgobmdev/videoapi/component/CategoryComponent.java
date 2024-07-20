@@ -42,11 +42,12 @@ public class CategoryComponent {
   }
 
   public void deleteCategory(Long categoryId) {
-    CategoryEntity categoryEntity = findCategoryById(categoryId) //
-        .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODE_2));
+    CategoryEntity categoryEntity = findCategoryById(categoryId).orElseThrow(
+        () -> ApiException.of(404, MessageErrorEnum.CODE_2));
 
-    categoryEntity.getVideoEntities() //
-        .forEach(videoEntity -> videoEntity.getCategoryEntities().remove(categoryEntity));
+    categoryEntity.getVideoEntities()
+        .forEach(videoEntity -> videoEntity.getCategoryEntities()
+            .remove(categoryEntity));
     categoryRepository.delete(categoryEntity);
   }
 }

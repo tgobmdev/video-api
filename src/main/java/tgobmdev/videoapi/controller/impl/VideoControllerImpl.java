@@ -67,13 +67,12 @@ public class VideoControllerImpl implements VideoController {
     log.info("Request [POST] received at [/videos]");
     VideoResponse createdVideo = videoService.createVideo(videoRequest);
 
-    URI location = ServletUriComponentsBuilder.fromCurrentRequest() //
-        .path("/{videoId}") //
-        .buildAndExpand(createdVideo.id()) //
+    URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+        .path("/{videoId}")
+        .buildAndExpand(createdVideo.id())
         .toUri();
     log.info("Request [POST] finished at [/videos]");
-    return ResponseEntity //
-        .created(location) //
+    return ResponseEntity.created(location)
         .build();
   }
 
@@ -93,8 +92,7 @@ public class VideoControllerImpl implements VideoController {
     log.info("Request [DELETE] received at [/videos/{}]", videoId);
     videoService.deleteVideo(videoId);
     log.info("Request [DELETE] finished at [/videos/{}]", videoId);
-    return ResponseEntity //
-        .noContent() //
+    return ResponseEntity.noContent()
         .build();
   }
 }

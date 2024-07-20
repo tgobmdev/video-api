@@ -57,8 +57,7 @@ public class CategoryControllerImpl implements CategoryController {
     log.info("Request [DELETE] received at [/categories/{}]", categoryId);
     categoryService.deleteCategory(categoryId);
     log.info("Request [DELETE] finished at [/categories/{}]", categoryId);
-    return ResponseEntity //
-        .noContent() //
+    return ResponseEntity.noContent()
         .build();
   }
 }
