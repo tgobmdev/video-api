@@ -49,4 +49,10 @@ public class CategoryServiceImpl implements CategoryService {
     CategoryEntity categoryEntity = obtainCategoryById(categoryId);
     return parse(categoryEntity, Boolean.FALSE);
   }
+
+  @Override
+  @Transactional
+  public void deleteCategory(Long categoryId) {
+    categoryComponent.deleteCategory(categoryId);
+  }
 }

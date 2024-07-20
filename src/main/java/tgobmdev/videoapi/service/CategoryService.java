@@ -10,4 +10,6 @@ public interface CategoryService {
   CategoryResponse findVideosByCategoryId(Long categoryId);
 
   CategoryResponse findCategoryById(Long categoryId);
+
+  void deleteCategory(Long categoryId);
 }
