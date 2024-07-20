@@ -48,7 +48,9 @@ class OpenApiConfigTest {
   void givenApplicationValues_whenGroupedOpenApi_thenReturnsCorrectInfo() {
     List<String> pathsToMatch = Collections.singletonList("/**");
 
-    assertEquals("api", openApiConfig.groupedOpenApi().getGroup());
-    assertEquals(pathsToMatch, openApiConfig.groupedOpenApi().getPathsToMatch());
+    assertEquals("api", openApiConfig.groupedOpenApi()
+        .getGroup());
+    assertEquals(pathsToMatch, openApiConfig.groupedOpenApi()
+        .getPathsToMatch());
   }
 }

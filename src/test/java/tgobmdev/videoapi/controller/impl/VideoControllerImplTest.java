@@ -103,7 +103,8 @@ class VideoControllerImplTest {
     ResponseEntity<VideoResponse> responseEntity = videoController.createVideo(videoRequest);
 
     assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-    assertEquals(expectedLocation, responseEntity.getHeaders().getLocation());
+    assertEquals(expectedLocation, responseEntity.getHeaders()
+        .getLocation());
     verify(videoService, times(1)).createVideo(videoRequest);
   }
 
