@@ -10,6 +10,7 @@ import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import tgobmdev.videoapi.util.StringUtil;
 
 @Aspect
 @Log4j2
@@ -24,8 +25,9 @@ public class LoggingImpl {
 
   @AfterReturning(pointcut = "@annotation(tgobmdev.videoapi.annotation.Logging)", returning = "result")
   public void logAfterReturning(Object result) {
+    String message = StringUtil.truncate(result.toString(), 100);
     log.info("Request [{}] to [{}] completed successfully, result [{}]", getMethod(),
-        getRequestURI(), result);
+        getRequestURI(), message);
   }
 
   @AfterThrowing(pointcut = "@annotation(tgobmdev.videoapi.annotation.Logging)", throwing = "exception")
