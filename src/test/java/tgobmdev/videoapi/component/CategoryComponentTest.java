@@ -40,7 +40,6 @@ class CategoryComponentTest {
     CategoryEntity categoryEntity = CategoryMock.generateEntity();
 
     when(categoryRepository.findById(categoryId)).thenReturn(Optional.of(categoryEntity));
-
     Optional<CategoryEntity> result = categoryComponent.findCategoryById(categoryId);
 
     assertEquals(Optional.of(categoryEntity), result);
@@ -68,7 +67,6 @@ class CategoryComponentTest {
 
     when(categoryRepository.findByIdIn(categoryIds)).thenReturn(
         Collections.singleton(categoryEntity));
-
     Set<CategoryEntity> result = categoryComponent.findCategoriesOrFallbackToDefault(categoryIds);
 
     assertEquals(Collections.singleton(categoryEntity), result);
