@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import tgobmdev.videoapi.dto.request.CategoryRequest;
 import tgobmdev.videoapi.dto.response.CategoryResponse;
 import tgobmdev.videoapi.exception.ErrorResponse;
 
@@ -114,6 +115,8 @@ public interface CategoryController {
       }
   )
   ResponseEntity<CategoryResponse> findCategoryById(Long categoryId);
+
+  ResponseEntity<CategoryResponse> createCategory(CategoryRequest categoryRequest);
 
   @Operation(
       summary = "Delete Category",

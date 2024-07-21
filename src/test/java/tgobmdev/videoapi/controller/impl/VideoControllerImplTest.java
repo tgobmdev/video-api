@@ -43,14 +43,12 @@ class VideoControllerImplTest {
   }
 
   @Test
-  void givenActiveVideosExists_whenFindAllActiveVideos_thenReturnsListOfVideoResponses() {
+  void givenActiveVideosExists_whenFindAllActiveVideos_thenReturnsListOfVideos() {
     List<VideoResponse> expectedResponses = List.of(VideoMock.createResponse(),
         VideoMock.createResponse());
 
-    VideoFilter filter = VideoFilter.builder()
-        .build();
+    VideoFilter filter = VideoMock.createFilter();
     when(videoService.findAllActiveVideos(filter)).thenReturn(expectedResponses);
-
     ResponseEntity<List<VideoResponse>> responseEntity = videoController.findAllActiveVideos(
         filter);
 
@@ -60,12 +58,11 @@ class VideoControllerImplTest {
   }
 
   @Test
-  void givenVideoIdExists_whenFindActiveVideoById_thenReturnsVideoResponse() {
+  void givenVideoIdExists_whenFindActiveVideoById_thenReturnsVideo() {
     UUID videoId = UUID.randomUUID();
     VideoResponse expectedResponse = VideoMock.createResponse();
 
     when(videoService.findActiveVideoById(videoId)).thenReturn(expectedResponse);
-
     ResponseEntity<VideoResponse> responseEntity = videoController.findActiveVideoById(videoId);
 
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -74,14 +71,13 @@ class VideoControllerImplTest {
   }
 
   @Test
-  void givenValidVideoRequest_whenCreateVideo_thenReturnsCreatedResponseWithLocationHeader() {
+  void givenValidVideoRequest_whenCreateVideo_thenReturnsVideoWithLocationHeader() {
     VideoRequest videoRequest = VideoMock.createRequest();
     VideoResponse expectedResponse = VideoMock.createResponse();
     URI expectedLocation = URI.create("/videos/" + expectedResponse.id());
 
     when(mockHttpServletRequest.getRequestURI()).thenReturn("/videos");
     when(videoService.createVideo(videoRequest)).thenReturn(expectedResponse);
-
     ResponseEntity<VideoResponse> responseEntity = videoController.createVideo(videoRequest);
 
     assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
@@ -91,13 +87,12 @@ class VideoControllerImplTest {
   }
 
   @Test
-  void givenVideoIdAndRequestExists_whenEditVideo_thenReturnsUpdatedVideoResponse() {
+  void givenVideoIdAndRequestExists_whenEditVideo_thenReturnsVideoUpdated() {
     UUID videoId = UUID.randomUUID();
     VideoRequest videoRequest = VideoMock.createRequest();
     VideoResponse expectedResponse = VideoMock.createResponse();
 
     when(videoService.editVideo(videoId, videoRequest)).thenReturn(expectedResponse);
-
     ResponseEntity<VideoResponse> responseEntity = videoController.editVideo(videoId, videoRequest);
 
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -106,7 +101,7 @@ class VideoControllerImplTest {
   }
 
   @Test
-  void givenVideoIdExists_whenDeleteVideo_thenReturnsNoContentResponse() {
+  void givenVideoIdExists_whenDeleteVideo_thenReturnsNoContent() {
     UUID videoId = UUID.randomUUID();
 
     ResponseEntity<Void> responseEntity = videoController.deleteVideo(videoId);

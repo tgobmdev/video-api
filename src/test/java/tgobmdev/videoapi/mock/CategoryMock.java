@@ -4,6 +4,7 @@ import java.util.Collections;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.datafaker.Faker;
+import tgobmdev.videoapi.dto.request.CategoryRequest;
 import tgobmdev.videoapi.dto.response.CategoryResponse;
 import tgobmdev.videoapi.entity.CategoryEntity;
 
@@ -12,14 +13,19 @@ public class CategoryMock {
 
   private static final Faker faker = new Faker();
 
-  public static CategoryResponse createResponse() {
-    return new CategoryResponse(Long.MAX_VALUE, faker.worldOfWarcraft()
-        .hero(),
-        faker.lorem()
-            .characters(), Collections.emptyList());
+  public static CategoryRequest createRequest() {
+    return new CategoryRequest(faker.naruto()
+        .character(), faker.naruto()
+        .eye());
   }
 
-  public static CategoryEntity generateEntity() {
+  public static CategoryResponse createResponse() {
+    return new CategoryResponse(Long.MAX_VALUE, faker.worldOfWarcraft()
+        .hero(), faker.lorem()
+        .characters(), Collections.emptyList());
+  }
+
+  public static CategoryEntity createEntity() {
     CategoryEntity categoryEntity = new CategoryEntity();
     categoryEntity.setId(Long.MAX_VALUE);
     categoryEntity.setTitle(faker.basketball()
