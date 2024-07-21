@@ -6,6 +6,7 @@ import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.datafaker.Faker;
+import tgobmdev.videoapi.dto.request.VideoFilter;
 import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.entity.VideoEntity;
@@ -40,5 +41,16 @@ public class VideoMock {
         .url());
     videoEntity.setCategoryEntities(Collections.emptySet());
     return videoEntity;
+  }
+
+  public static VideoFilter createFilter() {
+    return VideoFilter.builder()
+        .build();
+  }
+
+  public static VideoFilter createFilter(String search) {
+    return VideoFilter.builder()
+        .search(search)
+        .build();
   }
 }

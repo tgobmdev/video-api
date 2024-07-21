@@ -19,7 +19,6 @@ class OpenApiConfigTest {
   private String applicationName;
   private String applicationDescription;
   private String applicationVersion;
-
   @InjectMocks
   private OpenApiConfig openApiConfig;
 
