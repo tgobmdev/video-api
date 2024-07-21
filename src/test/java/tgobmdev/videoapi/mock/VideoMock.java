@@ -29,7 +29,7 @@ public class VideoMock {
         .url());
   }
 
-  public static VideoEntity generateEntity() {
+  public static VideoEntity createEntity() {
     VideoEntity videoEntity = new VideoEntity();
     videoEntity.setId(UUID.randomUUID());
     videoEntity.setTitle(faker.basketball()

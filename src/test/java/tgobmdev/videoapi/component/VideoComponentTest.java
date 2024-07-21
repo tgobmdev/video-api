@@ -36,7 +36,7 @@ class VideoComponentTest {
   void givenActiveVideosExists_whenFindAllActiveVideos_thenReturnsListOfVideos() {
     VideoFilter filter = VideoFilter.builder()
         .build();
-    when(videoRepository.findVideosByFilter(filter)).thenReturn(Set.of(VideoMock.generateEntity()));
+    when(videoRepository.findVideosByFilter(filter)).thenReturn(Set.of(VideoMock.createEntity()));
 
     Set<VideoEntity> result = videoComponent.findAllActiveVideos(filter);
 
@@ -46,7 +46,7 @@ class VideoComponentTest {
   @Test
   void givenVideoIdExists_whenFindActiveVideoById_thenReturnsVideoEntity() {
     UUID videoId = UUID.randomUUID();
-    VideoEntity videoEntity = VideoMock.generateEntity();
+    VideoEntity videoEntity = VideoMock.createEntity();
 
     when(videoRepository.findByIdAndDeletedAtIsNull(videoId)).thenReturn(Optional.of(videoEntity));
 
@@ -60,7 +60,7 @@ class VideoComponentTest {
     VideoFilter filter = VideoFilter.builder()
         .search("Test")
         .build();
-    when(videoRepository.findVideosByFilter(filter)).thenReturn(Set.of(VideoMock.generateEntity()));
+    when(videoRepository.findVideosByFilter(filter)).thenReturn(Set.of(VideoMock.createEntity()));
 
     Set<VideoEntity> result = videoComponent.findAllActiveVideos(filter);
 
@@ -69,7 +69,7 @@ class VideoComponentTest {
 
   @Test
   void givenVideoEntityExists_whenSaveVideo_thenSavesVideoEntity() {
-    VideoEntity videoEntity = VideoMock.generateEntity();
+    VideoEntity videoEntity = VideoMock.createEntity();
 
     assertDoesNotThrow(() -> videoComponent.saveVideo(videoEntity));
     assertEquals(Collections.emptySet(), videoEntity.getCategoryEntities());
@@ -80,7 +80,7 @@ class VideoComponentTest {
   void givenVideoIdAndRequestExists_whenEditVideo_thenReturnsUpdatedVideoEntity() {
     UUID videoId = UUID.randomUUID();
     VideoRequest videoRequest = VideoMock.createRequest();
-    VideoEntity videoEntity = VideoMock.generateEntity();
+    VideoEntity videoEntity = VideoMock.createEntity();
 
     when(videoRepository.findByIdAndDeletedAtIsNull(videoId)).thenReturn(Optional.of(videoEntity));
 
@@ -93,7 +93,7 @@ class VideoComponentTest {
   @Test
   void givenVideoIdExists_whenDeleteVideo_thenSoftDeletesVideoEntity() {
     UUID videoId = UUID.randomUUID();
-    VideoEntity videoEntity = VideoMock.generateEntity();
+    VideoEntity videoEntity = VideoMock.createEntity();
 
     when(videoRepository.findByIdAndDeletedAtIsNull(videoId)).thenReturn(Optional.of(videoEntity));
 

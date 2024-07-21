@@ -27,7 +27,7 @@ class CategoryComponentTest {
 
   @Test
   void givenActiveCategoriesExists_whenFindAllCategories_thenReturnsListOfVideos() {
-    when(categoryRepository.findAll()).thenReturn(List.of(CategoryMock.generateEntity()));
+    when(categoryRepository.findAll()).thenReturn(List.of(CategoryMock.createEntity()));
 
     List<CategoryEntity> result = categoryComponent.findAllCategories();
 
@@ -37,7 +37,7 @@ class CategoryComponentTest {
   @Test
   void givenCategoryIdExists_whenFindCategoryById_thenReturnsCategoryEntity() {
     Long categoryId = 1L;
-    CategoryEntity categoryEntity = CategoryMock.generateEntity();
+    CategoryEntity categoryEntity = CategoryMock.createEntity();
 
     when(categoryRepository.findById(categoryId)).thenReturn(Optional.of(categoryEntity));
     Optional<CategoryEntity> result = categoryComponent.findCategoryById(categoryId);
@@ -49,7 +49,7 @@ class CategoryComponentTest {
   void givenCategoryIdsIsEmpty_whenFindCategoriesOrFallbackToDefault_thenReturnsDefaultCategory() {
     Long categoryId = 1L;
     Set<Long> categoryIds = Collections.emptySet();
-    CategoryEntity categoryEntity = CategoryMock.generateEntity();
+    CategoryEntity categoryEntity = CategoryMock.createEntity();
 
     when(categoryRepository.findById(categoryId)).thenReturn(Optional.of(categoryEntity));
     when(categoryRepository.findByIdIn(categoryIds)).thenReturn(Collections.emptySet());
@@ -62,7 +62,7 @@ class CategoryComponentTest {
 
   @Test
   void givenCategoryIdsNotEmpty_whenFindCategoriesOrFallbackToDefault_thenReturnsDefaultCategory() {
-    CategoryEntity categoryEntity = CategoryMock.generateEntity();
+    CategoryEntity categoryEntity = CategoryMock.createEntity();
     Set<Long> categoryIds = Collections.singleton(categoryEntity.getId());
 
     when(categoryRepository.findByIdIn(categoryIds)).thenReturn(

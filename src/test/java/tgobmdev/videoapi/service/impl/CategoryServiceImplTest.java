@@ -32,8 +32,8 @@ class CategoryServiceImplTest {
 
   @Test
   void givenActiveCategoriesExists_whenFindAllCategories_thenReturnsListOfVideoResponses() {
-    List<CategoryEntity> categoryEntities = List.of(CategoryMock.generateEntity(),
-        CategoryMock.generateEntity());
+    List<CategoryEntity> categoryEntities = List.of(CategoryMock.createEntity(),
+        CategoryMock.createEntity());
     List<CategoryResponse> expectedResponses = List.of(CategoryMock.createResponse(),
         CategoryMock.createResponse());
 
@@ -50,7 +50,7 @@ class CategoryServiceImplTest {
   @Test
   void givenExistingCategoryId_whenFindVideosByCategoryId_thenReturnsCategoryResponse() {
     Long categoryId = 1L;
-    CategoryEntity categoryEntity = CategoryMock.generateEntity();
+    CategoryEntity categoryEntity = CategoryMock.createEntity();
     CategoryResponse expectedResponse = CategoryMock.createResponse();
 
     when(categoryComponent.findCategoryById(categoryId)).thenReturn(Optional.of(categoryEntity));
@@ -66,7 +66,7 @@ class CategoryServiceImplTest {
   @Test
   void givenExistingCategoryId_whenFindCategoryById_thenReturnsCategoryResponse() {
     Long categoryId = 1L;
-    CategoryEntity categoryEntity = CategoryMock.generateEntity();
+    CategoryEntity categoryEntity = CategoryMock.createEntity();
     CategoryResponse expectedResponse = CategoryMock.createResponse();
 
     when(categoryComponent.findCategoryById(categoryId)).thenReturn(Optional.of(categoryEntity));

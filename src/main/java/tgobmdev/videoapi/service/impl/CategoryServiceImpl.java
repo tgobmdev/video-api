@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tgobmdev.videoapi.component.CategoryComponent;
+import tgobmdev.videoapi.dto.request.CategoryRequest;
 import tgobmdev.videoapi.dto.response.CategoryResponse;
 import tgobmdev.videoapi.entity.CategoryEntity;
 import tgobmdev.videoapi.exception.ApiException;
@@ -42,6 +43,13 @@ public class CategoryServiceImpl implements CategoryService {
   @Override
   public CategoryResponse findCategoryById(Long categoryId) {
     CategoryEntity categoryEntity = obtainCategoryById(categoryId);
+    return categoryMapper.toResponse(categoryEntity, Boolean.FALSE);
+  }
+
+  @Override
+  public CategoryResponse createCategory(CategoryRequest categoryRequest) {
+    CategoryEntity categoryEntity = categoryMapper.toEntity(categoryRequest);
+    categoryComponent.saveCategory(categoryEntity);
     return categoryMapper.toResponse(categoryEntity, Boolean.FALSE);
   }
 

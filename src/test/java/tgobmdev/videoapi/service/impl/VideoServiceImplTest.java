@@ -44,7 +44,7 @@ class VideoServiceImplTest {
 
   @Test
   void givenActiveVideosExists_whenFindAllActiveVideos_thenReturnsListOfVideoResponses() {
-    Set<VideoEntity> videoEntities = Set.of(VideoMock.generateEntity(), VideoMock.generateEntity());
+    Set<VideoEntity> videoEntities = Set.of(VideoMock.createEntity(), VideoMock.createEntity());
     List<VideoResponse> expectedResponses = List.of(VideoMock.createResponse(),
         VideoMock.createResponse());
 
@@ -64,7 +64,7 @@ class VideoServiceImplTest {
   @Test
   void givenExistingId_whenFindActiveVideoById_thenReturnsVideoResponse() {
     UUID videoId = UUID.randomUUID();
-    VideoEntity videoEntity = VideoMock.generateEntity();
+    VideoEntity videoEntity = VideoMock.createEntity();
     VideoResponse expectedResponse = VideoMock.createResponse();
 
     when(videoComponent.findActiveVideoById(videoId)).thenReturn(Optional.of(videoEntity));
@@ -94,7 +94,7 @@ class VideoServiceImplTest {
   @Test
   void givenValidVideoRequest_whenCreateVideo_thenReturnsVideoResponse() {
     VideoRequest videoRequest = VideoMock.createRequest();
-    VideoEntity videoEntity = VideoMock.generateEntity();
+    VideoEntity videoEntity = VideoMock.createEntity();
     VideoResponse expectedResponse = VideoMock.createResponse();
     when(videoMapper.toEntity(videoRequest)).thenReturn(videoEntity);
     when(videoMapper.toResponse(videoEntity)).thenReturn(expectedResponse);
@@ -111,7 +111,7 @@ class VideoServiceImplTest {
   void givenExistingIdAndValidRequest_whenEditVideo_thenReturnsUpdatedVideoResponse() {
     UUID videoId = UUID.randomUUID();
     VideoRequest videoRequest = VideoMock.createRequest();
-    VideoEntity videoEntity = VideoMock.generateEntity();
+    VideoEntity videoEntity = VideoMock.createEntity();
     VideoResponse expectedResponse = VideoMock.createResponse();
 
     when(videoComponent.editVideo(videoId, videoRequest)).thenReturn(Optional.of(videoEntity));
