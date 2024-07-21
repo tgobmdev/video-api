@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.util.Set;
 import lombok.Getter;
@@ -15,10 +16,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "category")
+@SequenceGenerator(name = "category_seq", sequenceName = "category_id_seq", allocationSize = 1)
 public class CategoryEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_seq")
   private Long id;
 
   @Column(nullable = false)
