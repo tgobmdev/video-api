@@ -2,7 +2,6 @@ package tgobmdev.videoapi.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -19,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tgobmdev.videoapi.component.CategoryComponent;
 import tgobmdev.videoapi.component.VideoComponent;
+import tgobmdev.videoapi.dto.request.VideoFilter;
 import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.entity.VideoEntity;
@@ -48,13 +48,16 @@ class VideoServiceImplTest {
     List<VideoResponse> expectedResponses = List.of(VideoMock.createResponse(),
         VideoMock.createResponse());
 
-    when(videoComponent.findAllActiveVideos()).thenReturn(videoEntities);
+    VideoFilter filter = VideoFilter.builder()
+        .build();
+
+    when(videoComponent.findAllActiveVideos(filter)).thenReturn(videoEntities);
     when(videoMapper.toResponses(videoEntities)).thenReturn(expectedResponses);
 
-    List<VideoResponse> result = videoService.findAllActiveVideos();
+    List<VideoResponse> result = videoService.findAllActiveVideos(filter);
 
     assertEquals(expectedResponses, result);
-    verify(videoComponent, times(1)).findAllActiveVideos();
+    verify(videoComponent, times(1)).findAllActiveVideos(filter);
     verify(videoMapper, times(1)).toResponses(videoEntities);
   }
 
@@ -86,23 +89,6 @@ class VideoServiceImplTest {
     assertEquals(MessageErrorEnum.CODE_1.getCode(), apiException.getCodeMessage());
     verify(videoComponent, times(1)).findActiveVideoById(videoId);
     verifyNoInteractions(videoMapper);
-  }
-
-  @Test
-  void givenThereAreActiveVideosByTitle_whenFindAllActiveVideosByTitle_thenReturnsListOfVideoResponses() {
-    String title = anyString();
-    Set<VideoEntity> videoEntities = Set.of(VideoMock.generateEntity(), VideoMock.generateEntity());
-    List<VideoResponse> expectedResponses = List.of(VideoMock.createResponse(),
-        VideoMock.createResponse());
-
-    when(videoComponent.findAllActiveVideosByTitle(title)).thenReturn(videoEntities);
-    when(videoMapper.toResponses(videoEntities)).thenReturn(expectedResponses);
-
-    List<VideoResponse> result = videoService.findAllActiveVideosByTitle(title);
-
-    assertEquals(expectedResponses, result);
-    verify(videoComponent, times(1)).findAllActiveVideosByTitle(title);
-    verify(videoMapper, times(1)).toResponses(videoEntities);
   }
 
   @Test

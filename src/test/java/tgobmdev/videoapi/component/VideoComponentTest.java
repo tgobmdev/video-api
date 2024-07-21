@@ -3,7 +3,6 @@ package tgobmdev.videoapi.component;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -17,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import tgobmdev.videoapi.dto.request.VideoFilter;
 import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.entity.VideoEntity;
 import tgobmdev.videoapi.exception.ApiException;
@@ -34,9 +34,11 @@ class VideoComponentTest {
 
   @Test
   void givenActiveVideosExists_whenFindAllActiveVideos_thenReturnsListOfVideos() {
-    when(videoRepository.findAllByDeletedAtIsNull()).thenReturn(Set.of(VideoMock.generateEntity()));
+    VideoFilter filter = VideoFilter.builder()
+        .build();
+    when(videoRepository.findVideosByFilter(filter)).thenReturn(Set.of(VideoMock.generateEntity()));
 
-    Set<VideoEntity> result = videoComponent.findAllActiveVideos();
+    Set<VideoEntity> result = videoComponent.findAllActiveVideos(filter);
 
     assertEquals(1, result.size());
   }
@@ -55,11 +57,12 @@ class VideoComponentTest {
 
   @Test
   void givenThereAreActiveVideosByTitle_whenFindAllActiveVideosByTitle_thenReturnsListOfVideos() {
-    String title = anyString();
-    when(videoRepository.findByTitleContainingIgnoreCaseAndDeletedAtIsNull(title)).thenReturn(
-        Set.of(VideoMock.generateEntity()));
+    VideoFilter filter = VideoFilter.builder()
+        .search("Test")
+        .build();
+    when(videoRepository.findVideosByFilter(filter)).thenReturn(Set.of(VideoMock.generateEntity()));
 
-    Set<VideoEntity> result = videoComponent.findAllActiveVideosByTitle(title);
+    Set<VideoEntity> result = videoComponent.findAllActiveVideos(filter);
 
     assertEquals(1, result.size());
   }

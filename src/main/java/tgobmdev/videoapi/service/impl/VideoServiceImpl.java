@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import tgobmdev.videoapi.component.CategoryComponent;
 import tgobmdev.videoapi.component.VideoComponent;
+import tgobmdev.videoapi.dto.request.VideoFilter;
 import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.entity.CategoryEntity;
@@ -30,8 +31,8 @@ public class VideoServiceImpl implements VideoService {
   }
 
   @Override
-  public List<VideoResponse> findAllActiveVideos() {
-    return videoMapper.toResponses(videoComponent.findAllActiveVideos());
+  public List<VideoResponse> findAllActiveVideos(VideoFilter filter) {
+    return videoMapper.toResponses(videoComponent.findAllActiveVideos(filter));
   }
 
   @Override
@@ -39,11 +40,6 @@ public class VideoServiceImpl implements VideoService {
     VideoEntity videoEntity = videoComponent.findActiveVideoById(videoId)
         .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODE_1));
     return videoMapper.toResponse(videoEntity);
-  }
-
-  @Override
-  public List<VideoResponse> findAllActiveVideosByTitle(String title) {
-    return videoMapper.toResponses(videoComponent.findAllActiveVideosByTitle(title));
   }
 
   @Override

@@ -25,7 +25,7 @@ public class CategoryControllerImpl implements CategoryController {
 
   @Logging
   @Override
-  @GetMapping(value = "/list")
+  @GetMapping
   public ResponseEntity<List<CategoryResponse>> findAllCategories() {
     return ResponseEntity.ok(categoryService.findAllCategories());
   }

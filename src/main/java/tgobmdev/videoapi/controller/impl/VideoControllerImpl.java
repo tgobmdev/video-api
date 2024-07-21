@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,11 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tgobmdev.videoapi.annotation.Logging;
 import tgobmdev.videoapi.controller.VideoController;
+import tgobmdev.videoapi.dto.request.VideoFilter;
 import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.service.VideoService;
@@ -34,9 +35,10 @@ public class VideoControllerImpl implements VideoController {
 
   @Logging
   @Override
-  @GetMapping(value = "/list")
-  public ResponseEntity<List<VideoResponse>> findAllActiveVideos() {
-    return ResponseEntity.ok(videoService.findAllActiveVideos());
+  @GetMapping
+  public ResponseEntity<List<VideoResponse>> findAllActiveVideos(
+      @ParameterObject VideoFilter filter) {
+    return ResponseEntity.ok(videoService.findAllActiveVideos(filter));
   }
 
   @Logging
@@ -44,14 +46,6 @@ public class VideoControllerImpl implements VideoController {
   @GetMapping(value = "/{videoId}")
   public ResponseEntity<VideoResponse> findActiveVideoById(@PathVariable UUID videoId) {
     return ResponseEntity.ok(videoService.findActiveVideoById(videoId));
-  }
-
-  @Logging
-  @Override
-  @GetMapping
-  public ResponseEntity<List<VideoResponse>> findAllActiveVideosByTitle(
-      @RequestParam String search) {
-    return ResponseEntity.ok(videoService.findAllActiveVideosByTitle(search));
   }
 
   @Logging

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import tgobmdev.videoapi.dto.request.VideoFilter;
 import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.exception.ErrorResponse;
@@ -33,7 +34,7 @@ public interface VideoController {
           )
       }
   )
-  ResponseEntity<List<VideoResponse>> findAllActiveVideos();
+  ResponseEntity<List<VideoResponse>> findAllActiveVideos(VideoFilter filter);
 
   @Operation(
       summary = "Get an Active Video by ID",
@@ -83,46 +84,6 @@ public interface VideoController {
       }
   )
   ResponseEntity<VideoResponse> findActiveVideoById(UUID videoId);
-
-  @Operation(
-      summary = "Get List of Active Videos by Title",
-      description = "This endpoint aims to retrieve the list of active videos based on title.",
-      parameters = {
-          @Parameter(
-              name = "search",
-              description = "Title to be used as search criteria.",
-              required = true,
-              in = ParameterIn.QUERY
-          )
-      },
-      responses = {
-          @ApiResponse(
-              responseCode = "200",
-              description = "List of videos retrieved successfully.",
-              content = @Content(
-                  mediaType = MediaType.APPLICATION_JSON_VALUE,
-                  array = @ArraySchema(schema = @Schema(implementation = VideoResponse.class))
-              )
-          ),
-          @ApiResponse(
-              responseCode = "400",
-              description = "Failed to retrieve videos. Invalid request.",
-              content = @Content(
-                  mediaType = MediaType.APPLICATION_JSON_VALUE,
-                  schema = @Schema(implementation = ErrorResponse.class)
-              )
-          ),
-          @ApiResponse(
-              responseCode = "500",
-              description = "Failed to retrieve videos. Internal server error.",
-              content = @Content(
-                  mediaType = MediaType.APPLICATION_JSON_VALUE,
-                  schema = @Schema(implementation = ErrorResponse.class)
-              )
-          )
-      }
-  )
-  ResponseEntity<List<VideoResponse>> findAllActiveVideosByTitle(String search);
 
   @Operation(
       summary = "Create a New Video",
