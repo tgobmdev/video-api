@@ -23,12 +23,9 @@ class RestExceptionHandlerTest {
 
   @Test
   void handleApiException_thenReturnsErrorResponse() {
-    when(apiException.getStatus()) //
-        .thenReturn(HttpStatus.BAD_REQUEST.value());
-    when(apiException.getCodeMessage()) //
-        .thenReturn(0);
-    when(apiException.getMessage()) //
-        .thenReturn("Error message");
+    when(apiException.getStatus()).thenReturn(HttpStatus.BAD_REQUEST.value());
+    when(apiException.getCodeMessage()).thenReturn(0);
+    when(apiException.getMessage()).thenReturn("Error message");
 
     ResponseEntity<ErrorResponse> responseEntity = restExceptionHandler.handleApiException(
         apiException);

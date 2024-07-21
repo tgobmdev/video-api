@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import tgobmdev.videoapi.dto.request.CategoryRequest;
 import tgobmdev.videoapi.dto.response.CategoryResponse;
 import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.entity.CategoryEntity;
@@ -11,6 +12,10 @@ import tgobmdev.videoapi.entity.VideoEntity;
 
 @Mapper(componentModel = "spring", uses = {VideoMapper.class})
 public interface CategoryMapper {
+
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "videoEntities", ignore = true)
+  CategoryEntity toEntity(CategoryRequest categoryRequest);
 
   @Mapping(target = "videos", expression = "java(includeVideos ? mapVideos(category.getVideoEntities()) : null)")
   CategoryResponse toResponse(CategoryEntity category, boolean includeVideos);

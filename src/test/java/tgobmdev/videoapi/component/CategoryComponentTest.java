@@ -1,6 +1,8 @@
 package tgobmdev.videoapi.component;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
@@ -26,8 +28,8 @@ class CategoryComponentTest {
   private CategoryComponent categoryComponent;
 
   @Test
-  void givenActiveCategoriesExists_whenFindAllCategories_thenReturnsListOfVideos() {
-    when(categoryRepository.findAll()).thenReturn(List.of(CategoryMock.generateEntity()));
+  void givenActiveCategoriesExists_whenFindAllCategories_thenReturnsListOfCategories() {
+    when(categoryRepository.findAll()).thenReturn(List.of(CategoryMock.createEntity()));
 
     List<CategoryEntity> result = categoryComponent.findAllCategories();
 
@@ -35,9 +37,9 @@ class CategoryComponentTest {
   }
 
   @Test
-  void givenCategoryIdExists_whenFindCategoryById_thenReturnsCategoryEntity() {
+  void givenCategoryIdExists_whenFindCategoryById_thenReturnsCategory() {
     Long categoryId = 1L;
-    CategoryEntity categoryEntity = CategoryMock.generateEntity();
+    CategoryEntity categoryEntity = CategoryMock.createEntity();
 
     when(categoryRepository.findById(categoryId)).thenReturn(Optional.of(categoryEntity));
     Optional<CategoryEntity> result = categoryComponent.findCategoryById(categoryId);
@@ -49,11 +51,10 @@ class CategoryComponentTest {
   void givenCategoryIdsIsEmpty_whenFindCategoriesOrFallbackToDefault_thenReturnsDefaultCategory() {
     Long categoryId = 1L;
     Set<Long> categoryIds = Collections.emptySet();
-    CategoryEntity categoryEntity = CategoryMock.generateEntity();
+    CategoryEntity categoryEntity = CategoryMock.createEntity();
 
     when(categoryRepository.findById(categoryId)).thenReturn(Optional.of(categoryEntity));
     when(categoryRepository.findByIdIn(categoryIds)).thenReturn(Collections.emptySet());
-
     Set<CategoryEntity> result = categoryComponent.findCategoriesOrFallbackToDefault(categoryIds);
 
     assertEquals(Collections.singleton(categoryEntity), result);
@@ -62,7 +63,7 @@ class CategoryComponentTest {
 
   @Test
   void givenCategoryIdsNotEmpty_whenFindCategoriesOrFallbackToDefault_thenReturnsDefaultCategory() {
-    CategoryEntity categoryEntity = CategoryMock.generateEntity();
+    CategoryEntity categoryEntity = CategoryMock.createEntity();
     Set<Long> categoryIds = Collections.singleton(categoryEntity.getId());
 
     when(categoryRepository.findByIdIn(categoryIds)).thenReturn(
@@ -70,5 +71,13 @@ class CategoryComponentTest {
     Set<CategoryEntity> result = categoryComponent.findCategoriesOrFallbackToDefault(categoryIds);
 
     assertEquals(Collections.singleton(categoryEntity), result);
+  }
+
+  @Test
+  void givenCategoryExists_whenSaveCategory_thenSavesCategory() {
+    CategoryEntity categoryEntity = CategoryMock.createEntity();
+
+    assertDoesNotThrow(() -> categoryComponent.saveCategory(categoryEntity));
+    verify(categoryRepository).save(categoryEntity);
   }
 }

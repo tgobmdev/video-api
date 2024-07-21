@@ -41,6 +41,10 @@ public class CategoryComponent {
     return categories.isEmpty() ? Collections.singleton(findDefaultCategory()) : categories;
   }
 
+  public void saveCategory(CategoryEntity categoryEntity) {
+    categoryRepository.save(categoryEntity);
+  }
+
   public void deleteCategory(Long categoryId) {
     CategoryEntity categoryEntity = findCategoryById(categoryId).orElseThrow(
         () -> ApiException.of(404, MessageErrorEnum.CODE_2));
