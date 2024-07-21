@@ -43,17 +43,14 @@ class VideoServiceImplTest {
   private VideoServiceImpl videoService;
 
   @Test
-  void givenActiveVideosExists_whenFindAllActiveVideos_thenReturnsListOfVideoResponses() {
+  void givenActiveVideosExists_whenFindAllActiveVideos_thenReturnsListOfVideos() {
     Set<VideoEntity> videoEntities = Set.of(VideoMock.createEntity(), VideoMock.createEntity());
     List<VideoResponse> expectedResponses = List.of(VideoMock.createResponse(),
         VideoMock.createResponse());
-
-    VideoFilter filter = VideoFilter.builder()
-        .build();
+    VideoFilter filter = VideoMock.createFilter();
 
     when(videoComponent.findAllActiveVideos(filter)).thenReturn(videoEntities);
     when(videoMapper.toResponses(videoEntities)).thenReturn(expectedResponses);
-
     List<VideoResponse> result = videoService.findAllActiveVideos(filter);
 
     assertEquals(expectedResponses, result);
@@ -62,14 +59,13 @@ class VideoServiceImplTest {
   }
 
   @Test
-  void givenExistingId_whenFindActiveVideoById_thenReturnsVideoResponse() {
+  void givenExistingId_whenFindActiveVideoById_thenReturnsVideos() {
     UUID videoId = UUID.randomUUID();
     VideoEntity videoEntity = VideoMock.createEntity();
     VideoResponse expectedResponse = VideoMock.createResponse();
 
     when(videoComponent.findActiveVideoById(videoId)).thenReturn(Optional.of(videoEntity));
     when(videoMapper.toResponse(videoEntity)).thenReturn(expectedResponse);
-
     VideoResponse result = videoService.findActiveVideoById(videoId);
 
     assertEquals(expectedResponse, result);
@@ -80,8 +76,8 @@ class VideoServiceImplTest {
   @Test
   void givenNonExistingId_whenFindActiveVideoById_thenThrowsApiException() {
     UUID videoId = UUID.randomUUID();
-    when(videoComponent.findActiveVideoById(videoId)).thenReturn(Optional.empty());
 
+    when(videoComponent.findActiveVideoById(videoId)).thenReturn(Optional.empty());
     ApiException apiException = assertThrows(ApiException.class,
         () -> videoService.findActiveVideoById(videoId), "Video not found.");
 
@@ -92,13 +88,13 @@ class VideoServiceImplTest {
   }
 
   @Test
-  void givenValidVideoRequest_whenCreateVideo_thenReturnsVideoResponse() {
+  void givenValidVideoRequest_whenCreateVideo_thenReturnsVideo() {
     VideoRequest videoRequest = VideoMock.createRequest();
     VideoEntity videoEntity = VideoMock.createEntity();
     VideoResponse expectedResponse = VideoMock.createResponse();
+
     when(videoMapper.toEntity(videoRequest)).thenReturn(videoEntity);
     when(videoMapper.toResponse(videoEntity)).thenReturn(expectedResponse);
-
     VideoResponse result = videoService.createVideo(videoRequest);
 
     assertEquals(expectedResponse, result);
@@ -108,7 +104,7 @@ class VideoServiceImplTest {
   }
 
   @Test
-  void givenExistingIdAndValidRequest_whenEditVideo_thenReturnsUpdatedVideoResponse() {
+  void givenExistingIdAndValidRequest_whenEditVideo_thenReturnsVideoUpdated() {
     UUID videoId = UUID.randomUUID();
     VideoRequest videoRequest = VideoMock.createRequest();
     VideoEntity videoEntity = VideoMock.createEntity();
@@ -116,7 +112,6 @@ class VideoServiceImplTest {
 
     when(videoComponent.editVideo(videoId, videoRequest)).thenReturn(Optional.of(videoEntity));
     when(videoMapper.toResponse(videoEntity)).thenReturn(expectedResponse);
-
     VideoResponse result = videoService.editVideo(videoId, videoRequest);
 
     assertEquals(expectedResponse, result);
