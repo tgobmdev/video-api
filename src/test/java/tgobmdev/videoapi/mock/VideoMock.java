@@ -18,16 +18,14 @@ public class VideoMock {
   public static VideoRequest createRequest() {
     return new VideoRequest(faker.dcComics()
         .title(), faker.lorem()
-        .characters(),
-        faker.internet()
-            .url(), Set.of(1L));
+        .characters(), faker.internet()
+        .url(), Set.of(1L));
   }
 
   public static VideoResponse createResponse() {
     return new VideoResponse(UUID.randomUUID(), faker.worldOfWarcraft()
-        .hero(),
-        faker.lorem()
-            .characters(), faker.internet()
+        .hero(), faker.lorem()
+        .characters(), faker.internet()
         .url());
   }
 

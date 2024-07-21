@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
+import tgobmdev.videoapi.dto.request.VideoFilter;
 import tgobmdev.videoapi.dto.request.VideoRequest;
 import tgobmdev.videoapi.entity.VideoEntity;
 import tgobmdev.videoapi.exception.ApiException;
@@ -37,16 +38,12 @@ public class VideoComponent {
     saveVideo(videoEntity);
   }
 
-  public Set<VideoEntity> findAllActiveVideos() {
-    return videoRepository.findAllByDeletedAtIsNull();
+  public Set<VideoEntity> findAllActiveVideos(VideoFilter filter) {
+    return videoRepository.findVideosByFilter(filter);
   }
 
   public Optional<VideoEntity> findActiveVideoById(UUID videoId) {
     return findByIdAndDeletedAtIsNull(videoId);
-  }
-
-  public Set<VideoEntity> findAllActiveVideosByTitle(String title) {
-    return videoRepository.findByTitleContainingIgnoreCaseAndDeletedAtIsNull(title);
   }
 
   public void saveVideo(VideoEntity videoEntity) {
