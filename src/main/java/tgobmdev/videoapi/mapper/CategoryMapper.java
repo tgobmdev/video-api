@@ -2,7 +2,6 @@ package tgobmdev.videoapi.mapper;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import tgobmdev.videoapi.dto.response.CategoryResponse;
@@ -21,6 +20,6 @@ public interface CategoryMapper {
   default List<VideoResponse> mapVideos(Set<VideoEntity> videos) {
     return videos.stream()
         .map(VideoMapper.INSTANCE::toResponse)
-        .collect(Collectors.toList());
+        .toList();
   }
 }
