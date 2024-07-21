@@ -11,47 +11,39 @@ import tgobmdev.videoapi.dto.response.VideoResponse;
 import tgobmdev.videoapi.entity.CategoryEntity;
 import tgobmdev.videoapi.entity.VideoEntity;
 import tgobmdev.videoapi.exception.ApiException;
+import tgobmdev.videoapi.mapper.VideoMapper;
 import tgobmdev.videoapi.message.MessageErrorEnum;
-import tgobmdev.videoapi.parse.VideoParse;
 import tgobmdev.videoapi.service.VideoService;
 
 @Service
 public class VideoServiceImpl implements VideoService {
 
   private final VideoComponent videoComponent;
-  private final VideoParse videoParse;
+  private final VideoMapper videoMapper;
   private final CategoryComponent categoryComponent;
 
-  public VideoServiceImpl(VideoComponent videoComponent, VideoParse videoParse,
+  public VideoServiceImpl(VideoComponent videoComponent, VideoMapper videoMapper,
       CategoryComponent categoryComponent) {
     this.videoComponent = videoComponent;
-    this.videoParse = videoParse;
+    this.videoMapper = videoMapper;
     this.categoryComponent = categoryComponent;
-  }
-
-  private VideoResponse parse(VideoEntity videoEntity) {
-    return videoParse.parseToVideoResponse(videoEntity);
-  }
-
-  private List<VideoResponse> parse(Set<VideoEntity> videoEntities) {
-    return videoParse.parseToVideoResponses(videoEntities);
   }
 
   @Override
   public List<VideoResponse> findAllActiveVideos() {
-    return parse(videoComponent.findAllActiveVideos());
+    return videoMapper.toResponses(videoComponent.findAllActiveVideos());
   }
 
   @Override
   public VideoResponse findActiveVideoById(UUID videoId) {
     VideoEntity videoEntity = videoComponent.findActiveVideoById(videoId)
         .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODE_1));
-    return parse(videoEntity);
+    return videoMapper.toResponse(videoEntity);
   }
 
   @Override
   public List<VideoResponse> findAllActiveVideosByTitle(String title) {
-    return parse(videoComponent.findAllActiveVideosByTitle(title));
+    return videoMapper.toResponses(videoComponent.findAllActiveVideosByTitle(title));
   }
 
   @Override
@@ -59,18 +51,18 @@ public class VideoServiceImpl implements VideoService {
     Set<CategoryEntity> categoryEntities = categoryComponent.findCategoriesOrFallbackToDefault(
         videoRequest.categoryIds());
 
-    VideoEntity videoEntity = videoParse.parseToVideoEntity(videoRequest);
+    VideoEntity videoEntity = videoMapper.toEntity(videoRequest);
     videoEntity.setCategoryEntities(categoryEntities);
 
     videoComponent.saveVideo(videoEntity);
-    return parse(videoEntity);
+    return videoMapper.toResponse(videoEntity);
   }
 
   @Override
   public VideoResponse editVideo(UUID videoId, VideoRequest videoRequest) {
     VideoEntity videoEntity = videoComponent.editVideo(videoId, videoRequest)
         .orElseThrow(() -> ApiException.of(404, MessageErrorEnum.CODE_1));
-    return parse(videoEntity);
+    return videoMapper.toResponse(videoEntity);
   }
 
   @Override

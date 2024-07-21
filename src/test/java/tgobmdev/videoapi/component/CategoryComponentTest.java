@@ -27,8 +27,7 @@ class CategoryComponentTest {
 
   @Test
   void givenActiveCategoriesExists_whenFindAllCategories_thenReturnsListOfVideos() {
-    when(categoryRepository.findAll()) //
-        .thenReturn(List.of(CategoryMock.generateEntity()));
+    when(categoryRepository.findAll()).thenReturn(List.of(CategoryMock.generateEntity()));
 
     List<CategoryEntity> result = categoryComponent.findAllCategories();
 
@@ -40,8 +39,7 @@ class CategoryComponentTest {
     Long categoryId = 1L;
     CategoryEntity categoryEntity = CategoryMock.generateEntity();
 
-    when(categoryRepository.findById(categoryId)) //
-        .thenReturn(Optional.of(categoryEntity));
+    when(categoryRepository.findById(categoryId)).thenReturn(Optional.of(categoryEntity));
 
     Optional<CategoryEntity> result = categoryComponent.findCategoryById(categoryId);
 
@@ -54,10 +52,8 @@ class CategoryComponentTest {
     Set<Long> categoryIds = Collections.emptySet();
     CategoryEntity categoryEntity = CategoryMock.generateEntity();
 
-    when(categoryRepository.findById(categoryId)) //
-        .thenReturn(Optional.of(categoryEntity));
-    when(categoryRepository.findByIdIn(categoryIds)) //
-        .thenReturn(Collections.emptySet());
+    when(categoryRepository.findById(categoryId)).thenReturn(Optional.of(categoryEntity));
+    when(categoryRepository.findByIdIn(categoryIds)).thenReturn(Collections.emptySet());
 
     Set<CategoryEntity> result = categoryComponent.findCategoriesOrFallbackToDefault(categoryIds);
 
@@ -70,8 +66,8 @@ class CategoryComponentTest {
     CategoryEntity categoryEntity = CategoryMock.generateEntity();
     Set<Long> categoryIds = Collections.singleton(categoryEntity.getId());
 
-    when(categoryRepository.findByIdIn(categoryIds)) //
-        .thenReturn(Collections.singleton(categoryEntity));
+    when(categoryRepository.findByIdIn(categoryIds)).thenReturn(
+        Collections.singleton(categoryEntity));
 
     Set<CategoryEntity> result = categoryComponent.findCategoriesOrFallbackToDefault(categoryIds);
 

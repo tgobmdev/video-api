@@ -34,8 +34,7 @@ class VideoComponentTest {
 
   @Test
   void givenActiveVideosExists_whenFindAllActiveVideos_thenReturnsListOfVideos() {
-    when(videoRepository.findAllByDeletedAtIsNull()) //
-        .thenReturn(Set.of(VideoMock.generateEntity()));
+    when(videoRepository.findAllByDeletedAtIsNull()).thenReturn(Set.of(VideoMock.generateEntity()));
 
     Set<VideoEntity> result = videoComponent.findAllActiveVideos();
 
@@ -47,8 +46,7 @@ class VideoComponentTest {
     UUID videoId = UUID.randomUUID();
     VideoEntity videoEntity = VideoMock.generateEntity();
 
-    when(videoRepository.findByIdAndDeletedAtIsNull(videoId)) //
-        .thenReturn(Optional.of(videoEntity));
+    when(videoRepository.findByIdAndDeletedAtIsNull(videoId)).thenReturn(Optional.of(videoEntity));
 
     Optional<VideoEntity> result = videoComponent.findActiveVideoById(videoId);
 
@@ -58,8 +56,8 @@ class VideoComponentTest {
   @Test
   void givenThereAreActiveVideosByTitle_whenFindAllActiveVideosByTitle_thenReturnsListOfVideos() {
     String title = anyString();
-    when(videoRepository.findByTitleContainingIgnoreCaseAndDeletedAtIsNull(title)) //
-        .thenReturn(Set.of(VideoMock.generateEntity()));
+    when(videoRepository.findByTitleContainingIgnoreCaseAndDeletedAtIsNull(title)).thenReturn(
+        Set.of(VideoMock.generateEntity()));
 
     Set<VideoEntity> result = videoComponent.findAllActiveVideosByTitle(title);
 
@@ -81,8 +79,7 @@ class VideoComponentTest {
     VideoRequest videoRequest = VideoMock.createRequest();
     VideoEntity videoEntity = VideoMock.generateEntity();
 
-    when(videoRepository.findByIdAndDeletedAtIsNull(videoId)) //
-        .thenReturn(Optional.of(videoEntity));
+    when(videoRepository.findByIdAndDeletedAtIsNull(videoId)).thenReturn(Optional.of(videoEntity));
 
     Optional<VideoEntity> result = videoComponent.editVideo(videoId, videoRequest);
 
@@ -95,8 +92,7 @@ class VideoComponentTest {
     UUID videoId = UUID.randomUUID();
     VideoEntity videoEntity = VideoMock.generateEntity();
 
-    when(videoRepository.findByIdAndDeletedAtIsNull(videoId)) //
-        .thenReturn(Optional.of(videoEntity));
+    when(videoRepository.findByIdAndDeletedAtIsNull(videoId)).thenReturn(Optional.of(videoEntity));
 
     assertDoesNotThrow(() -> videoComponent.deleteVideo(videoId));
     verify(videoRepository).save(videoEntity);
@@ -108,8 +104,7 @@ class VideoComponentTest {
   @Test
   void givenVideoIdNotFound_whenDeleteVideo_thenThrowsApiException() {
     UUID videoId = UUID.randomUUID();
-    when(videoRepository.findByIdAndDeletedAtIsNull(videoId)) //
-        .thenReturn(Optional.empty());
+    when(videoRepository.findByIdAndDeletedAtIsNull(videoId)).thenReturn(Optional.empty());
 
     assertEquals(ApiException.class,
         assertThrows(ApiException.class, () -> videoComponent.deleteVideo(videoId)).getClass());

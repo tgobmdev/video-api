@@ -47,8 +47,7 @@ class VideoControllerImplTest {
     List<VideoResponse> expectedResponses = List.of(VideoMock.createResponse(),
         VideoMock.createResponse());
 
-    when(videoService.findAllActiveVideos()) //
-        .thenReturn(expectedResponses);
+    when(videoService.findAllActiveVideos()).thenReturn(expectedResponses);
 
     ResponseEntity<List<VideoResponse>> responseEntity = videoController.findAllActiveVideos();
 
@@ -62,8 +61,7 @@ class VideoControllerImplTest {
     UUID videoId = UUID.randomUUID();
     VideoResponse expectedResponse = VideoMock.createResponse();
 
-    when(videoService.findActiveVideoById(videoId)) //
-        .thenReturn(expectedResponse);
+    when(videoService.findActiveVideoById(videoId)).thenReturn(expectedResponse);
 
     ResponseEntity<VideoResponse> responseEntity = videoController.findActiveVideoById(videoId);
 
@@ -78,8 +76,7 @@ class VideoControllerImplTest {
     List<VideoResponse> expectedResponses = List.of(VideoMock.createResponse(),
         VideoMock.createResponse());
 
-    when(videoService.findAllActiveVideosByTitle(title)) //
-        .thenReturn(expectedResponses);
+    when(videoService.findAllActiveVideosByTitle(title)).thenReturn(expectedResponses);
 
     ResponseEntity<List<VideoResponse>> responseEntity = videoController.findAllActiveVideosByTitle(
         title);
@@ -95,10 +92,8 @@ class VideoControllerImplTest {
     VideoResponse expectedResponse = VideoMock.createResponse();
     URI expectedLocation = URI.create("/videos/" + expectedResponse.id());
 
-    when(mockHttpServletRequest.getRequestURI()) //
-        .thenReturn("/videos");
-    when(videoService.createVideo(videoRequest)) //
-        .thenReturn(expectedResponse);
+    when(mockHttpServletRequest.getRequestURI()).thenReturn("/videos");
+    when(videoService.createVideo(videoRequest)).thenReturn(expectedResponse);
 
     ResponseEntity<VideoResponse> responseEntity = videoController.createVideo(videoRequest);
 
@@ -114,8 +109,7 @@ class VideoControllerImplTest {
     VideoRequest videoRequest = VideoMock.createRequest();
     VideoResponse expectedResponse = VideoMock.createResponse();
 
-    when(videoService.editVideo(videoId, videoRequest)) //
-        .thenReturn(expectedResponse);
+    when(videoService.editVideo(videoId, videoRequest)).thenReturn(expectedResponse);
 
     ResponseEntity<VideoResponse> responseEntity = videoController.editVideo(videoId, videoRequest);
 

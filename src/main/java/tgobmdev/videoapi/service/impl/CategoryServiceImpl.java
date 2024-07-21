@@ -7,23 +7,19 @@ import tgobmdev.videoapi.component.CategoryComponent;
 import tgobmdev.videoapi.dto.response.CategoryResponse;
 import tgobmdev.videoapi.entity.CategoryEntity;
 import tgobmdev.videoapi.exception.ApiException;
+import tgobmdev.videoapi.mapper.CategoryMapper;
 import tgobmdev.videoapi.message.MessageErrorEnum;
-import tgobmdev.videoapi.parse.CategoryParse;
 import tgobmdev.videoapi.service.CategoryService;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
   private final CategoryComponent categoryComponent;
-  private final CategoryParse categoryParse;
+  private final CategoryMapper categoryMapper;
 
-  public CategoryServiceImpl(CategoryComponent categoryComponent, CategoryParse categoryParse) {
+  public CategoryServiceImpl(CategoryComponent categoryComponent, CategoryMapper categoryMapper) {
     this.categoryComponent = categoryComponent;
-    this.categoryParse = categoryParse;
-  }
-
-  private CategoryResponse parse(CategoryEntity categoryEntity, boolean includeVideos) {
-    return categoryParse.parseToCategoryResponse(categoryEntity, includeVideos);
+    this.categoryMapper = categoryMapper;
   }
 
   private CategoryEntity obtainCategoryById(Long categoryId) {
@@ -33,21 +29,20 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   public List<CategoryResponse> findAllCategories() {
-    return categoryParse.parseToCategoryResponses(categoryComponent.findAllCategories(),
-        Boolean.FALSE);
+    return categoryMapper.toResponses(categoryComponent.findAllCategories());
   }
 
   @Override
   @Transactional(readOnly = true)
   public CategoryResponse findVideosByCategoryId(Long categoryId) {
     CategoryEntity categoryEntity = obtainCategoryById(categoryId);
-    return parse(categoryEntity, Boolean.TRUE);
+    return categoryMapper.toResponse(categoryEntity, Boolean.TRUE);
   }
 
   @Override
   public CategoryResponse findCategoryById(Long categoryId) {
     CategoryEntity categoryEntity = obtainCategoryById(categoryId);
-    return parse(categoryEntity, Boolean.FALSE);
+    return categoryMapper.toResponse(categoryEntity, Boolean.FALSE);
   }
 
   @Override

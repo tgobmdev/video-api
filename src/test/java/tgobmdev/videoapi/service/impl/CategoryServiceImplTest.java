@@ -15,8 +15,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import tgobmdev.videoapi.component.CategoryComponent;
 import tgobmdev.videoapi.dto.response.CategoryResponse;
 import tgobmdev.videoapi.entity.CategoryEntity;
+import tgobmdev.videoapi.mapper.CategoryMapper;
 import tgobmdev.videoapi.mock.CategoryMock;
-import tgobmdev.videoapi.parse.CategoryParse;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryServiceImplTest {
@@ -25,7 +25,7 @@ class CategoryServiceImplTest {
   private CategoryComponent categoryComponent;
 
   @Mock
-  private CategoryParse categoryParse;
+  private CategoryMapper categoryMapper;
 
   @InjectMocks
   private CategoryServiceImpl categoryService;
@@ -37,16 +37,14 @@ class CategoryServiceImplTest {
     List<CategoryResponse> expectedResponses = List.of(CategoryMock.createResponse(),
         CategoryMock.createResponse());
 
-    when(categoryComponent.findAllCategories()) //
-        .thenReturn(categoryEntities);
-    when(categoryParse.parseToCategoryResponses(categoryEntities, Boolean.FALSE)) //
-        .thenReturn(expectedResponses);
+    when(categoryComponent.findAllCategories()).thenReturn(categoryEntities);
+    when(categoryMapper.toResponses(categoryEntities)).thenReturn(expectedResponses);
 
     List<CategoryResponse> result = categoryService.findAllCategories();
 
     assertEquals(expectedResponses, result);
     verify(categoryComponent, times(1)).findAllCategories();
-    verify(categoryParse, times(1)).parseToCategoryResponses(categoryEntities, Boolean.FALSE);
+    verify(categoryMapper, times(1)).toResponses(categoryEntities);
   }
 
   @Test
@@ -55,16 +53,14 @@ class CategoryServiceImplTest {
     CategoryEntity categoryEntity = CategoryMock.generateEntity();
     CategoryResponse expectedResponse = CategoryMock.createResponse();
 
-    when(categoryComponent.findCategoryById(categoryId)) //
-        .thenReturn(Optional.of(categoryEntity));
-    when(categoryParse.parseToCategoryResponse(categoryEntity, Boolean.TRUE)) //
-        .thenReturn(expectedResponse);
+    when(categoryComponent.findCategoryById(categoryId)).thenReturn(Optional.of(categoryEntity));
+    when(categoryMapper.toResponse(categoryEntity, Boolean.TRUE)).thenReturn(expectedResponse);
 
     CategoryResponse result = categoryService.findVideosByCategoryId(categoryId);
 
     assertEquals(expectedResponse, result);
     verify(categoryComponent, times(1)).findCategoryById(categoryId);
-    verify(categoryParse, times(1)).parseToCategoryResponse(categoryEntity, Boolean.TRUE);
+    verify(categoryMapper, times(1)).toResponse(categoryEntity, Boolean.TRUE);
   }
 
   @Test
@@ -73,15 +69,13 @@ class CategoryServiceImplTest {
     CategoryEntity categoryEntity = CategoryMock.generateEntity();
     CategoryResponse expectedResponse = CategoryMock.createResponse();
 
-    when(categoryComponent.findCategoryById(categoryId)) //
-        .thenReturn(Optional.of(categoryEntity));
-    when(categoryParse.parseToCategoryResponse(categoryEntity, Boolean.FALSE)) //
-        .thenReturn(expectedResponse);
+    when(categoryComponent.findCategoryById(categoryId)).thenReturn(Optional.of(categoryEntity));
+    when(categoryMapper.toResponse(categoryEntity, Boolean.FALSE)).thenReturn(expectedResponse);
 
     CategoryResponse result = categoryService.findCategoryById(categoryId);
 
     assertEquals(expectedResponse, result);
     verify(categoryComponent, times(1)).findCategoryById(categoryId);
-    verify(categoryParse, times(1)).parseToCategoryResponse(categoryEntity, Boolean.FALSE);
+    verify(categoryMapper, times(1)).toResponse(categoryEntity, Boolean.FALSE);
   }
 }
