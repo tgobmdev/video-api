@@ -34,7 +34,7 @@ class LoggingImplTest {
   }
 
   @Test
-  void testLogBefore() {
+  void givenGetRequest_whenLogBefore_thenVerifyRequestDetails() {
     when(request.getMethod()).thenReturn("GET");
     when(request.getRequestURI()).thenReturn("/test-uri");
     when(joinPoint.getArgs()).thenReturn(new Object[]{"param1", "param2"});
@@ -46,7 +46,7 @@ class LoggingImplTest {
   }
 
   @Test
-  void testLogAfterReturning() {
+  void givenPostRequest_whenLogAfterReturning_thenVerifyRequestDetails() {
     when(request.getMethod()).thenReturn("POST");
     when(request.getRequestURI()).thenReturn("/test-uri");
     Object result = "result";
@@ -58,7 +58,7 @@ class LoggingImplTest {
   }
 
   @Test
-  void testLogAfterThrowing() {
+  void givenDeleteRequest_whenLogAfterThrowing_thenVerifyRequestDetails() {
     when(request.getMethod()).thenReturn("DELETE");
     when(request.getRequestURI()).thenReturn("/test-uri");
     Throwable exception = new RuntimeException("Error message");
