@@ -2,10 +2,12 @@ package tgobmdev.videoapi.component;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -15,7 +17,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tgobmdev.videoapi.entity.CategoryEntity;
+import tgobmdev.videoapi.entity.VideoEntity;
+import tgobmdev.videoapi.exception.ApiException;
 import tgobmdev.videoapi.mock.CategoryMock;
+import tgobmdev.videoapi.mock.VideoMock;
 import tgobmdev.videoapi.repository.CategoryRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -79,5 +84,28 @@ class CategoryComponentTest {
 
     assertDoesNotThrow(() -> categoryComponent.saveCategory(categoryEntity));
     verify(categoryRepository).save(categoryEntity);
+  }
+
+  @Test
+  void givenCategoryExists_whenDeleteCategory_thenDeletesSuccessfully() {
+    Long categoryId = 1L;
+    CategoryEntity categoryEntity = CategoryMock.createEntity();
+    VideoEntity videoEntity = VideoMock.createEntity();
+    videoEntity.setCategoryEntities(new HashSet<>(Collections.singletonList(categoryEntity)));
+    categoryEntity.setVideoEntities(new HashSet<>(Collections.singletonList(videoEntity)));
+
+    when(categoryRepository.findById(categoryId)).thenReturn(Optional.of(categoryEntity));
+
+    assertDoesNotThrow(() -> categoryComponent.deleteCategory(categoryId));
+    verify(categoryRepository).delete(categoryEntity);
+  }
+
+  @Test
+  void givenCategoryIdNotFound_whenDeleteCategory_thenThrowsApiException() {
+    Long categoryId = 1L;
+    when(categoryRepository.findById(categoryId)).thenReturn(Optional.empty());
+
+    assertEquals(ApiException.class, assertThrows(ApiException.class,
+        () -> categoryComponent.deleteCategory(categoryId)).getClass());
   }
 }
