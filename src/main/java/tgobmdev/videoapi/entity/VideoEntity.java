@@ -9,17 +9,20 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@EqualsAndHashCode
 @Table(name = "video")
-public class VideoEntity {
+public class VideoEntity implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
@@ -43,5 +46,5 @@ public class VideoEntity {
       name = "video_category",
       joinColumns = @JoinColumn(name = "video_id"),
       inverseJoinColumns = @JoinColumn(name = "category_id"))
-  private Set<CategoryEntity> categoryEntities;
+  private transient Set<CategoryEntity> categoryEntities;
 }

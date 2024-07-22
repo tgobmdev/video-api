@@ -11,6 +11,7 @@ import tgobmdev.videoapi.entity.VideoEntity;
 import tgobmdev.videoapi.exception.ApiException;
 import tgobmdev.videoapi.message.MessageErrorEnum;
 import tgobmdev.videoapi.repository.VideoRepository;
+import tgobmdev.videoapi.util.FieldUtil;
 
 @Component
 public class VideoComponent {
@@ -26,10 +27,16 @@ public class VideoComponent {
   }
 
   private void updateVideo(VideoEntity videoEntity, VideoRequest videoRequest) {
-    videoEntity.setTitle(videoRequest.title());
-    videoEntity.setDescription(videoRequest.description());
-    videoEntity.setUrl(videoRequest.url());
-    saveVideo(videoEntity);
+    boolean titleChanged = FieldUtil.acceptIfDifferent(videoEntity::getTitle, videoEntity::setTitle,
+        videoRequest.title());
+    boolean descriptionChanged = FieldUtil.acceptIfDifferent(videoEntity::getDescription,
+        videoEntity::setDescription, videoRequest.description());
+    boolean urlChanged = FieldUtil.acceptIfDifferent(videoEntity::getUrl, videoEntity::setUrl,
+        videoRequest.url());
+
+    if (titleChanged || descriptionChanged || urlChanged) {
+      saveVideo(videoEntity);
+    }
   }
 
   private void softDeleteVideo(VideoEntity videoEntity) {

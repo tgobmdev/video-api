@@ -66,7 +66,7 @@ public class VideoControllerImpl implements VideoController {
   @Override
   @PatchMapping(value = "/{videoId}")
   public ResponseEntity<VideoResponse> editVideo(@PathVariable UUID videoId,
-      @Valid @RequestBody VideoRequest videoRequest) {
+      @RequestBody VideoRequest videoRequest) {
     return ResponseEntity.ok(videoService.editVideo(videoId, videoRequest));
   }
 
