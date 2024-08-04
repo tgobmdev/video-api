@@ -5,8 +5,6 @@ import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
-import java.util.Collections;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,11 +43,7 @@ class OpenApiConfigTest {
 
   @Test
   void givenApplicationValues_whenGroupedOpenApi_thenReturnsCorrectInfo() {
-    List<String> pathsToMatch = Collections.singletonList("/**");
-
-    assertEquals("api", openApiConfig.groupedOpenApi()
-        .getGroup());
-    assertEquals(pathsToMatch, openApiConfig.groupedOpenApi()
-        .getPathsToMatch());
+    assertEquals(2, openApiConfig.groupedOpenApis()
+        .size());
   }
 }
